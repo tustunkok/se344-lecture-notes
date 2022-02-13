@@ -1,0 +1,578 @@
+\chapter{Black-Box Testing Strategies}
+Black box testing deals with testing inputs and outputs considering a given requirement. The problem in black box testing is the size of the input space. The number of test inputs can quickly reach infeasible sizes \autocite{burnstein2006practical}. For example, testing a calculator program's addition functionality can be made with an infinite number of test inputs, i.e. negative integers, positive integers, negative floating-point numbers, positive floating-point numbers, complex numbers and its versions, etc. Nobody has such resources or time. Because of that, there are different testing techniques that can be applied to different testing scenarios. In this chapter, some of them and their applications are presented through exercises.
+
+\section{Equivalence Class Partitioning}
+The problems with the input domain of a software-under-test can be resolved by a method called Equivalence Class Partitioning (ECP). When you look at the software-under-test as a black box, the input domain can be partitioned into several classes. The members of each class are assumed to cause the same effect on the software-under-test. When a defect is detected with input from a specific class, all of the other elements from that class are assumed to cause the same defect and vice versa. This is a limitation of ECP.
+
+The classes from ECP are chosen in several different ways. The tester analyzes the requirements for \emph{interesting} input conditions and partitions the input domain accordingly. Then, develops test cases from these partitions. A real-life example mirrors the test case generation techniques from white box testing techniques but instead of using the source code, the requirements are utilized for branch discovery. For example, from the textbook \autocite{burnstein2006practical} the specifications and the relevant equivalence classes are given below:
+
+\begin{algorithm}
+\caption{Square root specification \autocite{burnstein2006practical}}
+\label{alg:square-root}
+    \begin{algorithmic}[1]
+        \Require{$x, y \in \mathds{R}$}
+        \Function{squareroot}{$x$}
+            \If{$x \ge 0.0$}
+                \State\Call{message}{$x$}
+            \EndIf
+            \If{$y \ge 0.0$ and $y * y \approx x$}
+                \State\Call{reply}{$y$}
+            \Else
+                \Raise{Imaginary square root exception}
+            \EndIf
+            \State\Return{$y$}
+        \EndFunction
+    \end{algorithmic}
+\end{algorithm}
+
+\begin{enumerate}[noitemsep]
+    \item[EC1.] The input variable x is real, valid.
+    \item[EC2.] The input variable x is not real, invalid.
+    \item[EC3.] The value of x is greater than 0.0, valid.
+    \item[EC4.] The value of x is less than 0.0, invalid.
+\end{enumerate}
+
+\section{Boundary Value Analysis}
+Boundary Value Analysis (BVA) is a nice addition to strengthen the ECP. Most defects generally occur at the class boundaries. These boundaries are valuable to find the defects. In ECP, any input value from a class can be used to test the black box. On the other hand, BVA requires testing of software-under-test with boundary values of equivalence classes. A tester should create test cases with valid inputs from the edges of the equivalence classes in addition to the test cases with invalid inputs. Suppose that the following specifications \autocite{burnstein2006practical} are given to you.
+
+\begin{displayquote}
+    The input specification for the module states that a widget identifier should consist of 3–15 alphanumeric characters of which the first two must be letters. We have three separate conditions that apply to the input: (i) it must consist of alphanumeric characters, (ii) the range for the total number of characters is between 3 and 15, and, (iii) the first two characters must be letters.
+\end{displayquote}
+
+First, the tester should determine the equivalence classes:
+\begin{enumerate}[noitemsep]
+    \item[EC1.] Part name is alphanumeric, valid.
+    \item[EC2.] Part name is not alphanumeric, invalid.
+    \item[EC3.] The widget identifier has between 3 and 15 characters, valid.
+    \item[EC4.] The widget identifier has less than 3 characters, invalid.
+    \item[EC5.] The widget identifier has greater than 15 characters, invalid.
+    \item[EC6.] The first 2 characters are letters, valid.
+    \item[EC7.] The first 2 characters are not letters, invalid.
+\end{enumerate}
+
+After determining the ECs, the classes are split into invalid and valid as shown in Table \ref{tab:ec-reporting}.
+
+\begin{table}[H]
+    \centering
+    \renewcommand{\arraystretch}{1.2}
+    \caption{Equivalence class reporting table.}
+    \label{tab:ec-reporting}
+    \begin{adjustbox}{max width=\textwidth}
+        \begin{tabular}{lll}
+            \toprule
+            \thead{Condition} & \thead{Valid Equivalence Classes} & \thead{Invalid Equivalence Classes}\\
+            \midrule
+            1 & EC1 & EC2\\
+            2 & EC3 & EC4, EC5\\
+            3 & EC6 & EC7\\
+            \bottomrule
+        \end{tabular}
+    \end{adjustbox}
+\end{table}
+
+Now, the tester can derive specific test cases from boundaries of both valid and invalid ECs. For example: 
+
+\begin{table}[H]
+    \centering
+    \renewcommand{\arraystretch}{1.2}
+    \caption{Summary of test inputs using equivalence class partitioning and boundary value analysis for sample module. Table taken from \autocite{burnstein2006practical}.}
+    \label{tab:ec-summary}
+    \begin{adjustbox}{max width=\textwidth}
+        \begin{threeparttable}
+            \begin{tabular}{llll}
+                \toprule
+                \thead{Test Case ID} & \thead{Input Values} & \thead{\makecell{Valid ECs and\\Bounds Covered}} & \thead{\makecell{Invalid ECs and\\Bounds Covered}}\\
+                \midrule
+                1 & abc1 & EC1, EC3 (ALB\tnote{1} ), EC6 & \\
+                2 & ab1 & EC1, EC3 (LB\tnote{2} ), EC6 & \\
+                3 & abcdef123456789 & EC1, EC3 (UB\tnote{3} ), EC6 & \\
+                4 & abcde123456789 & EC1, EC3 (BUB\tnote{4} ), EC6 & \\
+                5 & abc* & EC3 (ALB), EC6 & EC2\\
+                6 & ab & EC1, EC6 & EC4 (BLB\tnote{5} )\\
+                7 & abcdefg123456789 & EC1, EC6 & EC5 (AUB\tnote{6} )\\
+                8 & a123 & EC1, EC3 (ALB) & EC7\\
+                9 & abcdef123 & EC1, EC3, EC6 & \\
+                \bottomrule
+            \end{tabular}
+            \begin{tablenotes}
+                \item[1] a value just above the lower boundary
+                \item[2] the value on the lower boundary
+                \item[3] the value on the upper bound
+                \item[4] a value just below the upper bound
+                \item[5] a value just below the lower bound
+                \item[6] a value just above the upper bound
+            \end{tablenotes}
+        \end{threeparttable}
+    \end{adjustbox}
+\end{table}
+
+After the determination of expected outputs, the logs of the test cases are recorded. The actual outputs of the tests are compared with the expected outputs to decide the fail/pass status of the tests. In addition to the boundary values, a midpoint from ECs should also be included in the test cases as a typical case. Although BVA suggests a more specific zone to choose input values than ECP testing, these input values are merely non-unique. A tester can choose many different test input values.
+
+\section{Cause-and-Effect Graphing}
+Combining multiple conditions in EC cannot be performed intentionally. Some test cases may permit combining conditions by nature and some do not. The cause-and-effect graphing technique is developed to express causes and their effects in a graphical language. The visualization of causes and their effects greatly helps the tester to combine conditions to disclose inconsistencies that normally might not show up.
+
+To produce a cause-and-effect graph, the tester must transform the specification to a graph that resembles a digital logic circuit. The process then starts with the decomposition of a complex software component into lower-level units. The tester identifies the causes and their effects for each of the specification units. A \emph{cause} is a distinct input condition or an equivalence class of input conditions. An \emph{effect} is an output condition or a system transformation. Nodes in a Boolean cause-and-effect graph are causes and effects. Causes are placed on the left side and effects on the right side of the graph. Logical relationships between causes and effects are represented by Boolean operators AND, OR, and NOT. Let's continue with an example from \autocite{burnstein2006practical}. Suppose we have a specification for a module that allows a user to perform a search for a character in an existing string. The specification states that:
+
+\begin{displayquote}
+    The user must input the length of the string and the character to search for. If the string length is out-of-range an error message will appear. If the character appears in the string, its position will be reported. If the character is not in the string the message “not found” will be output.
+\end{displayquote}
+
+The tester can identify the following causes and effects:
+
+\begin{enumerate}[noitemsep]
+    \item[C1:] Positive integer from 1 to 80
+    \item[C2:] Character to search for is in string
+\end{enumerate}
+
+The effects are:
+
+\begin{enumerate}[noitemsep]
+    \item[E1:] Integer out of range
+    \item[E2:] Position of character in string
+    \item[E3:] Character not found
+\end{enumerate}
+
+Then, the following rules can be derived:
+
+\begin{center}
+    \begin{minipage}{0.5\textwidth}
+        If C1 and C2, then E2.\\
+        If C1 and not C2, then E3.\\
+        If not C1, then E1.
+    \end{minipage}
+\end{center}
+
+This set of rules are then converted into a cause-and-effect graph. The Figure \ref{fig:cause-n-effect-graph} shows the corresponding graph.
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}
+        \GraphInit[vstyle=Normal]
+        \Vertex[x=0, y=3]{C1}
+        \Vertex[x=0, y=1]{C2}
+        \Vertex[x=4, y=0]{E3}
+        \Vertex[x=4, y=2]{E2}
+        \Vertex[x=4, y=4]{E1}
+        \Edge[label=$\Vert$](C1)(E1)
+        \Edge[label=$\Vert$](C2)(E3)
+        \Edge(C1)(E2)
+        \Edge(C1)(E3)
+        \Edge(C2)(E2)
+        \draw (E2) node[left=0.8cm]{$\bigwedge$};
+        \draw (E3) node[left=1cm, above=0.2cm]{$\bigwedge$};
+    \end{tikzpicture}
+    \caption{Cause-and-effect graph for the previously defined rules.}
+    \label{fig:cause-n-effect-graph}
+\end{figure}
+
+The cause-and-effect graph can be very hard to deal with if specifications are complex enough. Because of that, the tester should convert the graph to a decision table after developing the cause-and-effect graph. This way the test cases can be inferred from the decision table instead of the graph.
+
+\section{Decision Tables}
+The decision table shows the effects of all possible combinations of causes. Each column in the decision table represents a test case and lists each combination of causes. Each row represents a cause and effect. The entries of the decision table can be a "1" for a cause or effect that is present, a "0" to represent the absence of a cause or effect, and "---" to indicate a \emph{"don't care"} value.
+
+\begin{table}[H]
+    \centering
+    \renewcommand{\arraystretch}{1.2}
+    \caption{Decision table for the previously defined cause-and-effect graph.}
+    \label{tab:decision-table}
+    \begin{tabular*}{\textwidth}{l @{\extracolsep{\fill}} llll}
+        \toprule
+         & \thead{T1} & \thead{T2} & \thead{T3}\\
+        \midrule
+        C1 & 1 & 1 & 0\\
+        C2 & 1 & 0 & ---\\
+        \midrule
+        E1 & 0 & 0 & 1\\
+        E2 & 1 & 0 & 0\\
+        E3 & 0 & 1 & 0\\
+        \bottomrule
+    \end{tabular*}
+\end{table}
+
+The problem with decision tables is that there might be many causes and effects to consider for a complex specification. In those cases, the tester can decompose the specification into lower-level units. Then, (s)he develops cause-and-effect graphs and decision tables for these.
+
+\section{Error Guessing}
+Error guessing is based on the tester's past experience. The tester's experience with code similar to the code-under-test greatly helps her/him to find the defects. Some examples of defects that can be found by error guessing might be division by zero or conditions around array boundaries.
+
+\section{Exercises}
+
+\begin{exercise}
+    Bank account can be 500 to 1000 for special customers,  0 to 499 for ordinary customers, 2000 for companies (the field type is integer).
+    
+    \begin{enumerate}[a),noitemsep]
+        \item What are the equivalence classes?
+        \item Fill the Table \ref{tab:ex10-question-b} by finding appropriate test cases for the equivalence classes you found in previous question (a). \emph{Add lines if necessary.}
+        \item Fill the Table \ref{tab:ex10-question-c} by finding appropriate test cases for the boundary testing method. \emph{Add lines if necessary.}
+    \end{enumerate}
+    
+    \begin{table}[H]
+    \centering
+    \renewcommand{\arraystretch}{1.2}
+    \caption{Test cases for equivalence classes.}
+    \label{tab:ex10-question-b}
+        \begin{tabular*}{\textwidth}{l @{\extracolsep{\fill}} llll}
+            \toprule
+            \thead{Test Case \#} & \thead{Value} & \thead{Equivalence Classes} & \thead{Result (Valid/Invalid)}\\
+            \midrule
+            1 & & & \\
+            2 & & & \\
+            3 & & & \\
+            4 & & & \\
+            5 & & & \\
+            6 & & & \\
+            7 & & & \\
+            8 & & & \\
+            9 & & & \\
+            10 & & & \\
+            11 & & & \\
+            12 & & & \\
+            13 & & & \\
+            14 & & & \\
+            15 & & & \\
+            \bottomrule
+        \end{tabular*}
+    \end{table}
+    
+    \begin{table}[H]
+    \centering
+    \renewcommand{\arraystretch}{1.2}
+    \caption{Test cases for BVA strategy.}
+    \label{tab:ex10-question-c}
+        \begin{tabular*}{\textwidth}{l @{\extracolsep{\fill}} lll}
+            \toprule
+            \thead{Test Case \#} & \thead{Value} & \thead{Result (Valid/Invalid)}\\
+            \midrule
+            1 & & \\
+            2 & & \\
+            3 & & \\
+            4 & & \\
+            5 & & \\
+            6 & & \\
+            7 & & \\
+            8 & & \\
+            9 & & \\
+            10 & & \\
+            11 & & \\
+            12 & & \\
+            13 & & \\
+            14 & & \\
+            15 & & \\
+            \bottomrule
+        \end{tabular*}
+    \end{table}
+\end{exercise}
+
+\begin{solution}
+    Answer for the item a):
+    
+    \begin{itemize}[noitemsep]
+        \item Valid Classes
+        \begin{itemize}[noitemsep]
+            \item (Special) $\rightarrow$ [500, 1000]
+            \item (Ordinary) $\rightarrow$ [0, 499]
+            \item (Company) $\rightarrow$ 2000
+        \end{itemize}
+        \item Invalid Classes
+        \begin{itemize}[noitemsep]
+            \item (Special) $\rightarrow$ $(-\infty, 499] \cup [1001, \infty)$
+            \item (Ordinary) $\rightarrow$ $(-\infty, -1] \cup [500, \infty)$
+            \item (Company) $\rightarrow$ $(-\infty, 1999] \cup [2001, \infty)$
+        \end{itemize}
+    \end{itemize}
+    
+    Answer for the item b):
+    
+    \begin{table}[H]
+    \centering
+    \renewcommand{\arraystretch}{1.2}
+    \caption{Suggested test cases for equivalence classes.}
+    \label{tab:ex10-solution-b}
+        \begin{adjustbox}{max width=\textwidth}
+            \begin{tabular}{llll}
+                \toprule
+                \thead{Test Case \#} & \thead{Value} & \thead{Equivalence Classes} & \thead{Result (Valid/Invalid)}\\
+                \midrule
+                1 & 600 & (Special) $\rightarrow$ [500, 1000] & Valid\\
+                2 & 300 & (Ordinary) $\rightarrow$ [0, 499] & Valid\\
+                3 & 2000 & (Company) $\rightarrow$ 2000 & Valid\\
+                4 & 2500 & (Special) $\rightarrow$ $(-\infty, 499] \cup [1001, \infty)$ & Invalid\\
+                5 & -10 & (Ordinary) $\rightarrow$ $(-\infty, -1] \cup [500, \infty)$ & Invalid\\
+                6 & 1000 & (Company) $\rightarrow$ $(-\infty, 1999] \cup [2001, \infty)$ & Invalid\\
+                \bottomrule
+            \end{tabular}
+        \end{adjustbox}
+    \end{table}
+    
+    \begin{table}[H]
+    \centering
+    \renewcommand{\arraystretch}{1.2}
+    \caption{Suggested test cases for BVA strategy.}
+    \label{tab:ex10-solution-c}
+        \begin{tabular*}{\textwidth}{l @{\extracolsep{\fill}} lll}
+            \toprule
+            \thead{Test Case \#} & \thead{Value} & \thead{Result (Valid/Invalid)}\\
+            \midrule
+            1 & 499 & Invalid\\
+            2 & 500 & Valid\\
+            3 & 501 & Valid\\
+            4 & 999 & Valid\\
+            5 & 1000 & Valid\\
+            6 & 1001 & Invalid\\
+            7 & -1 & Invalid\\
+            8 & 0 & Valid\\
+            9 & 1 & Valid\\
+            10 & 499 & Valid\\
+            11 & 500 & Invalid\\
+            12 & 501 & Invalid\\
+            \bottomrule
+        \end{tabular*}
+    \end{table}
+\end{solution}
+
+\begin{exercise}
+    The following is the interface of a function called \lstinline!ConvertIntToString! in the Java language.
+    
+    The requirements (pre-condition and post-condition) of the function are as follows:
+    \begin{itemize}[noitemsep]
+        \item \textbf{Pre-condition:} input is a valid int
+        \item \textbf{Post-condition:} return a string corresponding to the input integer value, e.g., return string value of "-9231" for integer value of -9231. Return NULL if input is an invalid integer
+    \end{itemize}
+
+    Choose an appropriate black-box technique (equivalence class partitioning, boundary value analysis) to derive test cases for this function. Note that each test case should have a concrete input value for input \lstinline!int! and the expected output \lstinline!String!. You should use the following format for the list of your test cases.
+    
+    \begin{enumerate}[a),noitemsep]
+        \item What are the equivalence classes? Fill the Table \ref{tab:ex11-question-a} by finding appropriate test cases for the equivalence classes.
+        \begin{itemize}[noitemsep]
+            \item Valid Classes:
+            \item Invalid Classes:
+        \end{itemize}
+        \item Fill the Table \ref{tab:ex11-question-b} by finding appropriate test cases for the boundary testing method. \emph{Add lines if necessary.}
+    \end{enumerate}
+
+    \begin{table}[H]
+    \centering
+    \renewcommand{\arraystretch}{1.2}
+    \caption{Test cases for equivalence classes.}
+    \label{tab:ex11-question-a}
+        \begin{tabular*}{\textwidth}{l @{\extracolsep{\fill}} llll}
+            \toprule
+            \thead{Test Case \#} & \thead{Value} & \thead{Equivalence Classes} & \thead{Result (Valid/Invalid)}\\
+            \midrule
+            1 & & & \\
+            2 & & & \\
+            3 & & & \\
+            4 & & & \\
+            \bottomrule
+        \end{tabular*}
+    \end{table}
+    
+    \begin{table}[H]
+    \centering
+    \renewcommand{\arraystretch}{1.2}
+    \caption{Test cases for BVA strategy.}
+    \label{tab:ex11-question-b}
+        \begin{tabular*}{\textwidth}{l @{\extracolsep{\fill}} lll}
+            \toprule
+            \thead{Test Case \#} & \thead{Value} & \thead{Result (Valid/Invalid)}\\
+            \midrule
+            1 & & \\
+            2 & & \\
+            3 & & \\
+            4 & & \\
+            \bottomrule
+        \end{tabular*}
+    \end{table}
+    
+    \begin{lstlisting}
+public class IntToString {
+    public static String ConvertIntToString(int number) {
+        int StringConvert = 48;
+        int eachDigit = number;
+        int afterDivide = number;
+        String reVal = "";
+        
+        while (afterDivide > 0) {
+            eachDigit = afterDivide % 10;
+            afterDivide = afterDivide / 10;
+            if(eachDigit == 0) {
+                reVal += "0";
+            }
+            else if(eachDigit == 1) {
+                reVal += "1";
+            }
+            else if(eachDigit == 2) {
+                reVal += "2";
+            }
+            else if(eachDigit == 3) {
+                reVal += "3";
+            }
+            else if(eachDigit == 4) {
+                reVal += "4";
+            }
+            else if(eachDigit == 5) {
+                reVal += "5";
+            }
+            else if(eachDigit == 6) {
+                reVal += "6";
+            }
+            else if(eachDigit == 7) {
+                reVal += "7";
+            }
+            else if(eachDigit == 8) {
+                reVal += "8";
+            }
+            else if(eachDigit == 9) {
+                reVal += "9";
+            }
+        }
+        String reVal2 = "";
+        for (int index = reVal.length() -1 ; index >= 0 ; index--) {
+            reVal2 += reVal.charAt(index);
+        }
+        return reVal2;
+    }
+}
+    \end{lstlisting}
+\end{exercise}
+
+\begin{solution}
+    Answer for the item a):
+    
+    \begin{itemize}[noitemsep]
+        \item \textbf{Valid Classes:} (-inf, +inf) instance of integer
+        \item \textbf{Invalid Classes:} String, (-inf, +inf) floating point numbers, boolean, Objects
+    \end{itemize}
+    
+    \begin{table}[H]
+    \centering
+    \renewcommand{\arraystretch}{1.2}
+    \caption{Suggested test cases for equivalence classes.}
+    \label{tab:ex11-solution-a}
+         \begin{tabular*}{\textwidth}{l @{\extracolsep{\fill}} llll}
+            \toprule
+            \thead{Test Case \#} & \thead{Value} & \thead{Equivalence Classes} & \thead{Result (Valid/Invalid)}\\
+            \midrule
+            1 & 4785 & (-inf, +inf) instance of integer & Valid\\
+            2 & \lstinline!"hello"! & String & Invalid\\
+            3 & 45.5 & Floating point & Invalid\\
+            4 & \lstinline!'c'! & char & Invalid\\
+            \bottomrule
+        \end{tabular*}
+    \end{table}
+    
+    Answer for the item b):
+    \begin{table}[H]
+    \centering
+    \renewcommand{\arraystretch}{1.2}
+    \caption{Suggested test cases for BVA strategy.}
+    \label{tab:ex11-solution-b}
+        \begin{tabular*}{\textwidth}{l @{\extracolsep{\fill}} lll}
+            \toprule
+            \thead{Test Case \#} & \thead{Value} & \thead{Result (Valid/Invalid)}\\
+            \midrule
+            1 & -2147483649 & Invalid\\
+            2 & -2147483648 & Valid\\
+            3 & 2147483647 & Valid\\
+            4 & 2147483648 & Invalid\\
+            \bottomrule
+        \end{tabular*}
+    \end{table}
+\end{solution}
+
+\begin{exercise}
+    The program accepts three integers, a, b, and c as inputs. These are taken to be sides of the triangle. The integers a, b, and c must satisfy following conditions:
+    
+    \begin{enumerate}[label=\textbf{Condition \arabic*:},left=0pt,noitemsep]
+        \item $1 \le a \le 200$
+        \item $1 \le b \le 200$
+        \item $1 \le c \le 200$
+        \item $a < b + c$
+        \item $b < a + c$
+        \item $c < a + b$
+    \end{enumerate}
+    
+    The output of the program is the type of triangle determined by the three sides: Equilateral, Isosceles, Scalene, or NotATriangle. If an input value fails any of conditions Condition 1, Condition 2 or Condition 3, the program notes this with an output message such as "Value of b is not in the range of permitted values." If values of a, b, and c satisfy Condition 4, Condition 5, and Condition 6, one of four mutually exclusive outputs is given:
+    
+    \begin{enumerate}[nosep]
+        \item If all three sides are equal, the program output is Equilateral.
+        \item If exactly one pair of sides is equal, the program output is Isosceles.
+        \item If no pair of sides is equal, the program output is Scalene.
+        \item If any of conditions Condition 4, Condition 5, and Condition 6 is not met, the program output is NotATriangle.
+    \end{enumerate}
+    
+    Test the program with Decision Table-Based testing method by doing followings \autocite{jorgensen2013software}:
+    \begin{enumerate}[label=\alph*),nosep]
+        \item Draw the Cause-and-effect graph.
+        \item Create a decision table for the problem.
+        \item Create test cases.
+        \item Run all test cases and write which ones are passed and which ones are failed.
+    \end{enumerate}
+\end{exercise}
+
+\begin{solution}
+    Answer for the item a):
+    
+    To draw a cause-and-effect graph, all the causes and effects should be extracted by elaborating the specification.
+    
+    \begin{enumerate}[nosep]
+        \item[\textbf{C1:}] The given side lengths permit to build a triangle.
+        \item[\textbf{C2:}] The length of side a is equal to side b.
+        \item[\textbf{C3:}] The length of side b is equal to side c.
+        \item[\textbf{C4:}] The length of side a is equal to side c.
+        \item[\textbf{E1:}] The lengths allow to build a equilateral triangle.
+        \item[\textbf{E2:}] The lengths allow to build a isosceles triangle.
+        \item[\textbf{E3:}] The lengths allow to build a scalene triangle.
+        \item[\textbf{E4:}] It is impossible.
+        \item[\textbf{E5:}] With the given lengths, it is impossible to form a triangle.
+    \end{enumerate}
+    
+    \begin{figure}[H]
+        \centering
+        \begin{tabular}{iii}
+            exercise-12a-solution1 & exercise-12a-solution2 & exercise-12a-solution3\\
+            exercise-12a-solution4 & exercise-12a-solution5 & exercise-12a-solution6
+        \end{tabular}
+        \caption{Cause-and-effect graph for the question.}
+        \label{fig:cne-graphs}
+    \end{figure}
+    
+    Answer for the item b):
+    
+    \begin{table}[H]
+        \centering
+        \renewcommand{\arraystretch}{1.2}
+        \caption{Decision table for the previously defined cause-and-effect graph.}
+        \label{tab:sol12-decision-table}
+        \begin{tabularx}{\textwidth}{l|XXXXXXXXX}
+            \toprule
+             & \thead{T1} & \thead{T2} & \thead{T3} & \thead{T4} & \thead{T5} & \thead{T6} & \thead{T7} & \thead{T8} & \thead{T9}\\
+            \midrule
+            C1: Triangle & 0 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1\\
+            C2: a=b? & --- & 1 & 1 & 1 & 1 & 0 & 0 & 0 & 0\\
+            C3: b=c? & --- & 1 & 1 & 0 & 0 & 1 & 1 & 0 & 0\\
+            C4: a=c? & --- & 1 & 0 & 1 & 0 & 1 & 0 & 1 & 0\\
+            \midrule
+            E1: Equilateral & 0 & 1 & 0 & 0 & 0 & 0 & 0 & 0 & 0\\
+            E2: Isosceles & 0 & 0 & 0 & 0 & 1 & 0 & \colorbox{red}{1} & \colorbox{red}{1} & 0\\
+            E3: Scalene & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & \colorbox{red}{1}\\
+            E4: Impossible & 0 & 0 & 1 & 1 & 0 & 1 & 0 & 0 & 0\\
+            E5: Not a Triangle & 1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0\\
+            \bottomrule
+        \end{tabularx}
+    \end{table}
+    
+    Answer for the item c):
+    
+    \begin{enumerate}[label=\textbf{Test \arabic*:},left=0pt,nosep]
+        \item $a=1, b=2, c=7 \rightarrow E5$
+        \item $a=3, b=3, c=3 \rightarrow E1$
+        \item $a=2, b=2, c=3 \rightarrow E2$
+        \item $a=3, b=2, c=2 \rightarrow E2$
+        \item $a=2, b=3, c=2 \rightarrow E2$
+        \item $a=3, b=4, c=5 \rightarrow E3$
+    \end{enumerate}
+    
+    Answer for the item d):
+    
+    The red marked test cases in Table \ref{tab:sol12-decision-table} are failed tests.
+\end{solution}

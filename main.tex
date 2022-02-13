@@ -1,0 +1,84 @@
+\documentclass[paper=a4,fontsize=11,parskip=full,pagesize=auto,BCOR=5mm,DIV=12]{scrbook}
+
+\usepackage[english]{babel}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{microtype}
+\usepackage{csquotes}
+\usepackage[sorting=none,url=false,eprint=false]{biblatex}
+\usepackage{listings}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{inconsolata}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{adjustbox}
+\usepackage[printsolution=true]{exercises}
+\usepackage{scrhack}
+\usepackage[shortlabels]{enumitem}
+\usepackage{menukeys}
+\usepackage{pifont}
+\usepackage{makecell}
+\usepackage{dsfont}
+\usepackage{mathtools}
+\usepackage{algorithm}
+\usepackage{algorithmicx}
+\usepackage{algpseudocode}
+\usepackage{threeparttable}
+\usepackage{tkz-graph}
+\usepackage{collcell}
+\usepackage{tabularx}
+\usepackage{hyperref}
+
+\lstset{
+    language = java,
+    captionpos = t,
+    basicstyle = \ttfamily\footnotesize,
+    keywordstyle = \color{blue},
+    commentstyle = \color{gray},
+    stringstyle = \color{red},
+    columns = fullflexible,
+    breaklines = true,
+    frame = single,
+    numbers = left,
+    numberstyle = \scriptsize\sffamily\color{gray},
+    xleftmargin = 0.08\textwidth,
+    xrightmargin = 0.08\textwidth,
+    showstringspaces = false,
+    float
+}
+
+\renewcommand\theadfont{\bfseries}
+\newcommand{\cmark}{\ding{51}}
+\newcommand{\xmark}{\ding{55}}
+\addbibresource{references.bib}
+\def\CC{{C\nolinebreak[4]\hspace{-.05em}\raisebox{.4ex}{\tiny\normalfont\bfseries ++}}}
+\algnewcommand{\Raise}{\State\textbf{raise }}
+\newcommand{\includepic}[1]{\includegraphics[width=3.5cm,keepaspectratio]{images/#1}}
+\newcolumntype{i}{@{\hspace{1ex}}>{\collectcell\includepic}c<{\endcollectcell}}
+
+\begin{document}
+    \titlehead{Atılım University\\Department of Software Engineering}
+    \title{System Software Validation and Testing Lab Manual}
+    \author{Tolga Üstünkök \and Ali Yazıcı}
+    \date{January 2022}
+    \publishers{Department of Software Engineering\\Atılım University}
+    \maketitle
+    
+    \frontmatter
+    \tableofcontents
+    \listoffigures
+    \listoftables
+    
+    \mainmatter
+    \input{chapters/01-introduction}
+    \input{chapters/02-unit-testing}
+    \input{chapters/03-static-unit-testing}
+    \input{chapters/04-mccabes-cyclomatic-complexity}
+    \input{chapters/05-data-flow-testing}
+    \input{chapters/06-blackbox-testing}
+    \input{chapters/07-selenium-demo}
+    
+    \backmatter
+    \printbibliography[heading=bibintoc]
+\end{document}
