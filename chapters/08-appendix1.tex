@@ -1,0 +1,17 @@
+\chapter{XML Path Language (XPath)}
+\label{ch:appendix-xpath}
+XPath is a query language to search nodes in a markup language like XML. In XML, we write path expressions to identify certain nodes in the document \autocite{elmasri2014}. Generally, XPath returns either values (from leaf nodes), elements, or attributes. The names that appear in an XPath are the node names, attribute names, or additional qualifier conditions. There are two separators in XPath. A single slash (/) appears before a tag means that the tag must be a direct child of its parent. A single slash (//) means that the tag can appear as a descendant of the previous tag at any level. Several examples are given below:
+
+\begin{lstlisting}[language={},caption={Several examples of XPath from Elmasri et al..}]
+/company
+/company/department
+//employee[employeeSalary gt 70000]/employeeName
+/company/employee[employeeSalary gt 70000]/employeeName
+/company/project/projectWorker[hours ge 20.0]
+\end{lstlisting}
+
+The expression in line (1) finds the company root node and returns all of its descendants including itself (a.k.a. all of the XML document). XPath can also contain the filename information as well. For example, suppose that the XML file is in a remote location such as \lstinline[language={}]!www.company.com/info.xml!. Then, we can get the company root node via XPath \lstinline[language={}]!doc(www.company.com/info.xml)/company!.
+
+The expression in line (2) returns all department elements and their descendent subtrees. The order of the returned elements follows the exact order that they appear on the XML document. If we do not know the full path to a specific element, // is the convenient way to find it. The expression in line (3) is such an example. It searches and finds an element called \lstinline[language={}]!employee! and checks if the value of its child element \lstinline[language={}]!employeeSalary! is greater than 70000. If so, it returns its child called \lstinline[language={}]!employeeName!. The following expression in line (4) is the same one as the previous one except in line (4) the full path is specified. In the last example, at line (5),  the XPath returns all \lstinline[language={}]!projectWorker! elements and their children which has an hours child element whose value is greater than or equal to 20.0.
+
+In XPath, we can use wildcards (*). A wildcard means that all of the elements regardless of their types. For example, \lstinline[language={}]!/company/*! query returns all the elements under the root note \lstinline[language={}]!company!. If we want to address an attribute of a node, we use @ symbol. For instance, the \lstinline[language={}]!//title[@lang='en']! expression returns any title element that has a \lstinline[language={}]!lang! attribute is set to the string \lstinline[language={}]!en!.

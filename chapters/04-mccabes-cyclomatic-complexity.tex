@@ -1,5 +1,6 @@
 \chapter{McCabe's Cyclomatic Complexity}
-McCabe's cyclomatic complexity (CC) is a software quality metric that quantifies the complexity of a software program. Complexity is inferred by measuring the number of linearly independent paths through the program. The higher the number the more complex the code.
+McCabe's cyclomatic complexity (CC) is a software quality metric that quantifies the complexity of a software program. Complexity is inferred by measuring the number of linearly independent paths through the program. The higher the number the more complex the code.\todo{A little bit more explanation is needed.}
+The basis of CC calculation is the \emph{control flow graph} \autocite{spillner2021software}.
 
 \section{From Cyclomatic Complexity to Unit Tests}
 To calculate CC, a flow graph is utilized to depict control flow. Each node in the graph indicates several statements in the program and the flow of control is represented by directed edges. An example for such a graph is given in Figure \ref{fig:flow-graph-eg} for the code shown in Listing \ref{lst:pos_sum}.
@@ -104,13 +105,15 @@ double calculateTotalBill(char customertype, double purchase) {
         \renewcommand{\arraystretch}{1.2}
         \caption{Independent paths.}
         \label{tab:ex3-indep-paths}
-        \begin{tabular}{p{0.1\textwidth}p{0.82\textwidth}}
+        \begin{tabularx}{\textwidth}{lX}
             \toprule
+             & Independent Path\\
+            \midrule
             \textbf{Path 1} & (2,3)-10\\
             \textbf{Path 2} & (2,3)-4-(6,7)-10\\
             \textbf{Path 3} & (2,3)-4-5-10\\
             \bottomrule
-        \end{tabular}
+        \end{tabularx}
     \end{table}
     
     Answer for the item c):
@@ -228,8 +231,10 @@ public class HotelFee {
         \renewcommand{\arraystretch}{1.2}
         \caption{Independent paths.}
         \label{tab:ex7-indep-paths}
-        \begin{tabular}{p{0.1\textwidth}p{0.82\textwidth}}
+        \begin{tabularx}{\textwidth}{lX}
             \toprule
+             & Independent Path\\
+            \midrule
             \textbf{Path 1} & (3,4,5,6)-7-9-19\\
             \textbf{Path 2} & (3,4,5,6)-7-9-10-19\\
             \textbf{Path 3} & (3,4,5,6)-7-8-19\\
@@ -238,7 +243,7 @@ public class HotelFee {
             \textbf{Path 6} & (3,4,5,6)-12-13-14-19\\
             \textbf{Path 7} & (3,4,5,6)-12-13-15-16-19\\
             \bottomrule
-        \end{tabular}
+        \end{tabularx}
     \end{table}
     
     Answer for the item c):
