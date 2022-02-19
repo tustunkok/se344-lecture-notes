@@ -1,10 +1,10 @@
 \chapter{Unit Testing w/ JUnit Jupiter API}
-JUnit Jupiter API has a very stable and consistent API. There are two essential resources to learn it. The first is the official JUnit 5 User Guide\footnote{\url{https://junit.org/junit5/docs/current/user-guide/}} and the second one is the official JUnit 5 Java Docs\footnote{\url{https://junit.org/junit5/docs/current/api/}}. In this section, the important assert types of the JUnit 5 is introduced without any meaningful context or formal methods.
+JUnit Jupiter API has a very stable and consistent API. There are two essential resources to learn it. The first one is the official JUnit 5 User Guide\footnote{\url{https://junit.org/junit5/docs/current/user-guide/}} and the second one is the official JUnit 5 Java Docs\footnote{\url{https://junit.org/junit5/docs/current/api/}}. In this section, the important assert types of the JUnit 5 is introduced without any meaningful context or formal methods.
 
 \section{Writing Tests}
 Let's assume that we are developing a \emph{Calculator} program and we are using the Test-Driven Development approach. We want to test the addition functionality of the calculator. In JUnit, our test case would look like Listing \ref{lst:calc-add-test}. In the code, a class called \verb|Calculator| is assumed to exist in the package \lstinline|edu.atilim.se344|. One of its methods is \lstinline!add(int a, int b);! and we are testing this method.
 
-To create a test case, first, we need to create a \lstinline[language={}]|.java| file inside \directory{src/test/java}. The name of the file is not important as long as the same with the name of the class inside. Inside of the file, we need a class. The contents of the class need to comply with some rules.
+To create a test case, first, we need to create a \lstinline[language={}]|.java| file inside \directory{src/test/java}. To do that, right-click to the \directory{src/test/java} and click \menu{New>Class} from the context menu. The name of the file is not important as long as the same with the name of the class inside. Inside of the file, we need a class. The contents of the class need to comply with some rules.
 
 \begin{lstlisting}[caption={A test case for testing the addition functionality of the Calculator class.},label=lst:calc-add-test]
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -112,8 +112,7 @@ Running test in Eclipse is fairly straightforward. You can right click to the cu
 
 A successful test run should produce an output like this:
 
-\begin{minipage}{\textwidth}
-    \begin{lstlisting}[language={},caption={A log output from a Maven test run.}]
+\begin{lstlisting}[language={},caption={A log output from a Maven test run.}]
 [INFO] Scanning for projects...
 [INFO] 
 [INFO] -----------------------< edu.atilim.se344:lab1 >------------------------
@@ -153,8 +152,7 @@ Tests run: 1, Failures: 0, Errors: 0, Skipped: 0
 [INFO] Total time:  1.218 s
 [INFO] Finished at: 2022-02-03T15:54:36+03:00
 [INFO] ------------------------------------------------------------------------
-    \end{lstlisting}
-\end{minipage}
+\end{lstlisting}
 
 \section{Exercises}
 Assume that the following calculator class is given to you. You are responsible for writing the necessary test cases for the given class. Remember that there might be mistakes in the given implementations throughout all exercises in the manual. Do not take them as exact true cases.
@@ -186,7 +184,7 @@ public class Calculator {
 \end{exercise}
 
 \begin{solution}
-    \begin{lstlisting}
+    \begin{lstlisting}[caption={Trivial unit tests for the Calculator class.}]
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import edu.atilim.se344.Calculator;
@@ -225,7 +223,7 @@ class CalculatorTests {
 
 \begin{solution}
     First, we have to write the test to see it fails.
-    \begin{lstlisting}
+    \begin{lstlisting}[caption={A unit test to testing the mean method of the Calculator class.}]
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import edu.atilim.se344.Calculator;
@@ -244,7 +242,7 @@ class CalculatorTests {
 }
     \end{lstlisting}
     Then, add the simplest implementation that should pass the test.
-    \begin{lstlisting}
+    \begin{lstlisting}[caption={The simplest implementation to pass the test.}]
 package edu.atilim.se344;
 
 public class Calculator {
@@ -257,7 +255,7 @@ public class Calculator {
 }
     \end{lstlisting}
     Write another test that will be failed by the previous implementation.
-    \begin{lstlisting}
+    \begin{lstlisting}[caption={Another test that invalidates the previous implementation.}]
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import edu.atilim.se344.Calculator;
@@ -276,7 +274,7 @@ class CalculatorTests {
 }
     \end{lstlisting}
     Finally, write the actual implementation that you think correct and run the tests again to see that all of them are passed.
-    \begin{lstlisting}
+    \begin{lstlisting}[caption={A correct implementation of the mean operation.}]
 package edu.atilim.se344;
 
 public class Calculator {
@@ -320,7 +318,7 @@ public class Calculator {
 \end{exercise}
 
 \begin{solution}
-        \begin{lstlisting}
+        \begin{lstlisting}[caption={A floating-point assert statement with precision.}]
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import edu.atilim.se344.Calculator;

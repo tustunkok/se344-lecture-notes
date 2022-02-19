@@ -93,7 +93,7 @@ driver.quit();
 \end{lstlisting}
 
 Let’s combine these previous things into a complete script.
-\begin{lstlisting}
+\begin{lstlisting}[caption={The complete example to open Google and search for Selenium.}]
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -157,5 +157,3 @@ The \lstinline!testLogin()! test method starts with opening up the Moodle page (
 The \lstinline!testSE344Course()! test method reopens the main page of Moodle (40). In line (41), we create a \lstinline!WebDriverWait! object \lstinline!wait! which we will use for explicit waits to a maximum of 10 seconds. After that, we find the \emph{Moodle Courses} link by its XPath (43) and click it (44). In the upcoming page, we choose the input field again by its XPath (46) that allows us to search \emph{SE 344} (47) and press \keys{\return} (48). After getting the desired page, we look for the text \emph{System Software Validation and Testing} on the page (50). If we find it, then the test passes.
 
 Finally, the \lstinline!static void tearDownAll()! method run after all the tests are finished. The method checks if the driver is initialized (56) and if so, it closes it with its \lstinline!close()! method (57). This method also closes the opened browser window.
-
-\subsection{Testing TBD Application}

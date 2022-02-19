@@ -7,45 +7,35 @@ The main goal of static unit testing is to find the defects as close as to their
 In this section, only inspection will be considered. A given code will be examined against a checklist by multiple groups of students.
 
 \section{Code Review}
-Code quality is a crucial concept for many organizations. Code review is a technique that aims to increase code quality. It can be performed by either an expert or a computer. Nowadays, almost all compilers have a static code analyzer that performs some of the code review tasks. Generally, a checklist is utilized to perform a code review. This checklist can be language-specific or general. A general checklist is given in Table \ref{tab:code-checklist} as an example.
+Code quality is a crucial concept for many organizations. Code review is a technique that aims to increase code quality. It can be performed by either an expert or a computer. Nowadays, almost all compilers have a static code analyzer that performs some of the code review tasks. Generally, a checklist is utilized to perform a code review. This checklist can be language-specific or general. A general checklist is given in the list below.
 
 Organizations can develop their own checklists. One important point while doing so is that if a language-specific checklist is produced, then a new checklist should be produced for each language that is used.
 
 After performing an inspection, a report is created which is signed by all participants. The report includes the found defects and problems, the degree of importance of the found problems, and the judgments of participants. The report has three acceptance criteria. They are \emph{accept}, \emph{conditional accept}, and \emph{reinspect}.
 
-\begin{table}[H]
-    \centering
-    \renewcommand{\arraystretch}{1.2}
-    \caption{Code review checklist.}
-    \label{tab:code-checklist}
-    \begin{adjustbox}{max height=\textheight, max width=\textwidth}
-        \begin{tabular}{p{\textwidth}}
-            \toprule
-            1. Does the code do what has been specified in the design specification?\\
-            2. Does the procedure used in the module solve the problem correctly?\\
-            3. Does a software module duplicate another existing module which could be reused?\\
-            4. If library modules are being used, are the right libraries and the right versions of the libraries being used?\\
-            5. Does each module have a single entry point and a single exit point? Multiple exit and entry point programs are harder to test.\\
-            6. Is the cyclomatic complexity of the module more than 10? If yes, then it is extremely difficult to adequately test the module.\\
-            7. Can each atomic function be reviewed and understood in 10–15 minutes? If not, it is considered to be too complex.\\
-            8. Have naming conventions been followed for all identifiers, such as pointers, indices, variables, arrays, and constants? It is important to adhere to coding standards to ease the introduction of a new contributor (programmer) to the development of a system.\\
-            9. Has the code been adequately commented upon?\\
-            10. Have all the variables and constants been correctly initialized? Have correct types and scopes been checked?\\
-            11. Are the global or shared variables, if there are any, carefully controlled?\\
-            12. Are there data values hard coded in the program? Rather, these should be declared as variables.\\
-            13. Are the pointers being used correctly?\\
-            14. Are the dynamically acquired memory blocks deallocated after use?\\
-            15. Does the module terminate abnormally? Will the module eventually terminate?\\
-            16. Is there a possibility of an infinite loop, a loop that never executes, or a loop with a premature exit?\\
-            17. Have all the files been opened for use and closed at termination?\\
-            18. Are there computations using variables with inconsistent data types? Is overflow or underflow a possibility?\\
-            19. Are error codes and condition messages produced by accessing a common table of messages? Each error code should have a meaning, and all of the meanings should be available at one place in a table rather than scattered all over the program code.\\
-            20. Is the code portable? The source code is likely to execute on multiple processor architectures and on different operating systems over its lifetime. It must be implemented in a manner that does not preclude this kind of a variety of execution environments.\\
-            21. Is the code efficient? In general, clarity, readability, or correctness should not be sacrificed for efficiency. Code review is intended to detect implementation choices that have adverse effects on system performance.\\
-            \bottomrule
-        \end{tabular}
-    \end{adjustbox}
-\end{table}
+\begin{enumerate}[nosep]
+    \item Does the code do what has been specified in the design specification?
+    \item Does the procedure used in the module solve the problem correctly?
+    \item Does a software module duplicate another existing module which could be reused?
+    \item If library modules are being used, are the right libraries and the right versions of the libraries being used?
+    \item Does each module have a single entry point and a single exit point? Multiple exit and entry point programs are harder to test.
+    \item Is the cyclomatic complexity of the module more than 10? If yes, then it is extremely difficult to adequately test the module.
+    \item Can each atomic function be reviewed and understood in 10–15 minutes? If not, it is considered to be too complex.
+    \item Have naming conventions been followed for all identifiers, such as pointers, indices, variables, arrays, and constants? It is important to adhere to coding standards to ease the introduction of a new contributor (programmer) to the development of a system.
+    \item Has the code been adequately commented upon?
+    \item Have all the variables and constants been correctly initialized? Have correct types and scopes been checked?
+    \item Are the global or shared variables, if there are any, carefully controlled?
+    \item Are there data values hard coded in the program? Rather, these should be declared as variables.
+    \item Are the pointers being used correctly?
+    \item Are the dynamically acquired memory blocks deallocated after use?
+    \item Does the module terminate abnormally? Will the module eventually terminate?
+    \item Is there a possibility of an infinite loop, a loop that never executes, or a loop with a premature exit?
+    \item Have all the files been opened for use and closed at termination?
+    \item Are there computations using variables with inconsistent data types? Is overflow or underflow a possibility?
+    \item Are error codes and condition messages produced by accessing a common table of messages? Each error code should have a meaning, and all of the meanings should be available at one place in a table rather than scattered all over the program code.
+    \item Is the code portable? The source code is likely to execute on multiple processor architectures and on different operating systems over its lifetime. It must be implemented in a manner that does not preclude this kind of a variety of execution environments.
+    \item Is the code efficient? In general, clarity, readability, or correctness should not be sacrificed for efficiency. Code review is intended to detect implementation choices that have adverse effects on system performance.
+\end{enumerate}
 
 \section{Exercises}
 Given the following problem;
@@ -53,7 +43,7 @@ Given the following problem;
     Write a function called \lstinline!bool multiple(int, int)! that determines whether the second integer is a multiple of the first for a pair of integers. The function should take two integer arguments and return true if the second is a multiple of the first, otherwise false. Use this function in a program that inputs a series of pair of integers.
 \end{displayquote}
 a solution is proposed. It might be a correct implementation or not. It is not important for the context of this section.
-\begin{lstlisting}[language=C++]
+\begin{lstlisting}[language=C++,caption={A \CC~program that confirms a number is multiple of another.}]
 #include <iostream>
 using namespace std;
 
@@ -91,7 +81,7 @@ bool func2(int n) {
 Perform the following exercises.
 
 \begin{exercise}
-    Perform a code review to check problems/defect types in this C Program considering the Table \ref{tab:code-checklist}. Write the line number and the type of the problem/defect to the following table.
+    Perform a code review to check problems/defect types in this C Program considering the list in the previous section. Write the line number and the type of the problem/defect to the following table.
     
     \begin{table}[H]
     \centering
@@ -139,7 +129,7 @@ Perform the following exercises.
     
     \begin{figure}[H]
         \centering
-        \includegraphics[width=0.8\textwidth]{images/passenger-activity.jpg}
+        \includegraphics[width=0.55\textwidth]{images/passenger-activity.jpg}
         \caption{Passenger Service System passenger checks in activity diagram.}
         \label{fig:pass-checks-in}
     \end{figure}

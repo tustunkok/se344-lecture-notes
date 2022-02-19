@@ -111,7 +111,7 @@ After the determination of expected outputs, the logs of the test cases are reco
 \section{Cause-and-Effect Graphing}
 Combining multiple conditions in EC cannot be performed intentionally. Some test cases may permit combining conditions by nature and some do not. The cause-and-effect graphing technique is developed to express causes and their effects in a graphical language. The visualization of causes and their effects greatly helps the tester to combine conditions to disclose inconsistencies that normally might not show up.
 
-To produce a cause-and-effect graph, the tester must transform the specification to a graph that resembles a digital logic circuit. The process then starts with the decomposition of a complex software component into lower-level units. The tester identifies the causes and their effects for each of the specification units. A \emph{cause} is a distinct input condition or an equivalence class of input conditions. An \emph{effect} is an output condition or a system transformation. Nodes in a Boolean cause-and-effect graph are causes and effects. Causes are placed on the left side and effects on the right side of the graph. Logical relationships between causes and effects are represented by Boolean operators AND, OR, and NOT. Let's continue with an example from \autocite{burnstein2006practical}. Suppose we have a specification for a module that allows a user to perform a search for a character in an existing string. The specification states that:
+To produce a cause-and-effect graph, the tester must transform the specification to a graph that resembles a digital logic circuit. The process then starts with the decomposition of a complex software component into lower-level units. The tester identifies the causes and their effects for each of the specification units. A \emph{cause} is a distinct input condition or an equivalence class of input conditions. An \emph{effect} is an output condition or a system transformation. Nodes in a Boolean cause-and-effect graph are causes and effects. Causes are placed on the left side and effects on the right side of the graph. Logical relationships between causes and effects are represented by Boolean operators AND ($\land$), OR ($\lor$), and NOT ($\thicksim$). Let's continue with an example from \autocite{burnstein2006practical}. Suppose we have a specification for a module that allows a user to perform a search for a character in an existing string. The specification states that:
 
 \begin{displayquote}
     The user must input the length of the string and the character to search for. If the string length is out-of-range an error message will appear. If the character appears in the string, its position will be reported. If the character is not in the string the message “not found” will be output.
@@ -153,13 +153,13 @@ This set of rules are then converted into a cause-and-effect graph. The Figure \
         \Vertex[x=4, y=0]{E3}
         \Vertex[x=4, y=2]{E2}
         \Vertex[x=4, y=4]{E1}
-        \Edge[label=$\Vert$](C1)(E1)
-        \Edge[label=$\Vert$](C2)(E3)
+        \Edge[label=$\thicksim$](C1)(E1)
+        \Edge[label=$\thicksim$](C2)(E3)
         \Edge(C1)(E2)
         \Edge(C1)(E3)
         \Edge(C2)(E2)
         \draw (E2) node[left=0.8cm]{$\bigwedge$};
-        \draw (E3) node[left=1cm, above=0.2cm]{$\bigwedge$};
+        \draw (E3) node[left=0.8cm]{$\bigwedge$};
     \end{tikzpicture}
     \caption{Cause-and-effect graph for the previously defined rules.}
     \label{fig:cause-n-effect-graph}
@@ -206,11 +206,11 @@ Error guessing is based on the tester's past experience. The tester's experience
     \end{enumerate}
     
     \begin{table}[H]
-    \centering
-    \renewcommand{\arraystretch}{1.2}
-    \caption{Test cases for equivalence classes.}
-    \label{tab:ex10-question-b}
-        \begin{tabular*}{\textwidth}{l @{\extracolsep{\fill}} llll}
+        \centering
+        \renewcommand{\arraystretch}{1.2}
+        \caption{Test cases for equivalence classes.}
+        \label{tab:ex10-question-b}
+        \begin{tabularx}{\textwidth}{llXX}
             \toprule
             \thead{Test Case \#} & \thead{Value} & \thead{Equivalence Classes} & \thead{Result (Valid/Invalid)}\\
             \midrule
@@ -226,11 +226,8 @@ Error guessing is based on the tester's past experience. The tester's experience
             10 & & & \\
             11 & & & \\
             12 & & & \\
-            13 & & & \\
-            14 & & & \\
-            15 & & & \\
             \bottomrule
-        \end{tabular*}
+        \end{tabularx}
     \end{table}
     
     \begin{table}[H]
@@ -238,7 +235,7 @@ Error guessing is based on the tester's past experience. The tester's experience
     \renewcommand{\arraystretch}{1.2}
     \caption{Test cases for BVA strategy.}
     \label{tab:ex10-question-c}
-        \begin{tabular*}{\textwidth}{l @{\extracolsep{\fill}} lll}
+        \begin{tabularx}{\textwidth}{llXX}
             \toprule
             \thead{Test Case \#} & \thead{Value} & \thead{Result (Valid/Invalid)}\\
             \midrule
@@ -252,13 +249,10 @@ Error guessing is based on the tester's past experience. The tester's experience
             8 & & \\
             9 & & \\
             10 & & \\
-            11 & & \\
-            12 & & \\
-            13 & & \\
-            14 & & \\
-            15 & & \\
+            11 & & & \\
+            12 & & & \\
             \bottomrule
-        \end{tabular*}
+        \end{tabularx}
     \end{table}
 \end{exercise}
 
@@ -383,7 +377,7 @@ Error guessing is based on the tester's past experience. The tester's experience
         \end{tabular*}
     \end{table}
     
-    \begin{lstlisting}
+    \begin{lstlisting}[caption={The implementation of the program that should not supposed to be known.}]
 public class IntToString {
     public static String ConvertIntToString(int number) {
         int StringConvert = 48;

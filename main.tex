@@ -1,4 +1,5 @@
-\documentclass[paper=a4,fontsize=11,parskip=full,pagesize=auto,BCOR=5mm,DIV=12]{scrbook}
+\documentclass[paper=a4,fontsize=11,parskip=full,pagesize=auto,headsepline=true,chapterprefix=true,oneside]{scrbook}
+%\documentclass[paper=a4,fontsize=11,parskip=full,pagesize=auto,BCOR=5mm,DIV=12]{scrbook}
 
 \usepackage[english]{babel}
 \usepackage[T1]{fontenc}
@@ -28,8 +29,10 @@
 \usepackage{collcell}
 \usepackage{tabularx}
 \usepackage{hyperref}
-\usepackage{todonotes}
+%\usepackage{todonotes}
 \usepackage{menukeys}
+\usepackage{amsmath}
+\usepackage{amssymb}
 
 \lstset{
     language = java,
@@ -42,9 +45,10 @@
     breaklines = true,
     frame = single,
     numbers = left,
+    tabsize = 4,
     numberstyle = \scriptsize\sffamily\color{gray},
-    xleftmargin = 0.08\textwidth,
-    xrightmargin = 0.08\textwidth,
+    xleftmargin = 0.05\textwidth,
+    xrightmargin = 0.05\textwidth,
     showstringspaces = false,
     float
 }
@@ -72,7 +76,7 @@
     \listoffigures
     \listoftables
     \lstlistoflistings
-    \listoftodos
+    %\listoftodos
     
     \mainmatter
     \input{chapters/01-introduction}

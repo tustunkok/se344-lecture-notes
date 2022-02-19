@@ -152,7 +152,7 @@ In Figure \ref{fig:maven-app-conf}, there are only two fields that must be fille
     \label{fig:maven-app-conf}
 \end{figure}
 
-Before moving on to the next topic, there is a small problem that we need to address. In some versions of Eclipse, Java projects have a default Java version of 1.5. This is a problem for us. Therefore, right-click to the newly created project and click \menu{Properties}. The dialog window shown in Figure \ref{fig:java-version} should be opened. Here, click \emph{Java Compiler} in the list view. Untick the checkbox starting \emph{Use compliance from execution...} and select 1.8 from \emph{Compiler compliance level} checkbox. Click \keys{Apply \& Close} button when you have finished with the project properties.
+Before moving on to the next topic, there is a small problem that we need to address. In some versions of Eclipse, Java projects have a default Java version of 1.5. This is a problem for us. Therefore, right-click to the newly created project and click \menu{Properties}. The dialog window shown in Figure \ref{fig:java-version} should be opened. Here, click \emph{Java Compiler} in the list view. Untick the checkbox starting \emph{Use compliance from execution...} and select 1.8 from \emph{Compiler compliance level} checkbox. Click \keys{Apply and Close} button when you have finished with the project properties.
 
 \begin{figure}[H]
     \centering
@@ -161,77 +161,43 @@ Before moving on to the next topic, there is a small problem that we need to add
     \label{fig:java-version}
 \end{figure}
 
-This concludes our project creation step. Now, we need to add necessary dependencies to our project's \lstinline[language={}]|pom.xml| file. In this case, there is only one dependency\todo{There are multiple dependencies.} and it is JUnit Jupiter API. In the next section, we are going to see how to add such dependencies to our project. Also, we need to make sure that our Maven build system is compatible with JUnit. We will add a plugin to our project to comply with JUnit.
+This concludes our project creation step. Now, we need to add necessary dependencies to our project's \lstinline[language={}]|pom.xml| file. In this case, there are two dependencies. They are JUnit Jupiter API and JUnit Jupiter Engine. In the next section, we are going to see how to add such dependencies to our project. Also, we need to make sure that our Maven build system is compatible with JUnit. We will add a plugin to our project to comply with JUnit.
 
 \section{Introduction to JUnit Jupiter API}
 JUnit is one of the leading unit testing frameworks for Java. It has a standard API that supplies all the necessary methods and classes for a complete test suite. In fact, it influences many other unit test frameworks in other programming languages. In Java, libraries are added to the projects by adding related \lstinline[language={}]|.jar| files to the classpath and importing them into the program. The responsibility of managing those libraries completely belongs to the developer. That is a challenging problem as stated in a previous section. Therefore, using a dependency manager is always a good idea.
 
-In this section, we will add JUnit Jupiter API (a.k.a. JUnit 5) to our previously created project and choose a Maven plugin version that works with the JUnit API. Remember from the previous \verb|pom.xml| examples, each dependency that we want to add to our project must go to a complex element called \lstinline[language=XML]|<dependencies>|. We will use JUnit Jupiter API version 5.8.2 in this example. Go to the Maven repository website, search for the package \emph{junit}, and click the version \lstinline[language={}]|5.8.2|\footnote{\url{https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-api/5.8.2}}. In the middle of the page, you should see a code snippet as shown in Listing \ref{lst:pom-junit}. Copy the code snippet and paste it inside the \lstinline[language=XML]|<dependencies>| element.\todo{JUnit Engine dependency is also needed to run the test cases with BeforeAll and AfterAll annotations.}
+In this section, we will add JUnit Jupiter API (a.k.a. JUnit 5) and Jupiter Engine to our previously created project and choose a Maven plugin version that works with the JUnit API. Remember from the previous \lstinline[language={}]|pom.xml| examples, each dependency that we want to add to our project must go to a complex element called \lstinline[language=XML]|<dependencies>|. We will use JUnit Jupiter API and Engine version 5.8.2 in this example. Go to the Maven repository website, search for the package \emph{junit}, and click the version \lstinline[language={}]|5.8.2|\footnote{\url{https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-api/5.8.2}}. In the middle of the page, you should see a code snippet as shown in Listing \ref{lst:pom-junit}. Copy the code snippet and paste it inside the \lstinline[language=XML]|<dependencies>| element.
 
-\begin{lstlisting}[language=XML,caption={JUnit Jupiter API version 5.8.2 dependency element.},label=lst:pom-junit]
+\begin{lstlisting}[language=XML,caption={JUnit Jupiter API and Engine version 5.8.2 dependency elements.},label=lst:pom-junit]
 <dependency>
     <groupId>org.junit.jupiter</groupId>
     <artifactId>junit-jupiter-api</artifactId>
     <version>5.8.2</version>
     <scope>test</scope>
 </dependency>
+
+<dependency>
+    <groupId>org.junit.jupiter</groupId>
+    <artifactId>junit-jupiter-engine</artifactId>
+    <version>5.8.2</version>
+    <scope>test</scope>
+</dependency>
 \end{lstlisting}
 
-After adding JUnit Jupiter API, we need to indicate a specific version of Maven Compiler Plugin\todo{This part needs to be revised.} that works with the newest JUnit Jupiter API. In this case, it is the version \lstinline[language={}]|3.8.1|. Add the code snippet\footnote{This plugin may not be needed for the recent versions of Eclipse.} shown in Listing\todo{This one is the wrong snippet and must be substituted with the surefire plugin.} \ref{lst:pom-maven-plugin} to your \lstinline[language={}]|pom.xml| file under the top-level \lstinline[language=XML]|<project>| element.
+After adding JUnit Jupiter API, we need to indicate a specific version of Maven Surefire Plugin that works with the newest JUnit Jupiter API and Eclipse. In this case, it is the version \lstinline[language={}]|3.0.0-M5|. Add the code snippet shown in Listing \ref{lst:pom-maven-plugin} to your \lstinline[language={}]|pom.xml| file under the top-level \lstinline[language=XML]|<project>| element.
 
-\begin{lstlisting}[language=XML,caption={A compatible Maven Compiler Plugin JUnit Jupiter API v5.8.2..},label=lst:pom-maven-plugin]
+\begin{lstlisting}[language=XML,caption={A compatible Maven Surefire Plugin with Eclipse and JUnit Jupiter API v5.8.2..},label=lst:pom-maven-plugin]
 <build>
-    <pluginManagement>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.8.1</version>
-            </plugin>
-        </plugins>
-    </pluginManagement>
+    <plugins>
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-surefire-plugin</artifactId>
+            <version>3.0.0-M5</version>
+        </plugin>
+    </plugins>
 </build>
 \end{lstlisting}
 
-In the end, your \verb|pom.xml| file should look like Listing \ref{lst:pom-future}.
+In the end, your \lstinline[language={}]|pom.xml| file should look like Listing \ref{lst:pom-future}.
 
-\begin{minipage}{\textwidth}
-    \begin{lstlisting}[language=XML,caption={pom.xml file for future exercises.},label=lst:pom-future]
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
-    <groupId>edu.atilim.se344</groupId>
-    <artifactId>lab1</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
-    
-    <!-- Set the compiler version to Java 1.8 for compatibility with JUnit. -->
-    <properties>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
-    </properties>
-
-    <dependencies>
-        <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-api</artifactId>
-            <version>5.8.2</version>
-            <scope>test</scope>
-        </dependency>
-    </dependencies>
-
-    <!-- This part can be omitted in recent versions of Eclipse. -->
-    <build>
-        <pluginManagement>
-            <plugins>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-compiler-plugin</artifactId>
-                    <version>3.8.1</version>
-                </plugin>
-            </plugins>
-        </pluginManagement>
-    </build>
-</project>
-    \end{lstlisting}
-\end{minipage}
+\lstinputlisting[language=XML,caption={pom.xml file for future exercises.},label=lst:pom-future]{code-snippets/pom.xml}

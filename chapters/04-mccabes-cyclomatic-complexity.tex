@@ -1,6 +1,5 @@
 \chapter{McCabe's Cyclomatic Complexity}
-McCabe's cyclomatic complexity (CC) is a software quality metric that quantifies the complexity of a software program. Complexity is inferred by measuring the number of linearly independent paths through the program. The higher the number the more complex the code.\todo{A little bit more explanation is needed.}
-The basis of CC calculation is the \emph{control flow graph} \autocite{spillner2021software}.
+McCabe's cyclomatic complexity (CC) is a software quality metric that quantifies the complexity of a software program. Complexity is inferred by measuring the number of linearly independent paths through the program. The higher the number the more complex the code. The basis of CC calculation is the \emph{control flow graph} \autocite{spillner2021software}. In software testing, CC determines the upper bound for the number of test cases that are necessary to achieve a complete branch coverage.
 
 \section{From Cyclomatic Complexity to Unit Tests}
 To calculate CC, a flow graph is utilized to depict control flow. Each node in the graph indicates several statements in the program and the flow of control is represented by directed edges. An example for such a graph is given in Figure \ref{fig:flow-graph-eg} for the code shown in Listing \ref{lst:pos_sum}.
@@ -38,15 +37,17 @@ This result hints us there should be three independent paths in the graph. One c
 \begin{table}[H]
     \centering
     \renewcommand{\arraystretch}{1.2}
-    \caption{Independent paths.}
+    \caption{Independent paths of the program that is described by Listing \ref{lst:pos_sum}.}
     \label{tab:independent-paths}
-    \begin{tabular}{p{0.1\textwidth}p{0.82\textwidth}}
+    \begin{tabularx}{\textwidth}{lX}
         \toprule
+         & \thead[l]{Independent Path}\\
+        \midrule
         \textbf{Path 1} & 1-2-3-4-10\\
         \textbf{Path 2} & 1-2-3-4-5-8-10\\
         \textbf{Path 3} & 1-2-3-4-5-6-8-10\\
         \bottomrule
-    \end{tabular}
+    \end{tabularx}
 \end{table}
 
 From these independent paths, we can identify three test cases that force the flow to pass through independent paths. This can be achieved by carefully crafting input variables that satisfy path conditions.
@@ -74,7 +75,7 @@ In this section, there are exercises about CC calculation and test case design. 
 
     Keith’s Sheet Music needs a program to implement its music teacher’s discount policy. The program prompts the user to enter the purchase total and indicates whether the purchaser is a teacher. Music teachers receive a 10\% discount on their sheet music purchases unless the purchase total is \$100 or higher. Otherwise, the discount is 12\%. The discount calculation occurs before the addition of the 5\% sales tax.
     
-    \begin{lstlisting}
+    \begin{lstlisting}[caption={A proposed solution for the above requirement.}]
 double calculateTotalBill(char customertype, double purchase) {
     double total = purchase;
     if (customertype == 't') {
@@ -137,7 +138,7 @@ double calculateTotalBill(char customertype, double purchase) {
     \end{table}
     
     Answer for the item d):
-    \begin{lstlisting}
+    \begin{lstlisting}[caption={A proposed answer for the item d).}]
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.Test;
 
@@ -168,7 +169,7 @@ public class TotalBillTest {
 \begin{exercise}
     A hotel offers two types of rooms to their guests. Single rooms are 250TL per day, double rooms are 350TL per day. If a guest chooses a single room and if (s)he prefers to stay more than two days, hotel charges extra 225TL for each day after a single base price of 250TL. If the guest prefers to stay in a double room more than three days, (s)he is supposed to pay 200TL extra for each extra day after a single base price of 350TL.
 
-    \begin{lstlisting}
+    \begin{lstlisting}[caption={A hotel fee calculation program for the above requirement.}]
 public class HotelFee {
     public int calculateFee(char type, int day) {
         char roomType = type; 
@@ -192,7 +193,7 @@ public class HotelFee {
 }
     \end{lstlisting}
     
-    \begin{enumerate}[a),noitemsep]
+    \begin{enumerate}[a),nosep]
         \item Draw the flow graph.
         \item Calculate cyclomatic complexity and independent paths.
         \item Write test cases.
@@ -205,7 +206,7 @@ public class HotelFee {
 
     The update site for EclEmma is \url{http://update.eclemma.org/}. Perform the following steps to install EclEmma from the update site:
 
-    \begin{enumerate}
+    \begin{enumerate}[nosep]
         \item From your Eclipse menu select Help → Install New Software...
         \item In the Install dialog enter \url{http://update.eclemma.org/} at the Work with field.
     \end{enumerate}
@@ -233,7 +234,7 @@ public class HotelFee {
         \label{tab:ex7-indep-paths}
         \begin{tabularx}{\textwidth}{lX}
             \toprule
-             & Independent Path\\
+             & \thead[l]{Independent Path}\\
             \midrule
             \textbf{Path 1} & (3,4,5,6)-7-9-19\\
             \textbf{Path 2} & (3,4,5,6)-7-9-10-19\\
@@ -256,7 +257,7 @@ public class HotelFee {
         \begin{adjustbox}{max width=\textwidth}
             \begin{tabular}{lllll}
                 \toprule
-                 & Independent Path & Test Case & Expected Value & Pass/Fail\\
+                 & \thead[l]{Independent Path} & \thead[l]{Test Case} & \thead[l]{Expected Value} & \thead[l]{Pass/Fail}\\
                 \midrule
                 \textbf{Path 1} & (3,4,5,6)-7-9-19 & \lstinline!calculateFee('d', 15);! & 2750 & Fail\\
                 \textbf{Path 2} & (3,4,5,6)-7-9-10-19 & \lstinline!calculateFee('d', 5);! & 750 & Fail\\
@@ -272,7 +273,7 @@ public class HotelFee {
     
     Answer for the item d):
     
-    \begin{lstlisting}
+    \begin{lstlisting}[caption={All the tests thare defined by the independent paths of the HotelFee program.}]
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -325,7 +326,7 @@ public class HotelFeeTest {
 \begin{exercise}
     The Department of Defense identifies soldiers according to some criteria. Only single males whose age is greater than 20 are accepted (martial status: s/S for single, m/M for married, gender: m/M for male, f/F for female). The Department of Defense needs to find a number of candidates that fit this criterion.
     
-    \begin{lstlisting}
+    \begin{lstlisting}[caption={Program for recruitment participation requirements of D.o.D..}]
 public class Criteria {
     public int firtsCriteria(int nOfCandid, char[] s, char[] gender, int[] age) {
         int cnt = 1, cntFits = 0;
@@ -366,17 +367,19 @@ public class Criteria {
     \begin{table}[H]
         \centering
         \renewcommand{\arraystretch}{1.2}
-        \caption{Independent paths.}
+        \caption{Independent paths of the \lstinline!firstCriteria! method.}
         \label{tab:ex8-indep-paths}
-        \begin{tabular}{p{0.1\textwidth}p{0.82\textwidth}}
+        \begin{tabularx}{\textwidth}{lX}
             \toprule
+             & Independent Path\\
+             \midrule
             \textbf{Path 1} & 3-4-11\\
             \textbf{Path 2} & 3-4-5-9-4-11\\
             \textbf{Path 3} & 3-4-5-6-9-4-11\\
             \textbf{Path 4} & 3-4-5-6-7-9-4-11\\
             \textbf{Path 5} & 3-4-5-6-7-8-9-4-11\\
             \bottomrule
-        \end{tabular}
+        \end{tabularx}
     \end{table}
     
     Answer for the item c):
@@ -403,7 +406,7 @@ public class Criteria {
     
     Answer for the item d):
     
-    \begin{lstlisting}
+    \begin{lstlisting}[caption={All of the test cases that are defined by the independent paths of the recruitment program.}]
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.Test;
@@ -440,4 +443,74 @@ public class CriteriaTest {
     \end{lstlisting}
     
     Answer for the item e): 60\% source code coverage should be reported.
+\end{solution}
+
+\begin{exercise}
+    Bubble sort is one of the simplest sorting algorithms. It works by repeatedly swapping adjacent elements in a list to achieve a sorted list in descending or ascending order. However, it is not the first choice when it comes to business use because of its relative inefficiency, $\mathcal{O}(n^2)$. An example implementation is given in Listing \ref{lst:bubble-sort}.
+    
+    \lstinputlisting[caption={A bubble sort algorithm implementation in Java.},label=lst:bubble-sort]{code-snippets/BubbleSort.java}
+    
+    \begin{enumerate}[a),nosep]
+        \item Draw the flow graph.
+        \item Calculate cyclomatic complexity and independent paths.
+        \item Write test cases.
+        \item Write the test methods and their results for the test cases in JUnit.
+        \item Use a coverage tool (Eclemma) to check the coverage percentage.
+    \end{enumerate}
+\end{exercise}
+
+\begin{solution}
+    Answer for the item a):
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.2\textwidth]{images/exercise-9a-solution.png}
+        \caption{The flow graph of the \lstinline!bubbleSort! method.}
+        \label{fig:ex9-fg}
+    \end{figure}
+    
+    Answer for the item b):
+    
+    CC of the graph can be found using the Eq. \ref{eq:cc-calc}; $V(G) = 8 - 6 + 2 = 4$. Hence, there are four independent paths in the graph. They are:
+    \begin{table}[H]
+        \centering
+        \renewcommand{\arraystretch}{1.2}
+        \caption{Independent paths of the \lstinline!bubbleSort! method.}
+        \label{tab:ex9-indep-paths}
+        \begin{tabularx}{\textwidth}{lX}
+            \toprule
+             & \thead{Independent Path}\\
+             \midrule
+            \textbf{Path 1} & 3-4-13\\
+            \textbf{Path 2} & 3-4-5-4-13\\
+            \textbf{Path 3} & 3-4-5-6-5-4-13\\
+            \textbf{Path 4} & 3-4-5-6-7,8,9-5-4-13\\
+            \bottomrule
+        \end{tabularx}
+    \end{table}
+    
+    Answer for the item c):
+    
+    \begin{table}[H]
+        \centering
+        \renewcommand{\arraystretch}{1.2}
+        \caption{Test cases for \lstinline!bubbleSort! method.}
+        \label{tab:e9-test-cases}
+        \begin{adjustbox}{max width=\textwidth}
+            \begin{tabular}{lllll}
+                \toprule
+                 & \thead{Independent Path} & \thead{Test Case \lstinline!bubbleSort(...)!} & \thead{Expected Value} & \thead{Pass/Fail}\\
+                \midrule
+                \textbf{Path 1} & 3-4-13 & \lstinline!(new int[] {5});! & \lstinline![5]! & Pass\\
+                \textbf{Path 2} & 3-4-5-4-13 & \emph{Impossible in first iter.} & - & -\\
+                \textbf{Path 3} & 3-4-5-6-5-4-13 & \lstinline!(new int[] {5, 8});! & \lstinline![5, 8]! & Pass\\
+                \textbf{Path 4} & 3-4-5-6-7,8,9-5-4-13 & \lstinline!(new int[] {8, 5});! & \lstinline![5, 8]! & Pass\\
+                \bottomrule
+            \end{tabular}
+        \end{adjustbox}
+    \end{table}
+    
+    Answer for the item d):
+    \lstinputlisting[caption={Test case implementations of the Bubble Sort class.}]{code-snippets/BubbleSortTest.java}
+    
+    Answer for the item e): 100\% code coverage should be reported.
 \end{solution}
