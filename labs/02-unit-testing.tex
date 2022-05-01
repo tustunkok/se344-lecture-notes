@@ -1,0 +1,340 @@
+\chapter{Unit Testing with JUnit}
+JUnit Jupiter API has a very stable and consistent API. There are two essential resources to learn it. The first one is the official JUnit 5 User Guide\footnote{\url{https://junit.org/junit5/docs/current/user-guide/}} and the second one is the official JUnit 5 Java Docs\footnote{\url{https://junit.org/junit5/docs/current/api/}}. In this section, the important assert types of the JUnit 5 is introduced without any meaningful context or formal methods.
+
+\section{Developing Tests}
+Let's assume that we are developing a \emph{Calculator} program and we are using the Test-Driven Development approach. We want to test the addition functionality of the calculator. In JUnit, our test case would look like Listing \ref{lst:calc-add-test}. In the code, a class called \verb|Calculator| is assumed to exist in the package \lstinline|edu.atilim.se344|. One of its methods is \lstinline!add(int a, int b);! and we are testing this method.
+
+To create a test case, first, we need to create a \lstinline[language={}]|.java| file inside \directory{src/test/java}. To do that, right-click to the \directory{src/test/java} and click \menu{New>Class} from the context menu. The name of the file is not important as long as the same with the name of the class inside. Inside of the file, we need a class. The contents of the class need to comply with some rules.
+
+\begin{lstlisting}[caption={A test case for testing the addition functionality of the Calculator class.},label=lst:calc-add-test]
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import edu.atilim.se344.Calculator;
+import org.junit.jupiter.api.Test;
+
+class CalculatorTests {
+
+    private final Calculator calculator = new Calculator();
+
+    @Test
+    void addition() {
+        assertEquals(2, calculator.add(1, 1));
+    }
+}
+\end{lstlisting}
+
+The test class cannot be \lstinline{abstract} and must have at least one method that is annotated with \lstinline!@Test!. In our example, \lstinline|CalculatorTests| class have a constant Calculator instance \lstinline|calculator| and a \lstinline!void addition();! method that is annotated by \lstinline!@Test! which causes the method to be automatically called by the JUnit framework. There are lots of annotations that help both JUnit to identify the role of the method and the developer to troubleshoot any problem.
+
+A more complete and standard test class should have some other special methods. Such as a method that is called before any of the other methods, a method that is called before each test case, test cases themselves, a method that is called after each test case, and a method that is called after every test case is called. Such a standard test class is proposed by the official JUnit guide. You can see it in Listing \ref{lst:std-test-class}.
+
+\begin{lstlisting}[caption={A standard test class.},label=lst:std-test-class]
+import static org.junit.jupiter.api.Assertions.fail;
+import static org.junit.jupiter.api.Assumptions.assumeTrue;
+
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
+
+class StandardTests {
+
+    @BeforeAll
+    static void initAll() {
+    }
+    
+    @BeforeEach
+    void init() {
+    }
+    
+    @Test
+    void succeedingTest() {
+    }
+    
+    @Test
+    void failingTest() {
+        fail("a failing test");
+    }
+    
+    @Test
+    @Disabled("for demonstration purposes")
+    void skippedTest() {
+        // not executed
+    }
+    
+    @Test
+    void abortedTest() {
+        assumeTrue("abc".contains("Z"));
+        fail("test should have been aborted");
+    }
+    
+    @AfterEach
+    void tearDown() {
+    }
+    
+    @AfterAll
+    static void tearDownAll() {
+    }
+}
+\end{lstlisting}
+
+The developer can also assign more readable names to her/his test cases with the \lstinline!@DisplayName! annotation. It takes a string e.g. \lstinline!@DisplayName("Some interesting test case")!. It can take all valid Unicode encoded strings even emojis.
+
+\section{Working with Assert Types}
+There are many assert types that can be used in various situations. The full list can be found in the documentation\footnote{\url{https://junit.org/junit5/docs/current/api/org.junit.jupiter.api/org/junit/jupiter/api/Assertions.html}}. Most of them are different overloads of the same assert function. The widely used ones are given in Table \ref{tab:junit-asserts}.
+
+\begin{table}[H]
+    \centering
+    \renewcommand{\arraystretch}{1.2}
+    \caption{Some of the assert methods that are defined in JUnit API.}
+    \label{tab:junit-asserts}
+    \begin{adjustbox}{max width=\textwidth}
+        \begin{tabular}{ll}
+            \toprule
+            Method Prototype & Description \\
+            \midrule
+            \lstinline!assertAll(String, Collection<Executable>)! & Assert that all supplied executables do not throw exceptions.\\
+            \lstinline!assertArrayEquals(boolean[] expected, boolean[] actual)! & Assert that expected and actual boolean arrays are equal.\\
+            \lstinline!assertEquals(byte expected, byte actual)! & Assert that expected and actual are equal.\\
+            \lstinline!assertFalse(boolean condition)! & Assert that the supplied condition is false.\\
+            \lstinline!assertNotEquals(byte unexpected, byte actual)! & Assert that expected and actual are not equal.\\
+            \lstinline!assertTrue(boolean condition)! & Assert that the supplied condition is true.\\
+            \bottomrule
+        \end{tabular}
+    \end{adjustbox}
+\end{table}
+
+Notice that there are a huge amount of overloads of these methods. Since our main objective is not presenting the whole list, only a very small amount of them are projected into the Table \ref{tab:junit-asserts}.
+
+\section{Running and Reporting Tests}
+Running test in Eclipse is fairly straightforward. You can right click to the current project in the \emph{Package Explorer}. In the context menu, follow the menu option \menu{Run As > Maven test}. This will trigger the automatic build process of Maven and runs all the tests inside the \directory{src/test/java} path.
+
+A successful test run should produce an output like this:
+
+\begin{lstlisting}[language={},caption={A log output from a Maven test run.}]
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] -----------------------< edu.atilim.se344:lab1 >------------------------
+[INFO] Building lab1 0.0.1-SNAPSHOT
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:resources (default-resources) @ lab1 ---
+[WARNING] Using platform encoding (UTF-8 actually) to copy filtered resources, i.e. build is platform dependent!
+[INFO] Copying 0 resource
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.8.1:compile (default-compile) @ lab1 ---
+[INFO] Nothing to compile - all classes are up to date
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:testResources (default-testResources) @ lab1 ---
+[WARNING] Using platform encoding (UTF-8 actually) to copy filtered resources, i.e. build is platform dependent!
+[INFO] Copying 0 resource
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.8.1:testCompile (default-testCompile) @ lab1 ---
+[INFO] Nothing to compile - all classes are up to date
+[INFO] 
+[INFO] --- maven-surefire-plugin:2.12.4:test (default-test) @ lab1 ---
+[INFO] Surefire report directory: /home/tustunkok/eclipse-workspace/lab1/target/surefire-reports
+
+-------------------------------------------------------
+ T E S T S
+-------------------------------------------------------
+Running lab1.CalculatorTest
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.002 sec
+
+Results :
+
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0
+
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  1.218 s
+[INFO] Finished at: 2022-02-03T15:54:36+03:00
+[INFO] ------------------------------------------------------------------------
+\end{lstlisting}
+
+\section{Exercises}
+Assume that the following calculator class is given to you. You are responsible for writing the necessary test cases for the given class. Remember that there might be mistakes in the given implementations throughout all exercises in the manual. Do not take them as exact true cases.
+
+\begin{lstlisting}[caption={A Calculator class implementation in Java.},label=lst:java-calc]
+package edu.atilim.se344;
+
+public class Calculator {
+    public int add(int n1, int n2) {
+        return n1 + n2;
+    }
+    
+    public int sub(int n1, int n2) {
+        return n1 - n2;
+    }
+    
+    public int div(int n1, int n2) {
+        return n1 / n2;
+    }
+    
+    public int mul(int n1, int n2) {
+        return n1 * n2;
+    }
+}
+\end{lstlisting}
+
+\begin{exercise}
+    Write the individual test cases for each of the methods of the Calculator class.
+\end{exercise}
+
+\begin{solution}
+    \begin{lstlisting}[caption={Trivial unit tests for the Calculator class.}]
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import edu.atilim.se344.Calculator;
+import org.junit.jupiter.api.Test;
+
+class CalculatorTests {
+
+    private final Calculator calculator = new Calculator();
+
+    @Test
+    void testAddition() {
+        assertEquals(6, calculator.add(1, 5));
+    }
+    
+    @Test
+    void testSubtraction() {
+        assertEquals(-5, calculator.sub(2, 7));
+    }
+    
+    @Test
+    void testDivision() {
+        assertEquals(0, calculator.div(5, 8));
+    }
+    
+    @Test
+    void testMultiplication() {
+        assertEquals(16, calculator.mul(8, 2));
+    }
+}
+    \end{lstlisting}
+\end{solution}
+
+\begin{exercise}
+    Suppose you are going to extend the functionality of the Calculator class by adding mean calculation for a list. You are utilizing Test-Driven Development (TDD) technique to write the feature. Add the new feature to the class step by step.
+\end{exercise}
+
+\begin{solution}
+    First, we have to write the test to see it fails.
+    \begin{lstlisting}[caption={A unit test to testing the mean method of the Calculator class.}]
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import edu.atilim.se344.Calculator;
+import org.junit.jupiter.api.Test;
+
+class CalculatorTests {
+
+    private final Calculator calculator = new Calculator();
+
+    ...
+    
+    @Test
+    void testMean() {
+        assertEquals(4.5f, calculator.mean(2, 3, 4));
+    }
+}
+    \end{lstlisting}
+    Then, add the simplest implementation that should pass the test.
+    \begin{lstlisting}[caption={The simplest implementation to pass the test.}]
+package edu.atilim.se344;
+
+public class Calculator {
+    
+    ...
+    
+    public float mean(int... numbers) {
+        return 4.5f;
+    }
+}
+    \end{lstlisting}
+    Write another test that will be failed by the previous implementation.
+    \begin{lstlisting}[caption={Another test that invalidates the previous implementation.}]
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import edu.atilim.se344.Calculator;
+import org.junit.jupiter.api.Test;
+
+class CalculatorTests {
+
+    private final Calculator calculator = new Calculator();
+
+    ...
+    
+    @Test
+    void testMean() {
+        assertEquals(12.0f, calculator.mean(10, 20, 8, 4, 18));
+    }
+}
+    \end{lstlisting}
+    Finally, write the actual implementation that you think correct and run the tests again to see that all of them are passed.
+    \begin{lstlisting}[caption={A correct implementation of the mean operation.}]
+package edu.atilim.se344;
+
+public class Calculator {
+    
+    ...
+    
+    public float mean(int... numbers) {
+        float sum = 0.0f;
+        for (int i : numbers) {
+            sum += i;
+        }
+        return sum / numbers.length;
+    }
+}
+    \end{lstlisting}
+    This is a very long way of writing code with TDD. Normally, the first steps are not taken into account and directly passed through the correct implementation part after writing the first test.
+\end{solution}
+
+\begin{exercise}
+    Suppose that we are adding multiplication operation to our Calculator implementation. However, we are going to implement it as a repeated addition operation as in a primitive microcontroller architecture. Our implementation must only work on floating-point numbers and not integers.
+    
+    \begin{lstlisting}[caption={An implementation for multiplication operation with a loop.}]
+package edu.atilim.se344;
+
+public class Calculator {
+    
+    ...
+    
+    public double crudeMultiplication(double num1, double num2) {
+        double result = 0.0;
+        for (int i = 0; i < num2; i++) {
+            result += num1;
+        }
+        
+        return result;
+    }
+}
+    \end{lstlisting}
+    
+    Write the necessary test case to test such an implementation. Decrease and increase the precision value to see the test case is failed for smaller values.
+\end{exercise}
+
+\begin{solution}
+        \begin{lstlisting}[caption={A floating-point assert statement with precision.}]
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import edu.atilim.se344.Calculator;
+import org.junit.jupiter.api.Test;
+
+class CalculatorTests {
+
+    private final Calculator calculator = new Calculator();
+
+    ...
+    
+    @Test
+    @DisplayName("Operations with floating-point numbers are dangerous!")
+    void testMean() {
+        assertEquals(10000.0, calculator.crudeMultiplication(0.1, 100000, 1e-8));
+    }
+}
+    \end{lstlisting}
+\end{solution}

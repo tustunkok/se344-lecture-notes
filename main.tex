@@ -1,5 +1,4 @@
-\documentclass[paper=a4,fontsize=11,parskip=full,pagesize=auto,headsepline=true,chapterprefix=true,oneside]{scrbook}
-%\documentclass[paper=a4,fontsize=11,parskip=full,pagesize=auto,BCOR=5mm,DIV=12]{scrbook}
+\documentclass[paper=b5,fontsize=10,parskip=full,pagesize=auto,headsepline=true,chapterprefix=true,BCOR=18mm,DIV=15,listof=flat,twosides]{scrbook}
 
 \usepackage[english]{babel}
 \usepackage[T1]{fontenc}
@@ -15,6 +14,7 @@
 \usepackage{float}
 \usepackage{adjustbox}
 \usepackage[printsolution=true]{exercises}
+\usepackage[lastexercise]{exercise}
 \usepackage{scrhack}
 \usepackage[shortlabels]{enumitem}
 \usepackage{pifont}
@@ -29,10 +29,11 @@
 \usepackage{collcell}
 \usepackage{tabularx}
 \usepackage{hyperref}
-%\usepackage{todonotes}
+\usepackage{todonotes}
 \usepackage{menukeys}
 \usepackage{amsmath}
 \usepackage{amssymb}
+\usepackage{imakeidx}
 
 \lstset{
     language = java,
@@ -61,12 +62,19 @@
 \algnewcommand{\Raise}{\State\textbf{raise }}
 \newcommand{\includepic}[1]{\includegraphics[width=3.5cm,keepaspectratio]{images/#1}}
 \newcolumntype{i}{@{\hspace{1ex}}>{\collectcell\includepic}c<{\endcollectcell}}
+\counterwithin{Exercise}{chapter}
+\counterwithin{Answer}{chapter}
+\renewcounter{Exercise}[chapter]
+\renewcommand{\ExerciseName}{Example}
+\renewcommand{\ExerciseHeader}{\textbf{\large\ExerciseName\ \ExerciseHeaderNB\ExerciseHeaderTitle\ExerciseHeaderOrigin}}
+\renewcommand{\AnswerHeader}{\medskip\textbf{Answer of \ExerciseName\ \ExerciseHeaderNB}\smallskip}
+\makeindex[intoc=true,columns=3,title=Index,options= -s index-style.ist]
 
 \begin{document}
     \titlehead{Atılım University\\Department of Software Engineering}
-    \title{System Software Validation and Testing Lab Manual}
-    \author{Tolga Üstünkök\thanks{E-mail: tolga.ustunkok@atilim.edu.tr} \and Ali Yazıcı\thanks{E-mail: ali.yazici@atilim.edu.tr}}
-    \date{January 2022}
+    \title{Lecture Notes on Software Testing with Laboratory Exercises}
+    \author{Ali Yazıcı\thanks{E-mail: ali.yazici@atilim.edu.tr} \and Tolga Üstünkök\thanks{E-mail: tolga.ustunkok@gmail.com} \and Özge Tekin\thanks{E-mail: ozge.tekin@atilim.edu.tr} \and Zeynep Yaren Oğuz\thanks{E-mail: yaren.oguz@atilim.edu.tr}}
+    \date{January 2023}
     \publishers{Department of Software Engineering\\Atılım University}
     \lowertitleback{This lab manual was set with the help of {\KOMAScript} and {\LaTeX} and last compiled on {\today}. The document source can be found in \url{https://github.com/tustunkok/se344-lab-manual}.}
     \maketitle
@@ -79,17 +87,33 @@
     %\listoftodos
     
     \mainmatter
-    \input{chapters/01-introduction}
-    \input{chapters/02-unit-testing}
-    \input{chapters/03-mccabes-cyclomatic-complexity}
+    \part{Software Testing}
+    \input{chapters/01-basic-concepts-of-testing}
+    \input{chapters/02-unit-component-testing}
+    \input{chapters/03-control-flow-testing}
     \input{chapters/04-data-flow-testing}
-    \input{chapters/05-static-unit-testing}
-    \input{chapters/06-blackbox-testing}
-    \input{chapters/07-selenium-demo}
+    \input{chapters/05-integration-testing}
+    \input{chapters/06-system-test-categories}
+    \input{chapters/07-functional-testing}
+    \input{chapters/08-software-testing-metrics}
+    \input{chapters/09-acceptance-testing}
+    
+    \part{Laboratory Studies and Exercises}
+    \input{labs/01-introduction}
+    \input{labs/02-unit-testing}
+    \input{labs/03-mccabes-cyclomatic-complexity}
+    \input{labs/04-data-flow-testing}
+    \input{labs/05-static-unit-testing}
+    \input{labs/06-blackbox-testing}
+    % \input{labs/07-...}
+    \input{labs/08-test-automation-with-selenium-1}
+    \input{labs/09-test-automation-with-selenium-2}
     
     \appendix
-    \input{chapters/08-appendix1}
+    \input{labs/10-appendix1}
+    \input{labs/11-appendix2}
     
     \backmatter
     \printbibliography[heading=bibintoc]
+    \printindex
 \end{document}

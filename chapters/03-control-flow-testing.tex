@@ -1,0 +1,42 @@
+\chapter{Control Flow Testing}
+\section{Introduction}
+Control flow testing is a software testing  strategy that depicts the execution order of the assignment and control statements in a program unit such as a function. This strategy is implemented by developing test cases of a unit and executing and tracing the execution flow. Flow of execution of the assignment and I/O statements in a program unit is sequential and change whenever a control statement (if-then-else, for, switch/case and while) is encountered and executed. A program unit has an entry and an exit point. Commands in a program unit are executed from the command at the entry point to the command at the exit point, depending on the program flow. The sequence of these flow steps is defined as the program execution path. Depending on the number and complexity of control commands, multiple paths can occur in a unit. The paths in the program are shaped depending on the input values in the program unit.
+
+A program unit can have multiple paths. Testing all paths with the input value that determines the path is not a very efficient approach and is costly. There are many approaches to increasing testing efficiency and minimizing its cost. The McCabe cylomatic complexity analysis is one of them and will be discussed in the following sections.
+
+The control flow testing steps are summarized below:
+\begin{enumerate}
+    \item Creation of control flow graph.
+    \item Determination of the path to be tested according to the path selection criteria.
+    \item Creation of necessary inputs and relevant test case for the determined path.
+\end{enumerate}
+Path selection criteria will be discussed in detail in the next subsections.
+
+\section{Control Flow Graph (CFG)}
+A control flow graph \index{control flow graph (CFG)} is a directed graph with an entry and an exit point. It is similar to a flowchart and is used to represent the overall flow in a unit. In a CFG, a rectangular node represents a sequential computation encompassing a set of statements in order, a decision box is used for branching (if-then-else), and a circle represents a merge point. A directed edge is used to connect nodes. Each node and decision point is labeled with a unique integer. A decision box provides branching to the sides of the box by a True or a Yes label. A complete execution path in a CFG is defined with a set of nodes from 1 to N, where 1 and N are the labels of the entry point, and the exit point respectively.
+
+
+\section{McCabe Cyclomatic Complexity}
+
+\section{Path Selection Criteria}
+
+\subsection{All-paths Coverage}
+
+\subsection{Statement Coverage}
+
+\subsection{Branch Coverage}
+
+\subsection{Predicate Coverage}
+
+\section{Generating Test Cases}
+
+\section{Problems}
+\begin{enumerate}
+    \item 
+    \item 
+    \item 
+    \item 
+    \item 
+    \item
+    \item 
+\end{enumerate}
