@@ -181,9 +181,8 @@ public class Calculator {
 
 \begin{exercise}
     Write the individual test cases for each of the methods of the Calculator class.
-\end{exercise}
 
-\begin{solution}
+
     \begin{lstlisting}[caption={Trivial unit tests for the Calculator class.}]
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -215,13 +214,11 @@ class CalculatorTests {
     }
 }
     \end{lstlisting}
-\end{solution}
+\end{exercise}
 
 \begin{exercise}
     Suppose you are going to extend the functionality of the Calculator class by adding mean calculation for a list. You are utilizing Test-Driven Development (TDD) technique to write the feature. Add the new feature to the class step by step.
-\end{exercise}
 
-\begin{solution}
     First, we have to write the test to see it fails.
     \begin{lstlisting}[caption={A unit test to testing the mean method of the Calculator class.}]
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -291,7 +288,7 @@ public class Calculator {
 }
     \end{lstlisting}
     This is a very long way of writing code with TDD. Normally, the first steps are not taken into account and directly passed through the correct implementation part after writing the first test.
-\end{solution}
+\end{exercise}
 
 \begin{exercise}
     Suppose that we are adding multiplication operation to our Calculator implementation. However, we are going to implement it as a repeated addition operation as in a primitive microcontroller architecture. Our implementation must only work on floating-point numbers and not integers.
@@ -315,10 +312,8 @@ public class Calculator {
     \end{lstlisting}
     
     Write the necessary test case to test such an implementation. Decrease and increase the precision value to see the test case is failed for smaller values.
-\end{exercise}
 
-\begin{solution}
-        \begin{lstlisting}[caption={A floating-point assert statement with precision.}]
+    \begin{lstlisting}[caption={A floating-point assert statement with precision.}]
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import edu.atilim.se344.Calculator;
@@ -337,4 +332,4 @@ class CalculatorTests {
     }
 }
     \end{lstlisting}
-\end{solution}
+\end{exercise}

@@ -6,26 +6,26 @@ The problems with the input domain of a software-under-test can be resolved by a
 
 The classes from ECP are chosen in several different ways. The tester analyzes the requirements for \emph{interesting} input conditions and partitions the input domain accordingly. Then, develops test cases from these partitions. A real-life example mirrors the test case generation techniques from white box testing techniques but instead of using the source code, the requirements are utilized for branch discovery. For example, from the textbook \autocite{burnstein2006practical} the specifications and the relevant equivalence classes are given below:
 
-\begin{algorithm}
-\caption{Square root specification \autocite{burnstein2006practical}.}
-\label{alg:square-root}
-    \begin{algorithmic}[1]
-        \Require{$x, y \in \mathds{R}$}
-        \Function{squareroot}{$x$}
-            \If{$x \ge 0.0$}
-                \State\Call{message}{$x$}
-            \EndIf
-            \If{$y \ge 0.0$ and $y * y \approx x$}
-                \State\Call{reply}{$y$}
-            \Else
-                \Raise{Imaginary square root exception}
-            \EndIf
-            \State\Return{$y$}
-        \EndFunction
-    \end{algorithmic}
-\end{algorithm}
+% \begin{algorithm}
+% \caption{Square root specification \autocite{burnstein2006practical}.}
+% \label{alg:square-root}
+%     \begin{algorithmic}[1]
+%         \Require{$x, y \in \mathds{R}$}
+%         \Function{squareroot}{$x$}
+%             \If{$x \ge 0.0$}
+%                 \State\Call{message}{$x$}
+%             \EndIf
+%             \If{$y \ge 0.0$ and $y * y \approx x$}
+%                 \State\Call{reply}{$y$}
+%             \Else
+%                 \Raise{Imaginary square root exception}
+%             \EndIf
+%             \State\Return{$y$}
+%         \EndFunction
+%     \end{algorithmic}
+% \end{algorithm}
 
-\begin{enumerate}[noitemsep]
+\begin{enumerate}
     \item[EC1.] The input variable x is real, valid.
     \item[EC2.] The input variable x is not real, invalid.
     \item[EC3.] The value of x is greater than 0.0, valid.
@@ -40,7 +40,7 @@ Boundary Value Analysis (BVA) is a nice addition to strengthen the ECP. Most def
 \end{displayquote}
 
 First, the tester should determine the equivalence classes:
-\begin{enumerate}[noitemsep]
+\begin{enumerate}
     \item[EC1.] Part name is alphanumeric, valid.
     \item[EC2.] Part name is not alphanumeric, invalid.
     \item[EC3.] The widget identifier has between 3 and 15 characters, valid.
@@ -199,7 +199,7 @@ Error guessing is based on the tester's past experience. The tester's experience
 \begin{exercise}
     Bank account can be 500 to 1000 for special customers,  0 to 499 for ordinary customers, 2000 for companies (the field type is integer).
     
-    \begin{enumerate}[a),noitemsep]
+    \begin{enumerate}
         \item What are the equivalence classes?
         \item Fill the Table \ref{tab:ex10-question-b} by finding appropriate test cases for the equivalence classes you found in previous question (a). \emph{Add lines if necessary.}
         \item Fill the Table \ref{tab:ex10-question-c} by finding appropriate test cases for the boundary testing method. \emph{Add lines if necessary.}
@@ -258,9 +258,7 @@ Error guessing is based on the tester's past experience. The tester's experience
             \bottomrule
         \end{tabularx}
     \end{table}
-\end{exercise}
 
-\begin{solution}
     Answer for the item a):
     
     \begin{itemize}[noitemsep]
@@ -325,7 +323,7 @@ Error guessing is based on the tester's past experience. The tester's experience
             \bottomrule
         \end{tabular*}
     \end{table}
-\end{solution}
+\end{exercise}
 
 \begin{exercise}
     The following is the interface of a function called \lstinline!ConvertIntToString! in the Java language.
@@ -338,9 +336,9 @@ Error guessing is based on the tester's past experience. The tester's experience
 
     Choose an appropriate black-box technique (equivalence class partitioning, boundary value analysis) to derive test cases for this function. Note that each test case should have a concrete input value for input \lstinline!int! and the expected output \lstinline!String!. You should use the following format for the list of your test cases.
     
-    \begin{enumerate}[a),noitemsep]
+    \begin{enumerate}
         \item What are the equivalence classes? Fill the Table \ref{tab:ex11-question-a} by finding appropriate test cases for the equivalence classes.
-        \begin{itemize}[noitemsep]
+        \begin{itemize}
             \item Valid Classes:
             \item Invalid Classes:
         \end{itemize}
@@ -431,9 +429,7 @@ public class IntToString {
     }
 }
     \end{lstlisting}
-\end{exercise}
 
-\begin{solution}
     Answer for the item a):
     
     \begin{itemize}[noitemsep]
@@ -475,12 +471,12 @@ public class IntToString {
             \bottomrule
         \end{tabular*}
     \end{table}
-\end{solution}
+\end{exercise}
 
 \begin{exercise}
     The program accepts three integers, a, b, and c as inputs. These are taken to be sides of the triangle. The integers a, b, and c must satisfy following conditions:
     
-    \begin{enumerate}[label=\textbf{Condition \arabic*:},left=0pt,noitemsep]
+    \begin{enumerate}[label=\textbf{Condition \arabic*:},left=0pt]
         \item $1 \le a \le 200$
         \item $1 \le b \le 200$
         \item $1 \le c \le 200$
@@ -491,7 +487,7 @@ public class IntToString {
     
     The output of the program is the type of triangle determined by the three sides: Equilateral, Isosceles, Scalene, or NotATriangle. If an input value fails any of conditions Condition 1, Condition 2 or Condition 3, the program notes this with an output message such as "Value of b is not in the range of permitted values." If values of a, b, and c satisfy Condition 4, Condition 5, and Condition 6, one of four mutually exclusive outputs is given:
     
-    \begin{enumerate}[nosep]
+    \begin{enumerate}
         \item If all three sides are equal, the program output is Equilateral.
         \item If exactly one pair of sides is equal, the program output is Isosceles.
         \item If no pair of sides is equal, the program output is Scalene.
@@ -499,20 +495,18 @@ public class IntToString {
     \end{enumerate}
     
     Test the program with Decision Table-Based testing method by doing followings \autocite{jorgensen2013software}:
-    \begin{enumerate}[label=\alph*),nosep]
+    \begin{enumerate}[label=\alph*)]
         \item Draw the Cause-and-effect graph.
         \item Create a decision table for the problem.
         \item Create test cases.
         \item Run all test cases and write which ones are passed and which ones are failed.
     \end{enumerate}
-\end{exercise}
 
-\begin{solution}
     Answer for the item a):
     
     To draw a cause-and-effect graph, all the causes and effects should be extracted by elaborating the specification.
     
-    \begin{enumerate}[nosep]
+    \begin{enumerate}
         \item[\textbf{C1:}] The given side lengths permit to build a triangle.
         \item[\textbf{C2:}] The length of side a is equal to side b.
         \item[\textbf{C3:}] The length of side b is equal to side c.
@@ -561,7 +555,7 @@ public class IntToString {
     
     Answer for the item c):
     
-    \begin{enumerate}[label=\textbf{Test \arabic*:},left=0pt,nosep]
+    \begin{enumerate}[label=\textbf{Test \arabic*:},left=0pt]
         \item $a=1, b=2, c=7 \rightarrow E5$
         \item $a=3, b=3, c=3 \rightarrow E1$
         \item $a=2, b=2, c=3 \rightarrow E2$
@@ -573,4 +567,4 @@ public class IntToString {
     Answer for the item d):
     
     The red marked test cases in Table \ref{tab:sol12-decision-table} are failed tests.
-\end{solution}
+\end{exercise}

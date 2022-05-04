@@ -1,93 +1,195 @@
-\documentclass[paper=b5,fontsize=10,parskip=full,pagesize=auto,headsepline=true,chapterprefix=true,BCOR=18mm,DIV=15,listof=flat,twosides]{scrbook}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% kaobook
+% LaTeX Template
+% Version 1.3 (December 9, 2021)
+%
+% This template originates from:
+% https://www.LaTeXTemplates.com
+%
+% For the latest template development version and to make contributions:
+% https://github.com/fmarotta/kaobook
+%
+% Authors:
+% Federico Marotta (federicomarotta@mail.com)
+% Based on the doctoral thesis of Ken Arroyo Ohori (https://3d.bk.tudelft.nl/ken/en)
+% and on the Tufte-LaTeX class.
+% Modified for LaTeX Templates by Vel (vel@latextemplates.com)
+%
+% License:
+% CC0 1.0 Universal (see included MANIFEST.md file)
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\usepackage[english]{babel}
-\usepackage[T1]{fontenc}
-\usepackage{lmodern}
-\usepackage{microtype}
-\usepackage{csquotes}
-\usepackage[style=ieee,dashed=false,url=false,eprint=false]{biblatex}
-\usepackage{listings}
-\usepackage[dvipsnames]{xcolor}
-\usepackage{inconsolata}
-\usepackage{booktabs}
+%----------------------------------------------------------------------------------------
+%	PACKAGES AND OTHER DOCUMENT CONFIGURATIONS
+%----------------------------------------------------------------------------------------
+
+% \immediate\write18{makeindex -s nomencl.ist -o "\jobname.nls" "\jobname.nlo"}
+\documentclass[
+	a4paper, % Page size
+	fontsize=10pt, % Base font size
+	twoside=true, % Use different layouts for even and odd pages (in particular, if twoside=true, the margin column will be always on the outside)
+	%open=any, % If twoside=true, uncomment this to force new chapters to start on any page, not only on right (odd) pages
+	%chapterentrydots=true, % Uncomment to output dots from the chapter name to the page number in the table of contents
+	numbers=noenddot, % Comment to output dots after chapter numbers; the most common values for this option are: enddot, noenddot and auto (see the KOMAScript documentation for an in-depth explanation)
+]{kaobook}
+
+% Choose the language
+\ifxetexorluatex
+	\usepackage{polyglossia}
+	\setmainlanguage{english}
+\else
+	\usepackage[english]{babel} % Load characters and hyphenation
+\fi
+\usepackage[english=british]{csquotes}	% English quotes
+
+\usepackage{kaobiblio}
+% Load mathematical packages for theorems and related environments
+\usepackage[framed=true]{kaotheorems}
+% Load the package for hyperreferences
+\usepackage{kaorefs}
+
 \usepackage{graphicx}
 \usepackage{float}
 \usepackage{adjustbox}
-\usepackage[printsolution=true]{exercises}
-\usepackage[lastexercise]{exercise}
-\usepackage{scrhack}
-\usepackage[shortlabels]{enumitem}
 \usepackage{pifont}
 \usepackage{makecell}
 \usepackage{dsfont}
-\usepackage{mathtools}
-\usepackage{algorithm}
-\usepackage{algorithmicx}
-\usepackage{algpseudocode}
 \usepackage{threeparttable}
 \usepackage{tkz-graph}
 \usepackage{collcell}
 \usepackage{tabularx}
-\usepackage{hyperref}
-\usepackage{todonotes}
 \usepackage{menukeys}
 \usepackage{amsmath}
 \usepackage{amssymb}
-\usepackage{imakeidx}
 
-\lstset{
-    language = java,
-    captionpos = t,
-    basicstyle = \ttfamily\footnotesize,
-    keywordstyle = \color{blue},
-    commentstyle = \color{gray},
-    stringstyle = \color{red},
-    columns = fullflexible,
-    breaklines = true,
-    frame = single,
-    numbers = left,
-    tabsize = 4,
-    numberstyle = \scriptsize\sffamily\color{gray},
-    xleftmargin = 0.05\textwidth,
-    xrightmargin = 0.05\textwidth,
-    showstringspaces = false,
-    float
-}
+\addbibresource{references.bib}
 
 \renewcommand\theadfont{\bfseries}
 \newcommand{\cmark}{\ding{51}}
 \newcommand{\xmark}{\ding{55}}
-\addbibresource{references.bib}
 \def\CC{{C\nolinebreak[4]\hspace{-.05em}\raisebox{.4ex}{\tiny\normalfont\bfseries ++}}}
-\algnewcommand{\Raise}{\State\textbf{raise }}
 \newcommand{\includepic}[1]{\includegraphics[width=3.5cm,keepaspectratio]{images/#1}}
 \newcolumntype{i}{@{\hspace{1ex}}>{\collectcell\includepic}c<{\endcollectcell}}
-\counterwithin{Exercise}{chapter}
-\counterwithin{Answer}{chapter}
-\renewcounter{Exercise}[chapter]
-\renewcommand{\ExerciseName}{Example}
-\renewcommand{\ExerciseHeader}{\textbf{\large\ExerciseName\ \ExerciseHeaderNB\ExerciseHeaderTitle\ExerciseHeaderOrigin}}
-\renewcommand{\AnswerHeader}{\medskip\textbf{Answer of \ExerciseName\ \ExerciseHeaderNB}\smallskip}
+
 \makeindex[intoc=true,columns=3,title=Index,options= -s index-style.ist]
+
+\makeglossaries % Make LaTeX produce the files required to compile the glossary
+\input{glossary.tex}
+
+\makenomenclature % Make LaTeX produce the files required to compile the nomenclature
+
+\counterwithin*{sidenote}{chapter}
 
 \begin{document}
     \titlehead{Atılım University\\Department of Software Engineering}
-    \title{Lecture Notes on Software Testing with Laboratory Exercises}
-    \author{Ali Yazıcı\thanks{E-mail: ali.yazici@atilim.edu.tr} \and Tolga Üstünkök\thanks{E-mail: tolga.ustunkok@gmail.com} \and Özge Tekin\thanks{E-mail: ozge.tekin@atilim.edu.tr} \and Zeynep Yaren Oğuz\thanks{E-mail: yaren.oguz@atilim.edu.tr}}
+    
+    \title[Lecture Notes on Software Testing with Laboratory Exercises]{Lecture Notes on Software Testing with Laboratory Exercises}
+    
+    \author{Ali Yazıcı\thanks{E-mail: ali.yazici@atilim.edu.tr} \and Tolga Üstünkök \and Özge Tekin \and Zeynep Yaren Oğuz}
+    
     \date{January 2023}
+    
     \publishers{Department of Software Engineering\\Atılım University}
-    \lowertitleback{This lab manual was set with the help of {\KOMAScript} and {\LaTeX} and last compiled on {\today}. The document source can be found in \url{https://github.com/tustunkok/se344-lab-manual}.}
-    \maketitle
     
     \frontmatter
-    \tableofcontents
-    \listoffigures
-    \listoftables
-    \lstlistoflistings
-    %\listoftodos
     
+    %----------------------------------------------------------------------------------------
+    %	COPYRIGHT PAGE
+    %----------------------------------------------------------------------------------------
+    
+    \makeatletter
+    \uppertitleback{\@titlehead} % Header
+    
+    \lowertitleback{
+    	\textbf{Disclaimer}\\
+    	You can edit this page to suit your needs. For instance, here we have a no copyright statement, a colophon and some other information. This page is based on the corresponding page of Ken Arroyo Ohori's thesis, with minimal changes.
+    	
+    	\medskip
+    	
+    	\textbf{No copyright}\\
+    	\cczero\ This book is released into the public domain using the CC0 code. To the extent possible under law, I waive all copyright and related or neighbouring rights to this work.
+    	
+    	To view a copy of the CC0 code, visit: \\\url{http://creativecommons.org/publicdomain/zero/1.0/}
+    	
+    	\medskip
+    	
+    	\textbf{Colophon} \\
+    	This document was typeset with the help of \href{https://sourceforge.net/projects/koma-script/}{\KOMAScript} and \href{https://www.latex-project.org/}{\LaTeX} using the \href{https://github.com/fmarotta/kaobook/}{kaobook} class.
+    	
+    	The source code of this book is available at:\\\url{https://github.com/fmarotta/kaobook}
+    	
+    	(You are welcome to contribute!)
+    	
+    	\medskip
+    	
+    	\textbf{Publisher} \\
+    	First printed in May 2019 by \@publishers
+    }
+    \makeatother
+    
+    %----------------------------------------------------------------------------------------
+    %	DEDICATION
+    %----------------------------------------------------------------------------------------
+    
+    \dedication{
+    	.\\
+    	\flushright -- Boris Beizer
+    }
+    
+    %----------------------------------------------------------------------------------------
+    %	OUTPUT TITLE PAGE AND PREVIOUS
+    %----------------------------------------------------------------------------------------
+    
+    % Note that \maketitle outputs the pages before here
+    
+    \maketitle
+    
+    %----------------------------------------------------------------------------------------
+    %	PREFACE
+    %----------------------------------------------------------------------------------------
+    
+    \input{chapters/preface.tex}
+    \index{preface}
+    
+    %----------------------------------------------------------------------------------------
+    %	TABLE OF CONTENTS & LIST OF FIGURES/TABLES
+    %----------------------------------------------------------------------------------------
+    
+    \begingroup % Local scope for the following commands
+    
+    % Define the style for the TOC, LOF, and LOT
+    %\setstretch{1} % Uncomment to modify line spacing in the ToC
+    %\hypersetup{linkcolor=blue} % Uncomment to set the colour of links in the ToC
+    \setlength{\textheight}{230\hscale} % Manually adjust the height of the ToC pages
+    
+    % Turn on compatibility mode for the etoc package
+    \etocstandarddisplaystyle % "toc display" as if etoc was not loaded
+    \etocstandardlines % "toc lines" as if etoc was not loaded
+    
+    \tableofcontents % Output the table of contents
+    
+    \listoffigures % Output the list of figures
+    
+    % Comment both of the following lines to have the LOF and the LOT on different pages
+    \let\cleardoublepage\bigskip
+    \let\clearpage\bigskip
+    
+    \listoftables % Output the list of tables
+    
+    \endgroup
+    
+    %----------------------------------------------------------------------------------------
+    %	MAIN BODY
+    %----------------------------------------------------------------------------------------
+
     \mainmatter
-    \part{Software Testing}
+    \setchapterstyle{kao} % Choose the default chapter heading style
+    
+    \pagelayout{wide} % No margins
+    \addpart{Software Testing}
+    \pagelayout{margin} % Restore margins
+    
     \input{chapters/01-basic-concepts-of-testing}
     \input{chapters/02-unit-component-testing}
     \input{chapters/03-control-flow-testing}
@@ -98,22 +200,111 @@
     \input{chapters/08-software-testing-metrics}
     \input{chapters/09-acceptance-testing}
     
-    \part{Laboratory Studies and Exercises}
+    \pagelayout{wide} % No margins
+    \addpart{Laboratory Studies and Exercises}
+    \pagelayout{margin} % Restore margins
+    
     \input{labs/01-introduction}
     \input{labs/02-unit-testing}
     \input{labs/03-mccabes-cyclomatic-complexity}
     \input{labs/04-data-flow-testing}
     \input{labs/05-static-unit-testing}
     \input{labs/06-blackbox-testing}
-    % \input{labs/07-...}
+    % % \input{labs/07-...}
     \input{labs/08-test-automation-with-selenium-1}
     \input{labs/09-test-automation-with-selenium-2}
     
     \appendix
+    \pagelayout{wide} % No margins
+    \addpart{Appendix}
+    \pagelayout{margin} % Restore margins
+    
     \input{labs/10-appendix1}
     \input{labs/11-appendix2}
     
-    \backmatter
-    \printbibliography[heading=bibintoc]
-    \printindex
+    \backmatter % Denotes the end of the main document content
+    \setchapterstyle{plain} % Output plain chapters from this point onwards
+    %----------------------------------------------------------------------------------------
+    %	BIBLIOGRAPHY
+    %----------------------------------------------------------------------------------------
+    
+    % The bibliography needs to be compiled with biber using your LaTeX editor, or on the command line with 'biber main' from the template directory
+    \defbibnote{bibnote}{Here are the references in citation order.\par\bigskip} % Prepend this text to the bibliography
+    \printbibliography[heading=bibintoc, prenote=bibnote]
+    
+    %----------------------------------------------------------------------------------------
+    %	NOMENCLATURE
+    %----------------------------------------------------------------------------------------
+    
+    % The nomenclature needs to be compiled on the command line with 'makeindex main.nlo -s nomencl.ist -o main.nls' from the template directory
+    
+    \nomenclature{$c$}{Speed of light in a vacuum inertial frame}
+    \nomenclature{$h$}{Planck constant}
+    
+    \renewcommand{\nomname}{Notation} % Rename the default 'Nomenclature'
+    \renewcommand{\nompreamble}{The next list describes several symbols that will be later used within the body of the document.} % Prepend this text to the nomenclature
+    
+    \printnomenclature % Output the nomenclature
+    
+    %----------------------------------------------------------------------------------------
+    %	GREEK ALPHABET
+    % 	Originally from https://gitlab.com/jim.hefferon/linear-algebra
+    %----------------------------------------------------------------------------------------
+    
+    \vspace{1cm}
+    
+    {\usekomafont{chapter}Greek Letters with Pronunciations} \\[2ex]
+    \begin{center}
+    	\newcommand{\pronounced}[1]{\hspace*{.2em}\small\textit{#1}}
+    	\begin{tabular}{l l @{\hspace*{3em}} l l}
+    		\toprule
+    		Character & Name & Character & Name \\ 
+    		\midrule
+    		$\alpha$ & alpha \pronounced{AL-fuh} & $\nu$ & nu \pronounced{NEW} \\
+    		$\beta$ & beta \pronounced{BAY-tuh} & $\xi$, $\Xi$ & xi \pronounced{KSIGH} \\ 
+    		$\gamma$, $\Gamma$ & gamma \pronounced{GAM-muh} & o & omicron \pronounced{OM-uh-CRON} \\
+    		$\delta$, $\Delta$ & delta \pronounced{DEL-tuh} & $\pi$, $\Pi$ & pi \pronounced{PIE} \\
+    		$\epsilon$ & epsilon \pronounced{EP-suh-lon} & $\rho$ & rho \pronounced{ROW} \\
+    		$\zeta$ & zeta \pronounced{ZAY-tuh} & $\sigma$, $\Sigma$ & sigma \pronounced{SIG-muh} \\
+    		$\eta$ & eta \pronounced{AY-tuh} & $\tau$ & tau \pronounced{TOW (as in cow)} \\
+    		$\theta$, $\Theta$ & theta \pronounced{THAY-tuh} & $\upsilon$, $\Upsilon$ & upsilon \pronounced{OOP-suh-LON} \\
+    		$\iota$ & iota \pronounced{eye-OH-tuh} & $\phi$, $\Phi$ & phi \pronounced{FEE, or FI (as in hi)} \\
+    		$\kappa$ & kappa \pronounced{KAP-uh} & $\chi$ & chi \pronounced{KI (as in hi)} \\
+    		$\lambda$, $\Lambda$ & lambda \pronounced{LAM-duh} & $\psi$, $\Psi$ & psi \pronounced{SIGH, or PSIGH} \\
+    		$\mu$ & mu \pronounced{MEW} & $\omega$, $\Omega$ & omega \pronounced{oh-MAY-guh} \\
+    		\bottomrule
+    	\end{tabular} \\[1.5ex]
+    	Capitals shown are the ones that differ from Roman capitals.
+    \end{center}
+    
+    %----------------------------------------------------------------------------------------
+    %	GLOSSARY
+    %----------------------------------------------------------------------------------------
+    
+    % The glossary needs to be compiled on the command line with 'makeglossaries main' from the template directory
+    
+    \setglossarystyle{listgroup} % Set the style of the glossary (see https://en.wikibooks.org/wiki/LaTeX/Glossary for a reference)
+    \printglossary[title=Special Terms, toctitle=List of Terms] % Output the glossary, 'title' is the chapter heading for the glossary, toctitle is the table of contents heading
+    
+    %----------------------------------------------------------------------------------------
+    %	INDEX
+    %----------------------------------------------------------------------------------------
+    
+    % The index needs to be compiled on the command line with 'makeindex main' from the template directory
+    
+    \printindex % Output the index
+    
+    %----------------------------------------------------------------------------------------
+    %	BACK COVER
+    %----------------------------------------------------------------------------------------
+    
+    % If you have a PDF/image file that you want to use as a back cover, uncomment the following lines
+    
+    %\clearpage
+    %\thispagestyle{empty}
+    %\null%
+    %\clearpage
+    %\includepdf{cover-back.pdf}
+    
+    %----------------------------------------------------------------------------------------
 \end{document}

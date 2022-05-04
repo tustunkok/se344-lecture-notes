@@ -2,7 +2,7 @@
 McCabe's cyclomatic complexity (CC) is a software quality metric that quantifies the complexity of a software program. Complexity is inferred by measuring the number of linearly independent paths through the program. The higher the number the more complex the code. The basis of CC calculation is the \emph{control flow graph} \autocite{spillner2021software}. In software testing, CC determines the upper bound for the number of test cases that are necessary to achieve a complete branch coverage.
 
 \section{McCabe Cyclomatic Complexity}
-To calculate CC, a flow graph is utilized to depict control flow. Each node in the graph indicates several statements in the program and the flow of control is represented by directed edges. An example for such a graph is given in Figure \ref{fig:flow-graph-eg} for the code shown in Listing \ref{lst:pos_sum}.
+To calculate CC, a flow graph is utilized to depict control flow. Each node in the graph indicates several statements in the program and the flow of control is represented by directed edges. An example for such a graph is given in Figure \reffig{fig:flow-graph-eg} for the code shown in Listing \ref{lst:pos_sum}.
 
 \begin{lstlisting}[caption={pos\_sum finds the sum of all positive numbers stored in an integer array a. Input parameter is a, an array of integers. The output of the function is sum, the sum of integers inside the array a.},label=lst:pos_sum]
 int pos_sum(int[] a) {
@@ -18,19 +18,18 @@ int pos_sum(int[] a) {
 }
 \end{lstlisting}
 
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.4\textwidth]{images/flow-graph-eg.png}
+\begin{marginfigure}[-2cm]
+    \includegraphics{images/flow-graph-eg.png}
     \caption{Flow graph for the Listing \ref{lst:pos_sum}.}
-    \label{fig:flow-graph-eg}
-\end{figure}
+    \labfig{fig:flow-graph-eg}
+\end{marginfigure}
 
 Intuitively, CC gives us the number of independent paths in the flow graph. There are several ways for calculating CC, $V(G)$. Maybe the simplest one is adding one to the number of closed loops inside the graph. However, a more formal way of calculating CC is given in Eq. \ref{eq:cc-calc}.
 \begin{equation}
 \label{eq:cc-calc}
     V(G) = E - N + 2
 \end{equation}
-Here, $E$ is the number of edges, $N$ is the number of nodes. Considering the graph in Figure \ref{fig:flow-graph-eg}, we can calculate CC as $7 - 6 + 2 = 3$. This can also be verified by counting the number of closed loops, which is two, and adding one to it, three.
+Here, $E$ is the number of edges, $N$ is the number of nodes. Considering the graph in Figure \reffig{fig:flow-graph-eg}, we can calculate CC as $7 - 6 + 2 = 3$. This can also be verified by counting the number of closed loops, which is two, and adding one to it, three.
 
 This result hints us there should be three independent paths in the graph. One can find independent paths by adding a path that is not previously covered by any of the found paths. With this information, we can identify the three independent paths as:
 
@@ -66,7 +65,7 @@ In this section, there are exercises about CC calculation and test case design. 
 
 \begin{exercise}
     Given the following requirement and its implementation. Test if the given implementation is correct or not by following the below procedure.
-    \begin{enumerate}[a),noitemsep]
+    \begin{enumerate}
         \item Draw the flow graph of the function.
         \item Identify the independent paths.
         \item Design the test cases.
@@ -89,10 +88,8 @@ double calculateTotalBill(char customertype, double purchase) {
     return total;
 }
     \end{lstlisting}
-\end{exercise}
 
-\begin{solution}
-    Answer for the item a):
+    Answer for item a):
     \begin{figure}[H]
         \centering
         \includegraphics[width=0.3\textwidth]{images/exercise-6a-solution.png}
@@ -100,7 +97,7 @@ double calculateTotalBill(char customertype, double purchase) {
         \label{fig:ex6-fg}
     \end{figure}
 
-    Answer for the item b):
+    Answer for item b):
     \begin{table}[H]
         \centering
         \renewcommand{\arraystretch}{1.2}
@@ -117,7 +114,7 @@ double calculateTotalBill(char customertype, double purchase) {
         \end{tabularx}
     \end{table}
     
-    Answer for the item c):
+    Answer for item c):
     
     \begin{table}[H]
         \centering
@@ -164,7 +161,7 @@ public class TotalBillTest {
 }
     \end{lstlisting}
 
-\end{solution}
+\end{exercise}
 
 \begin{exercise}
     A hotel offers two types of rooms to their guests. Single rooms are 250TL per day, double rooms are 350TL per day. If a guest chooses a single room and if (s)he prefers to stay more than two days, hotel charges extra 225TL for each day after a single base price of 250TL. If the guest prefers to stay in a double room more than three days, (s)he is supposed to pay 200TL extra for each extra day after a single base price of 350TL.
@@ -193,7 +190,7 @@ public class HotelFee {
 }
     \end{lstlisting}
     
-    \begin{enumerate}[a),nosep]
+    \begin{enumerate}
         \item Draw the flow graph.
         \item Calculate cyclomatic complexity and independent paths.
         \item Write test cases.
@@ -212,9 +209,7 @@ public class HotelFee {
     \end{enumerate}
     
     For the usage instructions, follow the link: \url{https://www.eclemma.org/userdoc/index.html}
-\end{exercise}
 
-\begin{solution}
     Answer for the item a):
     
     \begin{figure}[H]
@@ -321,7 +316,7 @@ public class HotelFeeTest {
     \end{lstlisting}
     
     Answer for the item e): 100\% source code coverage should be reported.
-\end{solution}
+\end{exercise}
 
 \begin{exercise}
     The Department of Defense identifies soldiers according to some criteria. Only single males whose age is greater than 20 are accepted (martial status: s/S for single, m/M for married, gender: m/M for male, f/F for female). The Department of Defense needs to find a number of candidates that fit this criterion.
@@ -342,16 +337,14 @@ public class Criteria {
 }
     \end{lstlisting}
     
-    \begin{enumerate}[a),noitemsep]
+    \begin{enumerate}
         \item Draw the flow graph.
         \item Calculate cyclomatic complexity and independent paths.
         \item Write test cases.
         \item Write the test methods and their results for the test cases in JUnit.
         \item Use a coverage tool (Eclemma) to check the coverage percentage.
     \end{enumerate}
-\end{exercise}
-
-\begin{solution}
+    
     Answer for the item a):
     
     \begin{figure}[H]
@@ -443,23 +436,21 @@ public class CriteriaTest {
     \end{lstlisting}
     
     Answer for the item e): 60\% source code coverage should be reported.
-\end{solution}
+\end{exercise}
 
 \begin{exercise}
     Bubble sort is one of the simplest sorting algorithms. It works by repeatedly swapping adjacent elements in a list to achieve a sorted list in descending or ascending order. However, it is not the first choice when it comes to business use because of its relative inefficiency, $\mathcal{O}(n^2)$. An example implementation is given in Listing \ref{lst:bubble-sort}.
     
     \lstinputlisting[caption={A bubble sort algorithm implementation in Java.},label=lst:bubble-sort]{code-snippets/BubbleSort.java}
     
-    \begin{enumerate}[a),nosep]
+    \begin{enumerate}
         \item Draw the flow graph.
         \item Calculate cyclomatic complexity and independent paths.
         \item Write test cases.
         \item Write the test methods and their results for the test cases in JUnit.
         \item Use a coverage tool (Eclemma) to check the coverage percentage.
     \end{enumerate}
-\end{exercise}
 
-\begin{solution}
     Answer for the item a):
     \begin{figure}[H]
         \centering
@@ -513,4 +504,4 @@ public class CriteriaTest {
     \lstinputlisting[caption={Test case implementations of the Bubble Sort class.}]{code-snippets/BubbleSortTest.java}
     
     Answer for the item e): 100\% code coverage should be reported.
-\end{solution}
+\end{exercise}

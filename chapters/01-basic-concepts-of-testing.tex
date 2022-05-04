@@ -1,3 +1,5 @@
+\setchapterimage[7.5cm]{images/matt-hardy-6ArTTluciuA-unsplash}
+\setchapterpreamble[u]{\margintoc}
 \chapter{Basic Concepts of Testing}
 \section{Software Quality and Testing}
 Software testing is the process of evaluating and verifying that the complete software product or parts of it work and perform as specified by the customer's requirements (SRSD). This process helps in detecting the bugs during the development stage, hence reducing the cost of development and improving performance. In addition, the testing process plays a vital role in achieving and assessing the quality of a software
@@ -5,9 +7,9 @@ product \autocite{friedman1995software}.
 
 Quality assessment activities are discussed in two categories, namely, static analysis and dynamic analysis. Static analysis is based on SRSDs, Software Design Documents (SDD), models, and typically source code. Code review, walkthrough, and inspection are the most common static analysis techniques. The actual execution of the code is not involved in static analysis but rather the source code, byte code, or application binaries are included in the analysis. Static analysis is the more thorough approach and may also prove to be more cost-efficient with the ability to detect bugs at an early phase of the SDLC. Dynamic analysis of a software product involves the actual execution of the code in an attempt to detect bugs. During the dynamic analysis functionality and performance of a program are also observed. Static analysis\index{static analysis} and dynamic analysis\index{dynamic analysis} approaches are complementary to improve the quality of the software product and can be performed in a synchronized and/or planned manner.
 
-In software testing verification\index{verification} and validation\index{validation} (V\&V) are two similar abstract concepts. Software Engineering standards known as IEEE/ISO/IEC 24765:2017\footnote{\url{https://www.iso.org/standard/71952.html}} (ISO/IEC/IEEE International Standard - Systems and Software Engineering - Vocabulary) defines verification and validation as the process of determining whether the requirements for a system or component are complete and correct, the products of each development phase fulfills the requirements or conditions imposed by the previous phase, and the final system or component complies with specified requirements. In the software world, it is common to define verification process as an answer to the questions, "Are we building the product right?", and validation process as an answer to "Am I building the right product?".
+In software testing, verification\index{verification} and validation\index{validation} (V\&V) are two similar abstract concepts. Software Engineering standards known as IEEE/ISO/IEC 24765:2017\sidenote{The standard can be found in \url{https://www.iso.org/standard/71952.html}.} (ISO/IEC/IEEE International Standard - Systems and Software Engineering - Vocabulary) defines verification and validation as the process of determining whether the requirements for a system or component are complete and correct, the products of each development phase fulfills the requirements or conditions imposed by the previous phase, and the final system or component complies with specified requirements. In the software world, it is common to define verification process as an answer to the questions, "Are we building the product right?", and validation process as an answer to "Am I building the right product?".
 
-Code reviews\index{code reviews}, inspections\index{inspections}, walkthroughs\index{walkthrough} and low level tests such as unit testing\index{unit testing}, integration testing, static checking of SRSD and SDD and files are some of the activities for verification, and applying various testing techniques such as acceptance testing, usability testing and other non-functional testing are some of the validation activities. Some of the testing methods such as beta testing, regression testing can be listed as activities at the intersection of V\&V. In this book, the testing activities mentioned here will be explained in detail.
+Code reviews\index{code reviews}, inspections\index{inspections}, walkthroughs\index{walkthrough}, and low level tests such as unit testing\index{unit testing}, integration testing\index{integration testing}, static checking\index{static checking} of SRSD and SDD and files are some of the activities for verification, and applying various testing techniques such as acceptance testing, usability testing and other non-functional testing are some of the validation activities. Some of the testing methods such as beta testing, regression testing can be listed as activities at the intersection of V\&V. In this book, the testing activities mentioned here will be explained in detail.
 
 \section{Error, Fault, Defect and Failure}
 Error, fault (bug), defect, and failure are very common terms used in software testing. And these terms are sometimes used interchangeably, albeit incorrectly. To avoid confusion and establish their consistent use in software testing area, ISO/IEC/IEEE 24765:2017 “Systems and software engineering — Vocabulary” standard will be used. The definitions taken from this standard and used in this book are given below.
@@ -34,10 +36,14 @@ In order to comply with these goals, software test teams are established and the
 \section{Test Levels in the V-Model}
 Software testing is applied at different levels of development. Considering the so-called V-model\index{V-model}, the levels of testing can be identified as unit (component), integration, system, and acceptance testing. 
 
-\missingfigure[figcolor=white]{Naikten alıp çizmek gerekiyor.}
-
 While all software development methodologies have different approaches, product development tasks will be performed in the order of (1) requirements gathering and analysis, (2) high-level design, (3) comprehensive design, and (4) coding. 
-These tasks match the software testing levels mentioned above as shown in Figure 1.1. Unit, Integration and system tests are usually performed by the developers, and acceptance tests by the customer in collaboration with the software developers.
+These tasks match the software testing levels mentioned above as shown in \reffig{fig:v-model}. Unit, Integration and system tests are usually performed by the developers, and acceptance tests by the customer in collaboration with the software developers.
+
+\begin{figure}[!ht]
+    \includegraphics{images/v-model.png}
+    \caption{Validation and Verification with the V-model}
+    \labfig{fig:v-model}
+\end{figure}
 
 In unit testing, individual units/components such as functions, procedures (in developments  with procedural languages) and  methods and classes (in developments with object-oriented languages) are tested. Following the successful completion of the unit tests, related units and components are systematically brought together and subjected to integration tests. The objective of integration testing\index{integration testing} is to build a stable product configuration ready for system tests. 
 
@@ -65,26 +71,25 @@ A test case is prepared using the requirements and functional specifications, so
 
 Another important concept in testing is test oracle. A test oracle\index{test oracle} (or simply oracle) is a mechanism for determining whether a test has passed or failed. An oracle will respond with a pass or a fail verdict on the acceptability of any test sequence for which it is defined. When executing a test case, the correctness of the implementation is confirmed by an oracle.
 
-In most testing environments, test oracle is the human who designs the test \autocite{bertolino1996use}. A simple example of a test oracle is given below\footnote{\url{https://bit.ly/3K9iqZj}}. 
+In most testing environments, test oracle is the human who designs the test \autocite{bertolino1996use}. A simple example of a test oracle is given below\sidenote{Detailed information about test oracle can be found in the link: \url{https://bit.ly/3K9iqZj}}. 
 
 Given a list of 3 integers, 11, 23, and 19, what is the expected value from a function, say, computeMax(), which returns the maximum? In this case, the test oracle is easy to identify.
 
 \begin{itemize}
-    \item int expected = 23; 
-    \item int actual = computeMax(11, 23, 19); // computeMax is a method which returns the maximum of the three numbers. 
-    \item assertEquals(expected, actual); 
+    \item \lstinline!int expected = 23!; 
+    \item \lstinline!int actual = computeMax(11, 23, 19);! \lstinline!computeMax! is a method which returns the maximum of the three numbers.
+    \item \lstinline!assertEquals(expected, actual);!
 \end{itemize}
 
-Note that assertEquals()\index{assertEquals()} is a method in the JUnit testing library to compare two objects for equality. This method will be introduced during laboratory sessions.
+Note that \lstinline!assertEquals()!\index{assertEquals()} is a method in the JUnit testing library to compare two objects for equality. This method will be introduced during laboratory sessions.
 
 \section{Problems}
 \begin{enumerate}
     \item Create test cases for a computer program to find the positive square root of a real number.
     \item Discuss the difference between white-box and black-box testing strategies.
     \item What is a stateless software system? Give an example.
-    \item ATM is an example of a state-oriented system. Create a test case for withdrawing money from a bank account. First define the input, and write down the expected output(s) during the transaction.
-    
-    Hint. In this case, a test case will contain more than one <input, expected> pairs and input may be choosing an item from a menu.
+    \item ATM is an example of a state-oriented system. Create a test case for withdrawing money from a bank account. First define the input, and write down the expected output(s) during the transaction.\\
+    \emph{Hint. In this case, a test case will contain more than one <input, expected> pairs and input may be choosing an item from a menu.}
     \item What is agile software testing? 
     \item What are the main differences between classical testing and agile testing approaches?
     \item What is Test Driven Development (TDD)?

@@ -5,7 +5,7 @@ If a value is bound to a variable, then we call it as a \emph{definition} of the
 
 \section{Data Flow Graph}
 Data flow graphs (an example is shown in Figure \ref{fig:data-flow-graph}) are generally produced by the special language translators instead of developers. The main objective of data flow graphs are to mark the definitions and uses of variables that are used inside of the program. A data flow graph is a directed graph and constructed as follows:
-\begin{itemize}[noitemsep]
+\begin{itemize}
     \item A sequence of definitions and c-uses is associated with each node of the graph.
     \item A set of p-uses is associated with each edge of the graph.
     \item The entry node has a definition of each parameter and each non-local variable which occurs in the subprogram.
@@ -110,9 +110,7 @@ public double returnAverage (int value[], int AS, int MIN, int MAX) {
             \end{tabular}
         \end{adjustbox}
     \end{table}
-\end{exercise}
 
-\begin{solution}
     Some of the answers for the exercise are given in the table below.
     
     \begin{table}[H]
@@ -141,4 +139,4 @@ public double returnAverage (int value[], int AS, int MIN, int MAX) {
             \end{tabular}
         \end{adjustbox}
     \end{table}
-\end{solution}
+\end{exercise}

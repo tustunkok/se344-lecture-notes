@@ -10,26 +10,24 @@ One advantage of using a JVM is that every operating system has its own implemen
 \subsection{Java Terminology}
 Before moving on to more complex topics, let's discuss the most common terminology of Java. Some of the below terms are discussed before and some are new.
 
-\begin{enumerate}
-    \item \textbf{Java Virtual Machine (JVM):} A written program is first converted to a low-level language called bytecode by a program called \emph{javac}. Then, JVM interprets the bytecode and makes the operation on behalf of it.
+\begin{description}
+    \item[Java Virtual Machine (JVM)] A written program is first converted to a low-level language called bytecode by a program called \emph{javac}. Then, JVM interprets the bytecode and makes the operation on behalf of it.
     
-    \item \textbf{Bytecode:} As discussed previously, it is a low-level language model to communicate with JVM. It can be physically found in projects as files with \emph{.class} file extension.
+    \item[Bytecode] As discussed previously, it is a low-level language model to communicate with JVM. It can be physically found in projects as files with \emph{.class} file extension.
     
-    \item \textbf{Java Development Kit (JDK):} JDK is a complete development environment to develop Java programs. It contains a compiler, Java Runtime Environment (JRE), Java debuggers, Java documentations, etc.
+    \item[Java Development Kit (JDK)] JDK is a complete development environment to develop Java programs. It contains a compiler, Java Runtime Environment (JRE), Java debuggers, Java documentations, etc.
     
-    \item \textbf{Java Runtime Environment (JRE):} JRE is just an environment only capable of running pre-compiled Java programs. One cannot compile Java programs with only JRE installed. JRE includes a browser, JVM, applet supports, and plugins. To be able to run a Java program a computer should have at least JRE installed on it.
+    \item[Java Runtime Environment (JRE)] JRE is just an environment only capable of running pre-compiled Java programs. One cannot compile Java programs with only JRE installed. JRE includes a browser, JVM, applet supports, and plugins. To be able to run a Java program a computer should have at least JRE installed on it.
     
-    \item \textbf{Garbage Collector:} Unlike C/\CC, one cannot delete objects manually in Java. This responsibility is taken care of automatically by a special program called \emph{Garbage Collector}. Garbage collector detects the objects which have not been referenced anymore and deletes them to recollect the memory occupied by them.
+    \item[Garbage Collector] Unlike C/\CC, one cannot delete objects manually in Java. This responsibility is taken care of automatically by a special program called \emph{Garbage Collector}. Garbage collector detects the objects which have not been referenced anymore and deletes them to recollect the memory occupied by them.
     
-    \item \textbf{ClassPath:} The classpath is the file path where the Java runtime and Java compiler look for .class files to load. If you want to add external libraries , then you must add them to the classpath.
-\end{enumerate}
+    \item[ClassPath] The classpath is the file path where the Java runtime and Java compiler look for .class files to load. If you want to add external libraries , then you must add them to the classpath.
+\end{description}
 
 \subsection{An Overview of a Hello World Program}
-Java has many features. Some of them are object-oriented, multithreaded, allows sandbox execution, and the list goes on. Curious readers can find the full list on GeeksForGeeks website\footnote{\url{https://www.geeksforgeeks.org/introduction-to-java/?ref=lbp}}.
+Java has many features. Some of them are object-oriented, multithreaded, allows sandbox execution, and the list goes on\sidenote[][-0.5cm]{Curious readers can find the full list on GeeksForGeeks website \url{https://www.geeksforgeeks.org/introduction-to-java/?ref=lbp}.}. The best way to explain some syntax rules is to go through an example. Let's look at the example Java program shown in Listing \ref{lst:java-hello}.
 
-The best way to explain some syntax rules is to go through an example. Let's look at the example Java program shown in Listing \ref{lst:java-hello}.
-
-\begin{lstlisting}[caption={Hello world example written in Java.},label=lst:java-hello]
+\begin{lstlisting}[language=java,caption={Hello world example written in Java.},label=lst:java-hello]
 // Demo Java program
 
 // Importing classes from packages
@@ -198,8 +196,8 @@ After adding JUnit Jupiter API, we need to indicate a specific version of Maven 
 </build>
 \end{lstlisting}
 
-In the end, your \lstinline[language={}]|pom.xml| file should look like Listing \ref{lst:pom-future}.
+In the end, your \lstinline|pom.xml| file should look like Listing \ref{lst:pom-future}.
 
 \lstinputlisting[language=XML,caption={pom.xml file for future exercises.},label=lst:pom-future]{code-snippets/pom.xml}
 
-As a final note, we prepared a Windows-based all-in-one Oracle VM VirtualBox disk image. Further information about the import process and the details of the image is given in Appendix \ref{ch:appendix-ovb-image}. It has all the packages necessary to run all the exercises in the manual. It can be directly obtained through the PCs in the lab with a 64GB USB flash drive.
+As a final note, we prepared a Windows-based all-in-one Oracle VM VirtualBox disk image. Further information about the import process and the details of the image is given in Appendix \refch{appendix-ovb-image}. It has all the packages necessary to run all the exercises in the manual. It can be directly obtained through the PCs in the lab with a 64GB USB flash drive.

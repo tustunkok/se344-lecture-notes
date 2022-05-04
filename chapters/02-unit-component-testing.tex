@@ -1,14 +1,14 @@
+\setchapterimage[7.5cm]{images/daniel-sinoca-AANCLsb0sU0-unsplash}
+\setchapterpreamble[u]{\margintoc}
 \chapter{Unit (Component) Testing}
 \section{Unit Testing Basics}
 First level of testing is unit testing. Unit (component) is a manageable piece of code which may produce a result, perform a computation and return its result(s) to its caller, or may call some other function or method. In procedural programming, a unit could be an individual function or procedure (subroutine). In an object-oriented setting, a unit could be an individual method or even a class. 
 
 Unit testing is a low-level testing technique by means of which individual units are tested to determine if they produce expected outcomes or not. All assignment statements and predicates (logical expressions) in the code must be run, as well as all paths, while achieving the expected output with the unit test. In general, unit testing activity can be described as a type of testing process used to verify and validate a specific unit of the code for its correctness to cover the coding standards, functionality, integration, code coverage, security features, compatibility, performance, and so on. Unit testing is done by the person who develops the unit. The following unit examples are written in C and Java.
 
-\begin{Exercise}
+\begin{exercise}
 Write a C function \textbf{solveQuadratic} to solve the quadratic $ax^2+bx+c=0$ for the two real roots x1, and x2. Coefficients of the quadratic polynomial is to be provided by the calling program.
-\end{Exercise}
 
-\begin{Answer}
 \begin{lstlisting}[language=C, caption={A C function that solves the quadratic equation for the two real roots.}]
 double solveQuadratic(double a, double b, double c) {
 	double disc, x1, x2;
@@ -23,33 +23,65 @@ double solveQuadratic(double a, double b, double c) {
 	return (0);
 }
 \end{lstlisting}
-\end{Answer}
+\end{exercise}
 
-\begin{Exercise}
-\todo{BURAYA HATALI BİR C FUNCTION iyi olabilir.}
-\end{Exercise}
 
+\begin{exercise}
+\labexercise{ex22}
+Binary search is a very effective technique to search an element in a set of ordered elements stored in an array. The following C program is an implementation borrowed from \url{https://www.tutorialspoint.com/compile_c_online.php}. Some bugs are  intentionally inserted into the code. The reader is encouraged to review this example, identify and correct errors, and run it again. 
+\begin{lstlisting}[language=C, caption={Binary search A C implementation.}]
+// Iterative C Program for Binary Search (GNU GCC v7.1.1)
+// Adapted from https://www.tutorialspoint.com/codingground.htm
+// 3 severe bugs are inserted! 
+#include <stdio.h>
+int BinarySearch(int array[], int left, int right, int element){
+   while (left <= right){
+      int middle = left + (right + left)/2;
+      if (array[middle] == element)
+         return middle;
+      if (array[middle] < element)
+         left = middle - 1;
+      else
+         right = middle + 1;
+   }
+   return -1;
+}
+int main(void){
+   int array[] = {11, 14, 17, 21, 28, 43, 41, 52, 56, 70, 76, 82, 99};
+   int n = 13;
+   int element = 99;
+   int index = BinarySearch(array, 0, n-1, element);
+   if(index == -1 ) {
+      printf("Element not found!");
+   }
+   else {
+      printf("Element found at position : %d",index);
+   }
+   return 0;
+}
+\end{lstlisting}
+\end{exercise}
 Unit testing is conducted in two different but complementary phases, namely, static unit testing and dynamic unit testing. In static unit testing, the unit under the test is examined, without actually executing it, to infer conclusions about its functionality, and causes of some possible faults. In dynamic unit testing, a program unit is actually executed and its outcomes are recorded and analysed.
 
 \section{Static Unit Testing – Code Reviews}
-Static unit testing\index{static unit testing} is accomplished by using several code review techniques. Code review is not restricted to units. In practice, during this process, completed parts of the code (unit, module, or component) are reviewed using inspection and walkthrough techniques. Inspection is a step by step peer group review of a work product (including a document), with each step checked against predetermined criteria \autocite{fagan1999design}. Walkthrough is a similar review technique in which the developer leads the team through a manual or simulated execution of the product using predefined scenarios \autocite{yourdon1989structured}. 
+Static unit testing\index{static unit testing} is accomplished by using several code review techniques. Code review is not restricted to units. In practice, during this process, completed parts of the code (unit, module, or component) are reviewed using inspection and walkthrough techniques. Inspection\index{inspection} is a step by step peer group review of a work product (including a document), with each step checked against predetermined criteria \autocite{fagan1999design}. Walkthrough\index{walkthrough} is a similar review technique in which the developer leads the team through a manual or simulated execution of the product using predefined scenarios \autocite{yourdon1989structured}. 
 
 The main goal of the code review is to review the code in an attempt to find the errors in the code before it is passed on to another activity (e.g., integration testing). The code review should be performed in a systematic manner by executing planned activities. To facilitate the process a review team is established. Review team is usually made up of members who will assume the roles of facilitator, code developer (author), presenter, record keeper, reviewer, and observer.
 The general guidelines for performing code review consists of six steps \autocite{naik2011software}.
 
-\begin{enumerate}[nosep]
-    \item Readiness: Unit developer assures that the unit is ready for inspection. 
-    \item Preparation: Each reviewer goes over the code and the related documents. A list of potential CR is prepared by the reviewers.
-    \item Examination and producing a Change Request (CR) Document: In this step, the author, presenter, the record keeper, and the moderator are involved and, if needed, a CR document is prepared and passed on to the next step.
-    \item Rework: The CR list that needs to be resolved is forwarded to the developer.
-    \item Validation: The rework done by the developer is validated by one of the software team members. The validation process involves checking the improvements in the code as suggested by the other group members. 
-    \item Reporting:  If all CRs are fulfilled, a detailed report is prepared and shared with the team members.
-\end{enumerate}
+\begin{description}
+    \item[Readiness] Unit developer assures that the unit is ready for inspection. 
+    \item[Preparation] Each reviewer goes over the code and the related documents. A list of potential CR is prepared by the reviewers.
+    \item[Examination and Producing a Change Request (CR) Document] In this step, the author, presenter, the record keeper, and the moderator are involved and, if needed, a CR document is prepared and passed on to the next step.
+    \item[Rework] The CR list that needs to be resolved is forwarded to the developer.
+    \item[Validation] The rework done by the developer is validated by one of the software team members. The validation process involves checking the improvements in the code as suggested by the other group members. 
+    \item[Reporting] If all CRs are fulfilled, a detailed report is prepared and shared with the team members.
+\end{description}
 
-To facilitate the code review process, software teams use predefined checklists. One such checklist is given below\footnote{This document \url{https://github.com/mgreiler/code-review-checklist} is protected under the MIT license}. 
+To facilitate the code review process, software teams use predefined checklists. One such checklist is given below\sidenote[][-1.5cm]{This document\\\url{https://github.com/mgreiler/code-review-checklist} is protected under the MIT license}. 
 
 \paragraph{Implementation}
-\begin{enumerate}[nosep]
+\begin{enumerate}
     \item Does this code change do what it is supposed to do?
     \item Can this solution be simplified?
     \item Does this change add unwanted compile-time or run-time dependencies?
@@ -64,14 +96,14 @@ To facilitate the code review process, software teams use predefined checklists.
 \end{enumerate}
 
 \paragraph{Logic Errors and Bugs}
-\begin{enumerate}[nosep]
+\begin{enumerate}
   \setcounter{enumi}{11}
   \item Can you think of any use case in which the code does not behave as intended?
   \item Can you think of any inputs or external events that could break the code?
 \end{enumerate}
  
 \paragraph{Error Handling and Logging} 
-\begin{enumerate}[nosep]
+\begin{enumerate}
   \setcounter{enumi}{13}
   \item Is error handling done the correct way?
   \item Should any logging or debugging information be added or removed?
@@ -80,7 +112,7 @@ To facilitate the code review process, software teams use predefined checklists.
 \end{enumerate}
 
 \paragraph{Usability and Accessibility}
-\begin{enumerate}[nosep]
+\begin{enumerate}
  \setcounter{enumi}{17}
   \item Is the proposed solution well designed from a usability perspective?
   \item Is the API well documented?
@@ -89,7 +121,7 @@ To facilitate the code review process, software teams use predefined checklists.
 \end{enumerate}
  
 \paragraph{Ethics and Morality}
-\begin{enumerate}[nosep]
+\begin{enumerate}
  \setcounter{enumi}{21}
  \item Does this change make use of user data in a way that might raise privacy concerns?
  \item Does the change exploit behavioral patterns or human weaknesses?
@@ -101,7 +133,7 @@ To facilitate the code review process, software teams use predefined checklists.
 \end{enumerate}
  
 \paragraph{Testing and Testability}
-\begin{enumerate}[nosep]
+\begin{enumerate}
  \setcounter{enumi}{28}
  \item Is the code testable?
  \item Does it have enough automated tests (unit/integration/system tests)?
@@ -110,14 +142,14 @@ To facilitate the code review process, software teams use predefined checklists.
 \end{enumerate}
  
 \paragraph{Dependencies} 
-\begin{enumerate}[nosep]
+\begin{enumerate}
  \setcounter{enumi}{32}
   \item If this change requires updates outside of the code, like updating the documentation, configuration, readme files, was this done?
   \item Might this change have any ramifications for other parts of the system, backward compatibility?
 \end{enumerate}
 
 \paragraph{Security and Data Privacy}
-\begin{enumerate}[nosep]
+\begin{enumerate}
  \setcounter{enumi}{34}
   \item Does this code open the software for security vulnerabilities?
   \item Are authorization and authentication handled in the right way?
@@ -128,14 +160,14 @@ To facilitate the code review process, software teams use predefined checklists.
 \end{enumerate}
 
 \paragraph{Performance}
-\begin{enumerate}[nosep]
+\begin{enumerate}
  \setcounter{enumi}{40}
   \item Do you think this code change will impact system performance in a negative way?
   \item Do you see any potential to improve the performance of the code?
   \end{enumerate}
 	
 \paragraph{Readability}
-\begin{enumerate}[nosep]
+\begin{enumerate}
  \setcounter{enumi}{42}
    \item Was the code easy to understand?
    \item Which parts were confusing to you and why?
@@ -152,15 +184,36 @@ To facilitate the code review process, software teams use predefined checklists.
 \end{enumerate}
 
 \paragraph{Experts Opinion}
-\begin{enumerate}[nosep]
+\begin{enumerate}
  \setcounter{enumi}{54}
    \item Do you think a specific expert, like a security expert or a usability expert, should look over the code before it can be committed?
    \item Will this code change impact different teams? Should they have a say on the change as well? 
 \end{enumerate}
+
 The code review checklist list above is comprehensive enough to be used at different levels of testing. However, for unit testing, it would be more appropriate to use a modified and shortened version of the list.
 
 \section{Dynamic Unit Testing}
-In dynamic unit testing\index{dynamic unit testing}, the unit under investigation is executed in order to detect the errors. An execution environment is created by writing a test driver\index{test driver} and compiling it together with the actual unit. If the unit under the test invokes (calls) some other units, dummy ones called stubs\index{stubs} are created to emulate the called units. A test driver is simply a program (main) that calls the unit under test. Test input data is provided by the test driver, unit is called, and the results are returned from the unit and assessed (test fails/passes) by the test driver.  A stub as mentioned before, is a dummy function which replaces the actual unit called by the unit under test. A stub returns a preassigned or decided value (e.g., null, 0, or another expected result from the actual unit) so that the unit under test can resume its execution in a meaningful way. It is important to note that, the test driver and the stubs are retained and reused in the future in regression testings if required. In \missingfigure[figcolor=white]{Dynamic Unit Environment çizmek gerekiyor.} dynamic unit testing environment is illustrated.
+In dynamic unit testing\index{dynamic unit testing}, the unit under investigation is executed in order to detect the errors. An execution environment is created by writing a test driver\index{test driver} and compiling it together with the actual unit. If the unit under the test invokes (calls) some other units, dummy ones called stubs\index{stubs} are created to emulate the called units.
+
+\marginnote[-5cm]{
+	\begin{kaobox}[frametitle=Test Driver]
+    A test driver is simply a program (main) that calls the unit under test. Test input data is provided by the test driver, unit is called, and the results are returned from the unit and assessed (test fails/passes) by the test driver.
+    \end{kaobox}
+}
+
+It is important to note that, the test driver and the stubs are retained and reused in the future in regression testings if required. In \reffig{fig:unit-env}, a dynamic unit testing environment is illustrated.
+
+\marginnote{
+	\begin{kaobox}[frametitle=Stub]
+    A stub as mentioned before, is a dummy function which replaces the actual unit called by the unit under test. A stub returns a preassigned or decided value (e.g., null, 0, or another expected result from the actual unit) so that the unit under test can resume its execution in a meaningful way.
+    \end{kaobox}
+}
+
+\begin{figure}[!ht]
+    \includegraphics{images/unit-env.png}
+    \caption{Validation and verification with the V-model.}
+    \labfig{fig:unit-env}
+\end{figure}
 
 Test case generation (manual or automatic) is one of the main issues of software testing research. In unit testing, the main concern is to detect the faults (bugs) in the assignment and control statements, predicates (logical expressions in the control statements), and the flow of data from one statement to another. Test input selection is mainly based on Control Flow Testing, Data Flow Testing, and Functional Program Testing techniques. These techniques will be discussed in the chapters to follow. 
 
@@ -168,18 +221,16 @@ Test case generation (manual or automatic) is one of the main issues of software
 Mutation testing is a white-box testing technique to measure the adequacy of test cases \autocite{demillo1978hints}. The idea in mutation testing\index{mutation testing} is to test the code by modifying/altering the program intentionally by applying one of the there mutation types, and observe how the code behaves when tested with the same test data.  Each modified code is known as a mutant.
 
 There are three types of mutation:
-\begin{enumerate}[nosep]
-  \item Value mutation (change one constant to a larger value or to a smaller value)
- \item Statement mutation (change the statements by removing/deleting or modifying the line)
- \item Decision mutation (change the decisions/conditions to check for the design errors. Typically, one changes the arithmetic operators (e.g., -, +, /, *) and mutating all relational operators (==, !=, <, <=, >, >=) and logical operators (AND, OR , NOT))
-\end{enumerate}
-A mutant is said to be killed if the execution of a test case causes it to fail. Some mutants are equivalent to the given program producing the same output as the original one. The mutants still alive are survived mutants and need to be killed by adding additional tests to the test suite. A mutation score, MS, for a set of test cases is defined as the percentage of nonequivalent mutants killed by the test suite. If K is the number of killed mutants, N is the total number of mutants, and E is the number of equivalent mutants, then MS = K/(N-E)*100\%. The test suite is mutation adequate if the mutation score is 100\%. . 
-\begin{Exercise}
+\begin{description}
+    \item[Value mutation] Change one constant to a larger value or to a smaller value.
+    \item[Statement mutation] Change the statements by removing/deleting or modifying the line.
+    \item[Decision mutation] Change the decisions/conditions to check for the design errors. Typically, one changes the arithmetic operators (e.g., -, +, /, *) and mutating all relational operators (==, !=, <, <=, >, >=) and logical operators (AND, OR , NOT)).
+\end{description}
+A mutant is said to be killed if the execution of a test case causes it to fail. Some mutants are equivalent to the given program producing the same output as the original one. The mutants still alive are survived mutants and need to be killed by adding additional tests to the test suite. A mutation score, MS, for a set of test cases is defined as the percentage of nonequivalent mutants killed by the test suite. If K is the number of killed mutants, N is the total number of mutants, and E is the number of equivalent mutants, then $MS = \frac{k}{N - E} * 100\%$. The test suite is mutation adequate if the mutation score is 100\%. . 
+\begin{exercise}
 The following recursive C program prints the factorial of integers from 0 to 10. Create two mutants by applying value, and decision mutations and compute the mutation score.
-\end{Exercise}
 
-\begin{Answer}
-\begin{lstlisting}[language=C, caption={A recursive C program to compute and print  0!, 1!,...,10!}]
+\begin{lstlisting}[language=C, caption={A recursive C program to compute and print  0!, 1!,\ldots,10!}]
 #include <stdio.h>
 int fact (int);
 
@@ -247,17 +298,17 @@ int fact(int num){
 For the example above the test suite consists of 3 test cases:
 
 \begin{itemize}
- \item Test case 1: <no input, error message >
- \item Test case 2: <no input, <1, 2, 3, 4, 5, 6, 7, 8, 9, 10> > (result is incorrect!)
-\item Test case 3: <no input, correct result>
+    \item Test case 1: <no input, error message >
+    \item Test case 2: <no input, <1, 2, 3, 4, 5, 6, 7, 8, 9, 10> > (result is incorrect!)
+    \item Test case 3: <no input, correct result>
 \end{itemize}
+
 Test case 1, and Test case 2 fail and therefore said to be killed by these test cases ($K=2$). However, Test case 3 produces correct result (factorial of numbers from 0 to 10 are printed correctly!) and is considered as an equivalent mutant ($E=1$). The mutation score in this case is $\frac{2}{3 - 1} * 100 = 100\%$.
-\end{Answer}
-% 2 / (3 - 1) * 100\% = 100\%
-\begin{Exercise}
+\end{exercise}
+
+\begin{exercise}
 The following C program prints the prime numbers from 2 to n, where the value of n is the input. Create three mutants by applying value, and decision mutations and compute the mutation score.
-\end{Exercise}
-\begin{Answer}
+
 \begin{lstlisting}[language=C, caption={A C program to compute and print primes from 2 to $n$.}]
 //Prime numbers from 2 to n
 #include<stdio.h>
@@ -336,24 +387,23 @@ Three test cases are as follows:
     \item Test case 3: <19, 5> Test fails! Only one prime number, 5, is generated.
 \end{itemize}
 All tests fail, and there are no equivalent mutants. The mutation score in this case is  $\frac{3}{3} * 100 = 100\%$.
-\end{Answer}
-\section{Debugging}
-Debugging\index{debugging} is a systematic process of finding and fixing the number of faults (bugs), or defects, in a piece of code so that the software is behaving as expected. For small to medium size software, developers can use brute force approach to find faults by inserting print statements in the neighborhood of the possible fault(s). For large size projects this approach is so tedious and therefore the use dynamic debuggers provided in the Integrated Development Environments (IDEs) should be utilized. A screenshot from Dev-\CC IDE debugger of a program is shown in Figure \ref{fig:devcpp-debugger}. Breakpoints are placed at certain lines (red color), and the change in the values of a variable is observed by adding a watch. Next line tab takes the execution to the next statement and the changes are observed on the Debug tab of the IDE.
+\end{exercise}
 
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.95\textwidth]{images/eclipse-debugger-screenshot.jpg}
+\section{Debugging}
+Debugging\index{debugging} is a systematic process of finding and fixing the number of faults (bugs), or defects, in a piece of code so that the software is behaving as expected. For small to medium size software, developers can use brute force approach to find faults by inserting print statements in the neighborhood of the possible fault(s). For large size projects this approach is so tedious and therefore the use dynamic debuggers provided in the Integrated Development Environments (IDEs) should be utilized. A screenshot from Dev-\CC IDE debugger of a program is shown in \reffig{fig:devcpp-debugger}. Breakpoints are placed at certain lines (red color), and the change in the values of a variable is observed by adding a watch. Next line tab takes the execution to the next statement and the changes are observed on the Debug tab of the IDE.
+
+\begin{figure}[!ht]
+    \includegraphics{images/dev-c-debugger.jpg}
     \caption{A screenshot of Dev-\CC Debugger.}
-    \label{fig:devcpp-debugger}
+    \labfig{fig:devcpp-debugger}
 \end{figure}
  
-The reader is encouraged to learn the use of the debugger on DEV-\CC IDE by running and debugging the prime number generation program given above. Eclipse Java IDE used in the laboratory sessions, also offers similar debugging functionality. A screenshot from the debugging option of the Eclipse can be found in Figure \ref{fig:eclipse-debugger}.
+The reader is encouraged to learn the use of the debugger on DEV-\CC IDE by running and debugging the prime number generation program given above. Eclipse Java IDE used in the laboratory sessions, also offers similar debugging functionality. A screenshot from the debugging option of the Eclipse can be found in \reffig{fig:eclipse-debugger}.
 
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.95\textwidth]{images/eclipse-debugger-screenshot.jpg}
+\begin{figure}[!ht]
+    \includegraphics{images/eclipse-debugger-screenshot.jpg}
     \caption{A screenshot of Eclipse Debugger.}
-    \label{fig:eclipse-debugger}
+    \labfig{fig:eclipse-debugger}
 \end{figure}
 
 \section{Unit Test Automation}
