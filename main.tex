@@ -24,7 +24,7 @@
 %	PACKAGES AND OTHER DOCUMENT CONFIGURATIONS
 %----------------------------------------------------------------------------------------
 
-% \immediate\write18{makeindex -s nomencl.ist -o "\jobname.nls" "\jobname.nlo"}
+\immediate\write18{makeindex -s nomencl.ist -o "\jobname.nls" "\jobname.nlo"}
 \documentclass[
 	a4paper, % Page size
 	fontsize=10pt, % Base font size
@@ -49,7 +49,6 @@
 % Load the package for hyperreferences
 \usepackage{kaorefs}
 
-\usepackage{graphicx}
 \usepackage{float}
 \usepackage{adjustbox}
 \usepackage{pifont}
@@ -61,7 +60,6 @@
 \usepackage{tabularx}
 \usepackage{menukeys}
 \usepackage{amsmath}
-\usepackage{amssymb}
 
 \addbibresource{references.bib}
 

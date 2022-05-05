@@ -33,8 +33,8 @@ Using these nodes one can construct CFG elements for the basic programming struc
 
 Other constructs such as repeat-until, nested if, and for loop structures can be constructed in a similar way from these basic constructs.
 
-\begin{exercise}
-\labexercise{cfg-exercise}
+\begin{example}
+\labexample{cfg-exercise}
 For the C program below, create a CFG and identify the paths.
 \begin{lstlisting}[language=C, caption={A C program that prints the negative integers in an array of 10 integer values.}]
 #include <stdio.h>
@@ -53,11 +53,11 @@ int main(){
   return 0;
 }
 \end{lstlisting}
-\end{exercise}
+\end{example}
 
-\begin{marginfigure}
+\begin{marginfigure}[-0.5cm]
     \includegraphics{images/cfg-figure-3-3.png}
-    \caption{A CFG for the C program given in \refexercise{cfg-exercise}.}
+    \caption{A CFG for the C program given in \refexample{cfg-exercise}.}
     \labfig{fig:cfg-33}
 \end{marginfigure}
 
@@ -74,9 +74,9 @@ Some of the paths are identified as follows:
 \section{McCabe Cyclomatic Complexity}
 The concept of cyclomatic complexity metric of a software unit is first defined by McCabe in 1976 \autocite{mccabe1976complexity}. Given a program unit, and a corresponding flow graph (program graph) G with N nodes and E edges, the cyclomatic complexity of the graph $V(G)$ is computed using the formula $V(G) = E - N + 2$. V(G) is always greater than or equal to 1. Each node in the graph $G$ indicates one or more statements (assignment, I/O or control) in the program and the flow of control is represented by directed edges. The basic structures in the McCabe complexity graph are the same as those in the CFG. However, in the McCabe graph, the decision nodes and assignment statement nodes are represented as circled nodes. The CFG given in \reffig{fig:cfg-33} is redrawn in \reffig{fig:cfg-34} using the McCabe graph notation. For simplicity, some of the nodes representing the initialization (assignment) statements are merged into a single node.
 
-\begin{marginfigure}[-4cm]
+\begin{marginfigure}[-1cm]
     \includegraphics{images/cfg-34.png}
-    \caption{McCabe program graph for the C program given in \refexercise{cfg-exercise}.}
+    \caption{McCabe program graph for the C program given in \refexample{cfg-exercise}.}
     \labfig{fig:cfg-34}
 \end{marginfigure}
 
@@ -90,33 +90,95 @@ Cyclomatic complexity of this graph is simply $V(G) = E - N + 2 = 8 - 7 + 2 = 3$
 The McCabe complexity metric guides the tester about the number of paths to be tested by providing the number of independent paths in the program graph. Independent path is defined as a path that has at least one edge which has not been traversed before in any other paths. In the  software world, it is generally accepted or tried case that this complexity value is less than ten. It is common practice to simplify or subdivide a unit into manageable units with values greater than ten.
 
 \section{Path Selection Criteria}
+The control flow graph for a unit can contain multiple paths. It is desirable to create and run a test case for each of these paths. However, in most cases this is costly and time consuming. The test cases prepared by the unit tester should not run the same path more than once. In such a case, resources will be wasted. After all, the path selection must be made according to certain criteria. The recommended criteria for path selection in unit tests are listed below:
+\begin{itemize}
+        \item All paths:If selected, one can detect almost all the faults. However, for a unit with very large number of paths, this option is not feasible. 
+        \item Paths that will meet the full statement coverage requirement: Paths that will meet the full statement coverage requirement: In this option, one aims at executing every statement (assignment, I/O, or decision) at least once in the program unit to achieve 100\% statement coverage. This is the weakest coverage criterion in comparison with branch and predicate coverage criteria.
+        \item Paths that will meet the full branch coverage requirement: Paths that will meet the full branch coverage requirement: Branch coverage means selecting a path that includes the branch. Complete branch coverage means selecting a number of paths such that every branch is included in at least one path.
+        \item Paths that will meet the full predicate coverage: Here, all possible conditions of the predicate are considered and tested. In this respect, it is stronger than the branch coverage.
+\end{itemize}
+\begin{example}
+\labexample{cfg-prime}
+For the C program below, create a CFG and identify the paths for 100\% statement coverage, and complete branch coverage.
+\begin{lstlisting}[language=C, caption={A C program to test if a number is prime or not.}]
+#include <stdio.h>
+int main (){
+	int test, i = 2, flag = 0;
+	printf("Enter a positive int >=2:");
+	scanf("%d", &test);
+	while (i <= test/2){
+		if (test % i == 0){
+			flag = 1;
+			break;
+		}
+		i++;
+	}
+	if (test ==  0 || test == 1)
+		printf ("%d is neither prime nor composite.\n", test);
+	else{
+		if(flag == 0)
+			printf ("%d is a prime number.\n", test);
+		else
+			printf ("%d is not a prime number.\n", test);
+	}
+	return(0);
+}
+\end{lstlisting}
+\end{example}
 
-\subsection{All-paths Coverage}
+A CFG for \refexample{cfg-prime} is given in \reffig{fig:cfg-36}. Five independent paths are given as follows:
 
-\subsection{Statement Coverage}
+\begin{itemize}
+        \item Path1: 1-2-3(F)-7(T)-12
+        \item Path2: 1-2-3(F)-7(F)-9(T)-10-12
+        \item Path3: 1-2-3(F)-7(F)-9(F)-11-12
+        \item Path4: 1-2-3(T)-4(F)-5-3(F)-7(T)-8-12 
+        \item Path5: 1-2-3(T)-4(T)-6-7(T)-8-12 
+\end{itemize}
 
-\subsection{Branch Coverage}
+Path2, Path3, Path4, and Path5 provides complete statement and branch coverage. For predicate coverage, two extra test cases (test=0, and test=1) need to be executed to test the predicate expression (test==0||test==1).
 
-\subsection{Predicate Coverage}
+\begin{figure}[!ht]
+    \includegraphics{images/cfg-36.png}
+    \caption{CFG for the prime number test program.}
+    \labfig{fig:cfg-36}
+\end{figure}
 
 \section{Generating Test Cases}
 
 \section{Problems}
+
+\begin{algorithm}
+\DontPrintSemicolon
+\SetKwInOut{Input}{input}\SetKwInOut{Output}{output}
+\Input{$a, b \in \mathbb{Z}^+$}
+\Output{GCD of $a$ and $b$.}
+
+\Begin{
+    \Repeat{$R = 0$}{
+        $R \longleftarrow a \bmod b$\;
+        $a \longleftarrow b$\;
+        $b \longleftarrow R$\;
+    }
+    $GCD \longleftarrow b$\;
+}
+
+\caption{The pseudo-code of the Euclidean algorithm.}
+\label{euclidean-algo}
+\end{algorithm}
+
 \begin{enumerate}
-    \item Create a CFG for the \lstinline!BinarySearch! function given in \refexercise{ex22}. Give a list of possible paths.
+    \item Create a CFG for the \lstinline!BinarySearch! function given in \refexample{ex22}. Give a list of possible paths.
     \item Write a C function to sort n integers in descending order using Bubble sort. Draw the McCabe program graph and compute the McCabe cyclomatic complexity for this program and state the number of independent paths accordingly.
-    \item Write a C function to find the greatest common divisor (GCD) of two integers M, and N by using the Euclidean algortihm.Draw the McCabe program graph, compute the McCabe cyclomatic complexity for this program and state the number of independent paths accordingly.
-    The pseudo-code of the Euclidean algorithm is given below:
-    \begin{itemize}
-        \item Step 1: Let  a, b  be the two non-negative integers
-        \item Step 2: Let R = a mod b 
-        \item Step 3: Let  a = b  and  b = R
-        \item Step 4: Repeat Steps 2 and 3 until  a mod b  is greater than 0
-        \item Step 5: GCD = b
-        \item Step 6: End
- \end{itemize}
-    \item 
-    \item 
-    \item
-    \item 
+    \item Write a C function to find the greatest common divisor (GCD) of two integers M, and N by using the Euclidean algorithm. Draw the McCabe program graph, compute the McCabe cyclomatic complexity for this program and determine the independent paths accordingly.
+    The pseudo-code of the Euclidean algorithm is given in Algorithm \ref{euclidean-algo}.
+    \item Write the pseudo-code corresponding to the McCabe program graph given in \reffig{fig:cfg-35}. Compute V(G), and determine the independent paths. 
+    
+    \begin{marginfigure}
+        \includegraphics{images/cfg-35.png}
+        \caption{McCabe program graph for the C program given in \refexample{cfg-exercise}.}
+        \labfig{fig:cfg-35}
+    \end{marginfigure}
+    
+    \item For \refexample{cfg-prime}, find the McCabe cyclomatic complexity (number of independent paths) by converting the CFG given in \reffig{fig:cfg-36} to a program graph.
 \end{enumerate}

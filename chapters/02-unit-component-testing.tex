@@ -6,7 +6,7 @@ First level of testing is unit testing. Unit (component) is a manageable piece o
 
 Unit testing is a low-level testing technique by means of which individual units are tested to determine if they produce expected outcomes or not. All assignment statements and predicates (logical expressions) in the code must be run, as well as all paths, while achieving the expected output with the unit test. In general, unit testing activity can be described as a type of testing process used to verify and validate a specific unit of the code for its correctness to cover the coding standards, functionality, integration, code coverage, security features, compatibility, performance, and so on. Unit testing is done by the person who develops the unit. The following unit examples are written in C and Java.
 
-\begin{exercise}
+\begin{example}
 Write a C function \textbf{solveQuadratic} to solve the quadratic $ax^2+bx+c=0$ for the two real roots x1, and x2. Coefficients of the quadratic polynomial is to be provided by the calling program.
 
 \begin{lstlisting}[language=C, caption={A C function that solves the quadratic equation for the two real roots.}]
@@ -23,11 +23,11 @@ double solveQuadratic(double a, double b, double c) {
 	return (0);
 }
 \end{lstlisting}
-\end{exercise}
+\end{example}
 
 
-\begin{exercise}
-\labexercise{ex22}
+\begin{example}
+\labexample{ex22}
 Binary search is a very effective technique to search an element in a set of ordered elements stored in an array. The following C program is an implementation borrowed from \url{https://www.tutorialspoint.com/compile_c_online.php}. Some bugs are  intentionally inserted into the code. The reader is encouraged to review this example, identify and correct errors, and run it again. 
 \begin{lstlisting}[language=C, caption={Binary search A C implementation.}]
 // Iterative C Program for Binary Search (GNU GCC v7.1.1)
@@ -60,7 +60,7 @@ int main(void){
    return 0;
 }
 \end{lstlisting}
-\end{exercise}
+\end{example}
 Unit testing is conducted in two different but complementary phases, namely, static unit testing and dynamic unit testing. In static unit testing, the unit under the test is examined, without actually executing it, to infer conclusions about its functionality, and causes of some possible faults. In dynamic unit testing, a program unit is actually executed and its outcomes are recorded and analysed.
 
 \section{Static Unit Testing – Code Reviews}
@@ -227,7 +227,7 @@ There are three types of mutation:
     \item[Decision mutation] Change the decisions/conditions to check for the design errors. Typically, one changes the arithmetic operators (e.g., -, +, /, *) and mutating all relational operators (==, !=, <, <=, >, >=) and logical operators (AND, OR , NOT)).
 \end{description}
 A mutant is said to be killed if the execution of a test case causes it to fail. Some mutants are equivalent to the given program producing the same output as the original one. The mutants still alive are survived mutants and need to be killed by adding additional tests to the test suite. A mutation score, MS, for a set of test cases is defined as the percentage of nonequivalent mutants killed by the test suite. If K is the number of killed mutants, N is the total number of mutants, and E is the number of equivalent mutants, then $MS = \frac{k}{N - E} * 100\%$. The test suite is mutation adequate if the mutation score is 100\%. . 
-\begin{exercise}
+\begin{example}
 The following recursive C program prints the factorial of integers from 0 to 10. Create two mutants by applying value, and decision mutations and compute the mutation score.
 
 \begin{lstlisting}[language=C, caption={A recursive C program to compute and print  0!, 1!,\ldots,10!}]
@@ -304,9 +304,9 @@ For the example above the test suite consists of 3 test cases:
 \end{itemize}
 
 Test case 1, and Test case 2 fail and therefore said to be killed by these test cases ($K=2$). However, Test case 3 produces correct result (factorial of numbers from 0 to 10 are printed correctly!) and is considered as an equivalent mutant ($E=1$). The mutation score in this case is $\frac{2}{3 - 1} * 100 = 100\%$.
-\end{exercise}
+\end{example}
 
-\begin{exercise}
+\begin{example}
 The following C program prints the prime numbers from 2 to n, where the value of n is the input. Create three mutants by applying value, and decision mutations and compute the mutation score.
 
 \begin{lstlisting}[language=C, caption={A C program to compute and print primes from 2 to $n$.}]
@@ -387,7 +387,7 @@ Three test cases are as follows:
     \item Test case 3: <19, 5> Test fails! Only one prime number, 5, is generated.
 \end{itemize}
 All tests fail, and there are no equivalent mutants. The mutation score in this case is  $\frac{3}{3} * 100 = 100\%$.
-\end{exercise}
+\end{example}
 
 \section{Debugging}
 Debugging\index{debugging} is a systematic process of finding and fixing the number of faults (bugs), or defects, in a piece of code so that the software is behaving as expected. For small to medium size software, developers can use brute force approach to find faults by inserting print statements in the neighborhood of the possible fault(s). For large size projects this approach is so tedious and therefore the use dynamic debuggers provided in the Integrated Development Environments (IDEs) should be utilized. A screenshot from Dev-\CC IDE debugger of a program is shown in \reffig{fig:devcpp-debugger}. Breakpoints are placed at certain lines (red color), and the change in the values of a variable is observed by adding a watch. Next line tab takes the execution to the next statement and the changes are observed on the Debug tab of the IDE.
