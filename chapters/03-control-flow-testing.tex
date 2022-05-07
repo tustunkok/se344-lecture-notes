@@ -36,6 +36,7 @@ Other constructs such as repeat-until, nested if, and for loop structures can be
 \begin{example}
 \labexample{cfg-exercise}
 For the C program below, create a CFG and identify the paths.
+
 \begin{lstlisting}[language=C, caption={A C program that prints the negative integers in an array of 10 integer values.}]
 #include <stdio.h>
 int main(){
@@ -92,21 +93,85 @@ The McCabe complexity metric guides the tester about the number of paths to be t
 \section{Path Selection Criteria}
 The control flow graph for a unit can contain multiple paths. It is desirable to create and run a test case for each of these paths. However, in most cases this is costly and time consuming. The test cases prepared by the unit tester should not run the same path more than once. In such a case, resources will be wasted. After all, the path selection must be made according to certain criteria. The recommended criteria for path selection in unit tests are listed below:
 \begin{itemize}
-        \item All paths:If selected, one can detect almost all the faults. However, for a unit with very large number of paths, this option is not feasible. 
-        \item Paths that will meet the full statement coverage requirement: Paths that will meet the full statement coverage requirement: In this option, one aims at executing every statement (assignment, I/O, or decision) at least once in the program unit to achieve 100\% statement coverage. This is the weakest coverage criterion in comparison with branch and predicate coverage criteria.
-        \item Paths that will meet the full branch coverage requirement: Paths that will meet the full branch coverage requirement: Branch coverage means selecting a path that includes the branch. Complete branch coverage means selecting a number of paths such that every branch is included in at least one path.
-        \item Paths that will meet the full predicate coverage: Here, all possible conditions of the predicate are considered and tested. In this respect, it is stronger than the branch coverage.
+        \item All paths: If selected, one can detect almost all the faults. However, for a unit with very large number of paths, this option is not feasible. 
+        \item Paths that will meet the full statement coverage requirement: Paths that will meet the full statement coverage requirement: In this option, one aims at executing every statement (assignment, I/O, or decision) at least once in the program unit to achieve 100\% statement coverage (= statementscovered / totalnumberofstatements * 100). This is the weakest coverage criterion in comparison with branch and predicate coverage criteria.
+        \item Paths that will meet the full branch coverage requirement: Paths that will meet the complete branch coverage requirement: Branch coverage (=numberofexecutedbranches / totalnumberofbranches * 100) means selecting a path that includes the branch. Complete branch coverage means selecting a number of paths such that every branch is included in at least one path.
+        \item Paths that will meet the full predicate coverage: Predicates are expressions that can be evaluated to a Boolean value, i.e., true or false. A predicate may contain Boolean variables,other variables that are compared with the relational operators \{ >, <, =, $\geq$, $\leq$, $\neq$ \}, and Boolean function calls (which returns a true or a false value). In a predicate, logical operators such as, AND, OR, and NOT are used to form logical expressions.A clause is a predicate that does not contain any of the logical operators. For full predicate coverage, test cases need to be constructed so that each predicate ise evaluated to both true and false. 
 \end{itemize}
+
+\begin{example}
+\labexample{state-branch-coverage}
+For the C function \lstinline!isPalindrome! below, create the corresponding McCabe program graph and identify the paths for 100\% statement coverage and complete branch coverage.
+\begin{lstlisting}[language=C, caption={A C program to check if a given string is a palindrome or not.}]
+#include <stdio.h>
+#include <string.h>
+ 
+void isPalindrome(char str[])
+{
+    // Clean up the sentence from special characters and spaces!
+    char cleanstr[200];
+    int left, right, i, j = 0;
+    for (i = 0; i <= strlen(str); i++){
+	   	if ((str[i] >= 'a' && str[i] <= 'z') || (str[i] >= 'A' && str[i] <= 'Z')){
+		 	cleanstr[j] = str[i];
+		 	j++;
+    	}
+    }
+	// Set up left and right pointers using j
+   	left = 0;
+    right = j - 1;
+ 
+    // Keep comparing characters while they are same
+    while (right > left){
+	    if (cleanstr[left++] != cleanstr[right--])
+        {
+            printf("%s is not a palindrome\n", cleanstr);
+            return;
+        }
+    }
+    printf("%s is a palindrome\n", cleanstr);		    
+}
+// Examples are taken from https://czechtheworld.com/best-palindromes/
+int main()
+{
+    isPalindrome("borrow or rob?");
+    isPalindrome("a man, a plan, a canal - panama");
+    isPalindrome("everything we see in the world is the creative work of women.");
+    isPalindrome("no, it is open on one position.");
+    return 0;
+}
+
+\end{lstlisting}
+\end{example}
+A McCabe program graph for \refexample{state-branch-coverage} is given in \reffig{fig:cfg-37}. Five independent paths are given as follows:
+
+\begin{marginfigure}[-8.5cm]
+    \includegraphics{images/cfg-37.png}
+    \caption{McCabe program graph for the \lstinline!isPalindrome! program.}
+    \labfig{fig:cfg-37}
+\end{marginfigure}
+
+\begin{itemize}
+        \item Path1: 1-2(F)-6-7(F)-8-12
+        \item Path2: 1-2(F)-6-7(T)-9(T)-10-12
+        \item Path3: 1-2(F)-6-7(T)-9(F)-11-7(F)-8-12
+        \item Path4: 1-2(T)-3(F)-5-2(F)-6-7(F)-8-12 
+        \item Path5: 1-2(T)-3(T)-4-5-2(F)-6-7(F)-8-12 
+         
+\end{itemize}
+When executed, Path2, Path3, and Path5 provide 100\% statement coverage. Complete branch coverage is possible by adding the execution of Path4.
+
 \begin{example}
 \labexample{cfg-prime}
 For the C program below, create a CFG and identify the paths for 100\% statement coverage, and complete branch coverage.
+
 \begin{lstlisting}[language=C, caption={A C program to test if a number is prime or not.}]
 #include <stdio.h>
 int main (){
 	int test, i = 2, flag = 0;
 	printf("Enter a positive int >=2:");
 	scanf("%d", &test);
-	while (i <= test/2){
+	while (i <= test / 2){
 		if (test % i == 0){
 			flag = 1;
 			break;
@@ -127,7 +192,6 @@ int main (){
 \end{example}
 
 A CFG for \refexample{cfg-prime} is given in \reffig{fig:cfg-36}. Five independent paths are given as follows:
-
 \begin{itemize}
         \item Path1: 1-2-3(F)-7(T)-12
         \item Path2: 1-2-3(F)-7(F)-9(T)-10-12
@@ -136,13 +200,14 @@ A CFG for \refexample{cfg-prime} is given in \reffig{fig:cfg-36}. Five independe
         \item Path5: 1-2-3(T)-4(T)-6-7(T)-8-12 
 \end{itemize}
 
-Path2, Path3, Path4, and Path5 provides complete statement and branch coverage. For predicate coverage, two extra test cases (test=0, and test=1) need to be executed to test the predicate expression (test==0||test==1).
+Path2, Path3, Path4, and Path5 provides complete statement and branch coverage. Execution of all these paths provides fFull predicate coverage. 
 
 \begin{figure}[!ht]
     \includegraphics{images/cfg-36.png}
     \caption{CFG for the prime number test program.}
     \labfig{fig:cfg-36}
 \end{figure}
+
 
 \section{Generating Test Cases}
 
@@ -172,13 +237,35 @@ Path2, Path3, Path4, and Path5 provides complete statement and branch coverage. 
     \item Write a C function to sort n integers in descending order using Bubble sort. Draw the McCabe program graph and compute the McCabe cyclomatic complexity for this program and state the number of independent paths accordingly.
     \item Write a C function to find the greatest common divisor (GCD) of two integers M, and N by using the Euclidean algorithm. Draw the McCabe program graph, compute the McCabe cyclomatic complexity for this program and determine the independent paths accordingly.
     The pseudo-code of the Euclidean algorithm is given in Algorithm \ref{euclidean-algo}.
-    \item Write the pseudo-code corresponding to the McCabe program graph given in \reffig{fig:cfg-35}. Compute V(G), and determine the independent paths. 
-    
-    \begin{marginfigure}
-        \includegraphics{images/cfg-35.png}
-        \caption{McCabe program graph for the C program given in \refexample{cfg-exercise}.}
-        \labfig{fig:cfg-35}
-    \end{marginfigure}
-    
+    \item Write the pseudo-code corresponding to the McCabe program graph given in \reffig{fig:cfg-35}. Compute V(G), and determine the independent paths.
     \item For \refexample{cfg-prime}, find the McCabe cyclomatic complexity (number of independent paths) by converting the CFG given in \reffig{fig:cfg-36} to a program graph.
+    \item What is an infeasible path in software testing?
+    \item Consider Algorithm \ref{infeasible-algo}\sidenote{The algorithm is licensed under a \href{https://creativecommons.org/licenses/by-sa/4.0/}{Creative Commons -Attribution -ShareAlike 4.0 (CC-BY-SA 4.0)}. More information can be found in \href{https://www.educative.io/edpresso/what-is-an-infeasible-path-in-software-testing}{here}.} below consisting of two successive decision structures structures. Is there an infeasible path? If yes, express it in terms of statement labels.
+    \item What is
+    \item
+    \item
 \end{enumerate}
+
+\begin{algorithm}
+\DontPrintSemicolon
+\SetKwInOut{Input}{input}\SetKwInOut{Output}{output}
+\Input{$height, a, b, c \in \mathbb{Z}^+$}
+\Begin{
+    \eIf{$height \leq 26$} {
+        $a \longleftarrow 11$\;
+    }{
+        $b \longleftarrow 13$\;
+    }
+    \If{$height > 75$}{
+        $c \longleftarrow 15$\;
+    }
+}
+\caption{Infeasible path detection.}
+\label{infeasible-algo}
+\end{algorithm}
+
+\begin{marginfigure}[-21cm]
+    \includegraphics{images/cfg-35.png}
+    \caption{McCabe program graph for the C program given in \refexample{cfg-exercise}.}
+    \labfig{fig:cfg-35}
+\end{marginfigure}

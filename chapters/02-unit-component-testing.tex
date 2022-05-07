@@ -7,7 +7,7 @@ First level of testing is unit testing. Unit (component) is a manageable piece o
 Unit testing is a low-level testing technique by means of which individual units are tested to determine if they produce expected outcomes or not. All assignment statements and predicates (logical expressions) in the code must be run, as well as all paths, while achieving the expected output with the unit test. In general, unit testing activity can be described as a type of testing process used to verify and validate a specific unit of the code for its correctness to cover the coding standards, functionality, integration, code coverage, security features, compatibility, performance, and so on. Unit testing is done by the person who develops the unit. The following unit examples are written in C and Java.
 
 \begin{example}
-Write a C function \textbf{solveQuadratic} to solve the quadratic $ax^2+bx+c=0$ for the two real roots x1, and x2. Coefficients of the quadratic polynomial is to be provided by the calling program.
+Write a C function \lstinline!solveQuadratic! to solve the quadratic $ax^2+bx+c=0$ for the two real roots x1, and x2. Coefficients of the quadratic polynomial is to be provided by the calling program.
 
 \begin{lstlisting}[language=C, caption={A C function that solves the quadratic equation for the two real roots.}]
 double solveQuadratic(double a, double b, double c) {
@@ -29,7 +29,8 @@ double solveQuadratic(double a, double b, double c) {
 \begin{example}
 \labexample{ex22}
 Binary search is a very effective technique to search an element in a set of ordered elements stored in an array. The following C program is an implementation borrowed from \url{https://www.tutorialspoint.com/compile_c_online.php}. Some bugs are  intentionally inserted into the code. The reader is encouraged to review this example, identify and correct errors, and run it again. 
-\begin{lstlisting}[language=C, caption={Binary search A C implementation.}]
+
+\begin{lstlisting}[language=C, caption={Binary search a C implementation.}]
 // Iterative C Program for Binary Search (GNU GCC v7.1.1)
 // Adapted from https://www.tutorialspoint.com/codingground.htm
 // 3 severe bugs are inserted! 
@@ -64,7 +65,7 @@ int main(void){
 Unit testing is conducted in two different but complementary phases, namely, static unit testing and dynamic unit testing. In static unit testing, the unit under the test is examined, without actually executing it, to infer conclusions about its functionality, and causes of some possible faults. In dynamic unit testing, a program unit is actually executed and its outcomes are recorded and analysed.
 
 \section{Static Unit Testing – Code Reviews}
-Static unit testing\index{static unit testing} is accomplished by using several code review techniques. Code review is not restricted to units. In practice, during this process, completed parts of the code (unit, module, or component) are reviewed using inspection and walkthrough techniques. Inspection\index{inspection} is a step by step peer group review of a work product (including a document), with each step checked against predetermined criteria \autocite{fagan1999design}. Walkthrough\index{walkthrough} is a similar review technique in which the developer leads the team through a manual or simulated execution of the product using predefined scenarios \autocite{yourdon1989structured}. 
+Static unit testing\index{static unit testing} is accomplished by using several code review techniques. Code review is not restricted to units. In practice, during this process, completed parts of the code (unit, module, or component) are reviewed using inspection and walkthrough techniques. Inspection\index{inspection} is a step by step peer group review of a work product (including a document), with each step checked against predetermined criteria \autocite{fagan1999design}. Walkthrough\index{walkthrough} is a similar review technique in which the developer leads the team through a manual or simulated execution of the product using predefined scenarios \autocite{yourdon1989structured}.
 
 The main goal of the code review is to review the code in an attempt to find the errors in the code before it is passed on to another activity (e.g., integration testing). The code review should be performed in a systematic manner by executing planned activities. To facilitate the process a review team is established. Review team is usually made up of members who will assume the roles of facilitator, code developer (author), presenter, record keeper, reviewer, and observer.
 The general guidelines for performing code review consists of six steps \autocite{naik2011software}.
@@ -226,7 +227,9 @@ There are three types of mutation:
     \item[Statement mutation] Change the statements by removing/deleting or modifying the line.
     \item[Decision mutation] Change the decisions/conditions to check for the design errors. Typically, one changes the arithmetic operators (e.g., -, +, /, *) and mutating all relational operators (==, !=, <, <=, >, >=) and logical operators (AND, OR , NOT)).
 \end{description}
-A mutant is said to be killed if the execution of a test case causes it to fail. Some mutants are equivalent to the given program producing the same output as the original one. The mutants still alive are survived mutants and need to be killed by adding additional tests to the test suite. A mutation score, MS, for a set of test cases is defined as the percentage of nonequivalent mutants killed by the test suite. If K is the number of killed mutants, N is the total number of mutants, and E is the number of equivalent mutants, then $MS = \frac{k}{N - E} * 100\%$. The test suite is mutation adequate if the mutation score is 100\%. . 
+
+A mutant is said to be killed if the execution of a test case causes it to fail. Some mutants are equivalent to the given program producing the same output as the original one. The mutants still alive are survived mutants and need to be killed by adding additional tests to the test suite. A mutation score, $MS$, for a set of test cases is defined as the percentage of nonequivalent mutants killed by the test suite. If $K$ is the number of killed mutants, $N$ is the total number of mutants, and $E$ is the number of equivalent mutants, then $MS = \frac{k}{N - E} * 100\%$. The test suite is mutation adequate if the mutation score is 100\%.
+
 \begin{example}
 The following recursive C program prints the factorial of integers from 0 to 10. Create two mutants by applying value, and decision mutations and compute the mutation score.
 
@@ -246,7 +249,9 @@ int fact(int num){
 		return(num * fact(num - 1));
 }
 \end{lstlisting}
+
 Output is a list of factorial values of numbers from 0 to 10.
+
 \begin{lstlisting}[language=C, caption={Mutant 1: (Decision mutation - Change num <= 1 to num < 1)}]
 #include <stdio.h>
 int fact (int);
@@ -263,6 +268,7 @@ int fact(int num){
 		return(num * fact(num - 1));
 }
 \end{lstlisting}
+
 \begin{lstlisting}[language=C, caption={Mutant 2: (Value mutation - Change fact(num –  1) to fact(num  - 100))}]
 #include <stdio.h>
 int fact (int);
@@ -279,6 +285,7 @@ int fact(int num){
 		return(num * fact(num - 100));
 }
 \end{lstlisting}
+
 \begin{lstlisting}[language=C, caption={Mutant 3: (Decision mutant – Change  if (num <= 1) to if (num < 1))}]
 #include <stdio.h>
 int fact (int);
@@ -295,19 +302,20 @@ int fact(int num){
 		return(num * fact(num - 1));
 }
 \end{lstlisting}
+
 For the example above the test suite consists of 3 test cases:
 
 \begin{itemize}
-    \item Test case 1: <no input, error message >
-    \item Test case 2: <no input, <1, 2, 3, 4, 5, 6, 7, 8, 9, 10> > (result is incorrect!)
-    \item Test case 3: <no input, correct result>
+    \item Mutation1 - Test case 1: <no input, error message >
+    \item Mutation2 - Test case 2: <no input, <1, 2, 3, 4, 5, 6, 7, 8, 9, 10> > (result is incorrect!)
+    \item Mutation3 - Test case 3: <no input, correct result>
 \end{itemize}
 
-Test case 1, and Test case 2 fail and therefore said to be killed by these test cases ($K=2$). However, Test case 3 produces correct result (factorial of numbers from 0 to 10 are printed correctly!) and is considered as an equivalent mutant ($E=1$). The mutation score in this case is $\frac{2}{3 - 1} * 100 = 100\%$.
+Test case 1, and Test case 2 fail and therefore said to be killed by these test cases ($K = 2$). However, Test case 3 produces correct result (factorial of numbers from 0 to 10 are printed correctly!) and is considered as an equivalent mutant ($E = 1$). The mutation score in this case is $\frac{2}{3 - 1} * 100 = 100\%$.
 \end{example}
 
 \begin{example}
-The following C program prints the prime numbers from 2 to n, where the value of n is the input. Create three mutants by applying value, and decision mutations and compute the mutation score.
+The following C program prints the prime numbers from 2 to $n$, where the value of $n$ is the input. Create three mutants by applying value, and decision mutations and compute the mutation score.
 
 \begin{lstlisting}[language=C, caption={A C program to compute and print primes from 2 to $n$.}]
 //Prime numbers from 2 to n
@@ -325,6 +333,7 @@ main()
 	}	
 }
 \end{lstlisting}
+
 \begin{lstlisting}[language=C, caption={Mutant 1: (Decision mutant – Change $i \leq n$ to $i \geq n$)}]
 //Prime numbers from 2 to n
 #include<stdio.h>
@@ -342,6 +351,7 @@ main(){
 	}	
 }
 \end{lstlisting}
+
 \begin{lstlisting}[language=C, caption={Mutant 2: (Decision mutant – Change $i \leq n$ to $i < n$)}]
 //Prime numbers from 2 to n
 #include<stdio.h>
@@ -359,6 +369,7 @@ main(){
 	}	
 }
 \end{lstlisting}
+
 \begin{lstlisting}[language=C, caption={Mutant 3: (Value mutant – Change $k == 2$ to $k == 3$)}]
 //Prime numbers from 2 to n
 #include<stdio.h>
@@ -376,16 +387,18 @@ main(){
 	}	
 }
 \end{lstlisting}
+
 For an input value of 19 for n, the original program produces the primes correctly from 2 to 19.
 
 Output: 2, 3, 5, 7, 11, 13, 17, 19
 
 Three test cases are as follows:
 \begin{itemize}
-    \item Test case 1: <19, null > Test fails! No primes are generated. 
-    \item Test case 2: <19, <2, 3, 5, 7, 11, 17> > Test fails! 19 is missing from the list of primes.
-    \item Test case 3: <19, 5> Test fails! Only one prime number, 5, is generated.
+    \item Mutation1 - Test case 1: <19, null > Test fails! No primes are generated. 
+    \item Mutation2 - Test case 2: <19, <2, 3, 5, 7, 11, 17> > Test fails! 19 is missing from the list of primes.
+    \item Mutation3 - Test case 3: <19, 5> Test fails! Only one prime number, 5, is generated.
 \end{itemize}
+
 All tests fail, and there are no equivalent mutants. The mutation score in this case is  $\frac{3}{3} * 100 = 100\%$.
 \end{example}
 
@@ -418,4 +431,8 @@ Unit tests can be performed manually or with the help of automation tools. JUnit
     \item In debugging, what is a breakpoint (toggle point) in a program segment?
     \item Use Dev-C++ IDE to debug the prime number generation program given in this chapter to learn the debugging process. Insert breakpoints (toggle points), and use add watch facility to trace the execution.
     \item Repeat the same using an Eclipse IDE for C programming language.
+    \item Explain the difference between debugging and testing.
+    \item What is static code analysis? Name a few popular open-source static code analyzer.
+    \item Explain how mutation testing improves the quality of testing.
+    
 \end{enumerate}

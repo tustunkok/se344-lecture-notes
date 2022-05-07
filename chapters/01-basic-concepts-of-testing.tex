@@ -62,18 +62,18 @@ White-box testing is suitable at unit and integration levels, whereas black-box 
 Main testing activities are planning, analysis, design, implementation, and  execution.  Testing team (or developer) comes up with some requirements to be tested. Test planning considers the team management, cost and the duration of the testing process, and some other related quality assurance metrics. Analysis activity involves understanding the nature of tests to be conducted, complexity of the test, and the risks involved in the execution of the tests. Depending on the tasks to be completed, and the input data required, tests are designed. At the test implementation step tests are chosen and prioritized. Software test execution is the last activity to perform. Test results are systematically collected and reported along with the required testing metrics.
 
 A test plan can have more than one test suite. Each test suite has one or more related test cases. A test case (TC) is usually\index{test suite} defined as a pair of \textbf{<input, expected outcome>}. If a code\index{test case} under test is to compute the absolute value of a real number, say, x, then one can list three test cases as follows:
-\begin{itemize}[nosep]
+\begin{itemize}
     \item TC1: <0.0, 0.0>
     \item TC2: <-26.4, +26.4>
     \item TC3: <+14.0, +14.0>
 \end{itemize}
 A test case is prepared using the requirements and functional specifications, source code, and input/output domains. Expected outcome can be as simple as a single numerical value, a more complex data type like audio, photo or video, a state change or a set of values which needs to be interpreted together for the outcome to be valid \autocite{naik2011software}.
 
-Another important concept in testing is test oracle. A test oracle\index{test oracle} (or simply oracle) is a mechanism for determining whether a test has passed or failed. An oracle will respond with a pass or a fail verdict on the acceptability of any test sequence for which it is defined. When executing a test case, the correctness of the implementation is confirmed by an oracle.
+Another important concept in testing is test oracle. A test oracle\index{test oracle} (or simply oracle) is a mechanism for determining whether a test has passed or failed. A test oracle contains two essential parts: oracle information that represents expected output; and an oracle procedure that compares the oracle information with the actual output \autocite{memon2003test}. By varying the level of detail of oracle information and changing the oracle procedure, a test designer can create different types of test oracles.  An oracle will respond with a pass or a fail verdict on the acceptability of any test sequence for which it is defined. When executing a test case, the correctness of the implementation is confirmed by an oracle.
 
 In most testing environments, test oracle is the human who designs the test \autocite{bertolino1996use}. A simple example of a test oracle is given below\sidenote{Detailed information about test oracle can be found in the link: \url{https://bit.ly/3K9iqZj}}. 
 
-Given a list of 3 integers, 11, 23, and 19, what is the expected value from a function, say, computeMax(), which returns the maximum? In this case, the test oracle is easy to identify.
+Given a list of 3 integers, 11, 23, and 19, the expected value from a function, say, computeMax(), which returns the maximum is 23.In this case, obviously, the test oracle is easy to identify.
 
 \begin{itemize}
     \item \lstinline!int expected = 23!; 
