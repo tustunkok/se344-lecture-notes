@@ -140,7 +140,6 @@ int main()
     isPalindrome("no, it is open on one position.");
     return 0;
 }
-
 \end{lstlisting}
 \end{example}
 A McCabe program graph for \refexample{state-branch-coverage} is given in \reffig{fig:cfg-37}. Five independent paths are given as follows:
@@ -210,6 +209,55 @@ Path2, Path3, Path4, and Path5 provides complete statement and branch coverage. 
 
 
 \section{Generating Test Cases}
+\labsec{gen-test-cases}
+
+In the preceding section, several path selection criteria are discussed. Identification of a path is an intermediate step in unit testing process. The next step is to choose the input values to force the execution of the selected path.
+
+Test input generation for a given path is accomplished using the following steps \autocite{naik2011software}:
+\begin{itemize}
+	\item Construct the so-called input vector <a, b, c, ....> using the input formal parameters of the unit, constants and the values of the global variables. Create a vector of local variables.
+    \item Determine the path predicate, i.e., the set of predicates associated with the path. 
+    \item Interpret the path by symbolically substituting operations along the path in order to express the predicates only in terms of the input vector and a vector of constants. The interpreted path is called the path predicate expression.
+    \item Using this expression, generate input data to force the execution of the selected path.
+\end{itemize}
+
+\begin{example}
+Given the \lstinline!isPalindrome! function, and the corresponding McCabe program graph, apply the steps above to generate the path predicate, the path predicate expression, and test input data for Path 5: 1-2(T)-3(T)-4-5-2(F)-6-7(F)-8-12 
+\end{example}
+
+For this path, the path predicate is given below based on the input vector: <str>, and vector of locals: <left, right, i, j>
+\begin{itemize}
+    \item For the given path, the path predicate is
+    \begin{itemize}
+        \item 2(T): i < strlen(str) $\equiv$ True
+        \item 3(T): ((str[i] >= 'a' \&\& str[i] <= 'z') || (str[i] >= 'A' \&\& str[i] <= 'Z') $\equiv$ True
+        \item 2(F): i < strlen(str) $\equiv$ False
+        \item 7(F): right > left $\equiv$ False
+    \end{itemize}
+\end{itemize}
+For an instance of program execution, a path predicate expression is found and given in the last column of \reftab{path-pred-exp}. 
+\begin{table*}
+    \begin{tabular}{lll}
+        \toprule
+        \thead{Node (McCabe)} & \thead{Node description} & \thead{Interpretation}\\
+        \midrule
+        1 & Input vector <str>, j = 0 & \\
+        2(T) & i < strlen(str) & 0 < strlen(str) \\
+        3(T) & ((str[0] >= 'a' \&\& str[0] <= 'z') || (str[0] >= 'A' \&\& str[0] <= 'Z') & \\
+        4 & cleanstr[j] = str[i] & cleanstr[j] = str[0] \\
+        5 & i++ & i = 1 \\
+        2(F) & i < strlen(str) & 1 < strlen(str) \\
+        6 & left = 0, right = j - 1 & left = 0, right = j - 1 \\
+        7(F) & right > left & right > 0 \\
+        8 & print("str is a palindrome") & \\
+        12 & return & \\
+        \bottomrule
+    \end{tabular}
+    \caption{Path predicate interpretation.}
+    \labtab{path-pred-exp}
+\end{table*}
+
+A test input to force the execution of Path5 can be easily obtained from the path predicate expression by choosing str = "X", so that strlen("X") is 1, j = 1, cleanstr[1] = str[0] = "X". 
 
 \section{Problems}
 
@@ -240,10 +288,8 @@ Path2, Path3, Path4, and Path5 provides complete statement and branch coverage. 
     \item Write the pseudo-code corresponding to the McCabe program graph given in \reffig{fig:cfg-35}. Compute V(G), and determine the independent paths.
     \item For \refexample{cfg-prime}, find the McCabe cyclomatic complexity (number of independent paths) by converting the CFG given in \reffig{fig:cfg-36} to a program graph.
     \item What is an infeasible path in software testing?
-    \item Consider Algorithm \ref{infeasible-algo}\sidenote{The algorithm is licensed under a \href{https://creativecommons.org/licenses/by-sa/4.0/}{Creative Commons -Attribution -ShareAlike 4.0 (CC-BY-SA 4.0)}. More information can be found in \href{https://www.educative.io/edpresso/what-is-an-infeasible-path-in-software-testing}{here}.} below consisting of two successive decision structures structures. Is there an infeasible path? If yes, express it in terms of statement labels.
-    \item What is
-    \item
-    \item
+    \item Consider Algorithm \ref{infeasible-algo}\sidenote{The algorithm is licensed under a \href{https://creativecommons.org/licenses/by-sa/4.0/}{Creative Commons -Attribution -ShareAlike 4.0 (CC-BY-SA 4.0)}. More information can be found in \url{https://bit.ly/3ynBEIw}.} below consisting of two successive decision structures structures. Is there an infeasible path? If yes, express it in terms of statement labels.
+    \item For the C program given in \refexample{cfg-prime}, create a McCabe control graph. Determine the path predicate and path predicate expressions for Path1 and Path4. Generate test inputs accordingly.
 \end{enumerate}
 
 \begin{algorithm}
@@ -265,7 +311,7 @@ Path2, Path3, Path4, and Path5 provides complete statement and branch coverage. 
 \end{algorithm}
 
 \begin{marginfigure}[-21cm]
-    \includegraphics{images/cfg-35.png}
+    \includegraphics[width=0.8\textwidth]{images/cfg-35.png}
     \caption{McCabe program graph for the C program given in \refexample{cfg-exercise}.}
     \labfig{fig:cfg-35}
 \end{marginfigure}

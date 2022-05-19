@@ -1,4 +1,4 @@
-\chapter{Test Automation with Selenium 1}
+\chapter{Web Testing with Selenium 1}
 Selenium, with its official name "The Selenium Browser Automation Project", is an umbrella project for various tools and libraries that automates certain web browser tasks according to the definition in the official website\footnote{\url{https://www.selenium.dev/documentation/}}. Selenium is a gateway to access browser features from a programming language through various language bindings. It presents a consistent API to access those features. An example that opens the official Selenium website is given in Listing \ref{lst:selenium-example} with Java programming language.
 
 \begin{lstlisting}[language=java,caption={A Java program that opens the official Selenium website through a Chrome-based browser.}, label=lst:selenium-example]
@@ -37,6 +37,42 @@ After that, the WebDriver of choice should be installed. Notice that the major v
 System.setProperty("webdriver.chrome.driver","/path/to/chromedriver");
 ChromeDriver driver = new ChromeDriver();
 \end{lstlisting}
+
+\subsection{Detailed Steps for Selenium Installation}
+
+\begin{figure}
+    \includegraphics{images/selenium1-detailed-install-1.jpg}
+    \caption{Selenium dependency on the Maven repository website.}
+    \labfig{sel-dep-maven-webite}
+\end{figure}
+
+\begin{enumerate}
+    \item Create a Maven project as described in Chapter 10. Make sure to update the pom.xml file and change the Java compiler version.
+    \item Add the Selenium dependency also to the pom.xml file of the project (between 'dependencies' tags). To find the dependency:
+    \begin{enumerate}
+        \item Go to the website of Maven Repository.
+        \item Search for "Selenium" and select "Selenium Java" option.
+        \item Select the version 4.0.0 and copy the dependency on the opened page, which is displayed in \reffig{sel-dep-maven-webite}.
+    \end{enumerate}
+    \item Install a WebDriver according to the browser you use (e.g. Chrome). For downloading the WebDriver:
+    \begin{enumerate}
+        \item Go the the website of Selenium, using the link \url{https://bit.ly/39iaKXU}.
+        \item On the opened page that is shown in \reffig{sel-install-page-webite}, according to the browser you use, click the “Downloads” section.
+    \end{enumerate}
+    \item Select the proper option on the opened page, considering the key points described below:
+    \begin{enumerate}
+        \item Find the current version of the browser you use. The leftmost number of the version is its major version.
+        \item Find the WebDriver option that has the same major version as your browser, and download it.
+        \item It will be downloaded as a .zip file, so finally extract the webdriver.
+    \end{enumerate}
+    \item Now, you are ready to work with Selenium and try the exercises on the lab manual.
+\end{enumerate}
+
+\begin{figure}
+    \includegraphics{images/selenium1-detailed-install-2.jpg}
+    \caption{WebDriver installation page of the Selenium website.}
+    \labfig{sel-install-page-webite}
+\end{figure}
 
 \section{Usage}
 In this section, it is assumed that Google Chrome is the choice of browser. Therefore, Chrome WebDriver should be installed. After installing the Selenium library, the browser, and the relevant WebDriver, you can open the Selenium-controlled browser with the following code snippet.
@@ -139,21 +175,3 @@ To create a build and run without tests config, right-click to the project. From
     \caption{Run configurations dialog window.}
     \label{fig:run-configs}
 \end{figure}
-
-\section{Complete Examples}
-The aim here is to write a program that tests another program that the tester has no idea of its code. Selenium's API can be thought of as instructions for a browser that performs the tests. First, the tester must make the test plan. Then, (s)he prepares the test cases. Finally, the test cases are converted into a Java program that is written with Selenium API to instruct the browser to perform the tests.
-
-\subsection{Testing Atılım University Moodle Page}
-Like other universities, Atılım University has a Learning Management System (LMS) called Moodle. Moodle is an open-source LMS system that is supported by more than 600 contributors worldwide\footnote{\url{https://github.com/moodle/moodle}}. That is all by itself guarantees that Moodle is well tested and documented. For demonstration purposes, we are going to test some of the functionality of Moodle with black-box testing strategies.
-
-Let's start with creating a Maven project as described in Chapter \ref{lab:introduction}. This time remember to include Selenium as a dependency as described in the previous section. We will test two functionality as a warm-up practice. The first one is about testing the login link to see if the login page is successfully loaded. The second one is about checking if the SE344 course page can be searched and found through the course searching mechanism. Write the following code snippet and we will discuss the important statements later.
-
-\lstinputlisting[language=java,caption={Testing Moodle with a few warm-up tests.},label=lst:test-moodle]{code-snippets/TestMoodle.java}
-
-In the Listing \ref{lst:test-moodle}, we have two tests, one initialization method, and one tear-down method. The initialization method \lstinline!static void initAll()! opens and prepares a web driver which is in type \lstinline!ChromeDriver()!. This means that the driver will open a Google Chrome instance. It does that only once and assumes that WebDriver executable can be found in \lstinline[language={}]!PATH!. After that, the tests are going to run.
-
-The \lstinline!testLogin()! test method starts with opening up the Moodle page (29). Then, it finds an anchor (link) which has a \emph{Log in} text in it via the anchor's XPath (30). XPath is a query language for querying markup languages such as HTML, XML, etc. More information about XPath can be found in Appendix \ref{ch:appendix-xpath}. After finding the link, click on it (31) and wait for a button with an id of \emph{loginbtn} to appear (32). When it appears, check if its text is \emph{Log in} (34).
-
-The \lstinline!testSE344Course()! test method reopens the main page of Moodle (40). In line (41), we create a \lstinline!WebDriverWait! object \lstinline!wait! which we will use for explicit waits to a maximum of 10 seconds. After that, we find the \emph{Moodle Courses} link by its XPath (43) and click it (44). In the upcoming page, we choose the input field again by its XPath (46) that allows us to search \emph{SE 344} (47) and press \keys{\return} (48). After getting the desired page, we look for the text \emph{System Software Validation and Testing} on the page (50). If we find it, then the test passes.
-
-Finally, the \lstinline!static void tearDownAll()! method run after all the tests are finished. The method checks if the driver is initialized (56) and if so, it closes it with its \lstinline!close()! method (57). This method also closes the opened browser window.
